@@ -59,7 +59,6 @@ return {
 
         -- Zero cmdheight stuff
         -- { 'n', [[<Esc>]], [[<Cmd>noh<bar>set cmdheight=0<CR>]] },
-        -- { 'n', [[q]],     [[<Cmd>set cmdheight=1<CR>q]]},
     },
 
     -- 0b0100

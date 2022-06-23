@@ -37,6 +37,9 @@ api.nvim_create_user_command('Wq', 'wq', {})
 api.nvim_create_user_command('WQ', 'wq', {})
 api.nvim_create_user_command('Q',  'q',  {})
 
+-- set up init autogroup
+local initgroup = api.nvim_create_augroup('InitGroup', {})
+
 ---------- global plugins ----------
 
 -- comment config
@@ -133,6 +136,7 @@ else
     opt.foldexpr   = 'nvim_treesitter#foldexpr()'
     -- auto open folds
     api.nvim_create_autocmd('BufWinEnter', {
+        group = initgroup,
         command = 'normal zR',
     })
 
@@ -212,6 +216,7 @@ else
         -- Gruvbox Theme plugin with light theme (insanely roundabout way for some reason)
         local themeac -- idk it stops the linter from yelling at me
         themeac = api.nvim_create_autocmd('BufReadPre', {
+            group = initgroup,
             callback = function ()
                 funcs.settheme'light'
                 api.nvim_del_autocmd(themeac)
@@ -252,6 +257,7 @@ else
         -- more zero cmdheight shenanigans are in keymaps
         -- opt.cmdheight = 0
         -- api.nvim_create_autocmd('InsertEnter', {
+        --     group = initgroup,
         --     callback = function ()
         --         opt.cmdheight = (fn.reg_recording() == '') and 0 or 1
         --     end
@@ -267,6 +273,7 @@ else
         require'plugins'
         api.nvim_create_autocmd('BufWritePost', {
             pattern = 'plugins.lua',
+            group = initgroup,
             command = 'source <afile> | PackerCompile',
         })
 
@@ -405,6 +412,7 @@ else
 
         -- Disable git-blame.nvim on big files
         api.nvim_create_autocmd('BufEnter', {
+            group = initgroup,
             callback = function ()
                 if api.nvim_buf_line_count(0) > 10000 then
                     cmd [[GitBlameDisable]]
@@ -464,6 +472,7 @@ else
 
         -- config lazygit
         api.nvim_create_autocmd('BufEnter', {
+            group = initgroup,
             callback = require'lazygit.utils'.project_root_dir
         })
         g.lazygit_floating_window_use_plenary = 1
