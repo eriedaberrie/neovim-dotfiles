@@ -99,7 +99,11 @@ else
 
     -- colorizor setup
     opt.termguicolors = true -- needs to be explicitly set before setting up
-    require'colorizer'.setup() -- parentheses are necessary for defaults
+    require'colorizer'.setup {
+        '*',
+        '!text',
+        '!markdown',
+    }-- parentheses are necessary for defaults
 
     -- require'nvim-autopairs'.setup {
     --     map_cr = false,
@@ -128,7 +132,7 @@ else
     opt.foldmethod = 'expr'
     opt.foldexpr   = 'nvim_treesitter#foldexpr()'
     -- auto open folds
-    api.nvim_create_autocmd({ 'BufWinEnter' }, {
+    api.nvim_create_autocmd('BufWinEnter', {
         command = 'normal zR',
     })
 
@@ -137,7 +141,7 @@ else
     -- vim.lsp.set_log_level'debug'
 
     local mapopts = { noremap = true, silent = true }
-    local on_attach = function(_, buf)
+    local on_attach = function (_, buf)
         api.nvim_buf_set_option(buf, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
         local lspmaps = {
         }
@@ -205,16 +209,14 @@ else
             },
         }
 
-        -- Gruvbox Theme plugin with light theme
-        api.nvim_create_autocmd({ 'VimEnter' }, {
+        -- Gruvbox Theme plugin with light theme (insanely roundabout way for some reason)
+        local themeac -- idk it stops the linter from yelling at me
+        themeac = api.nvim_create_autocmd('BufReadPre', {
             callback = function ()
-                -- funcs.settheme'light'
-                vim.schedule(function ()
-                    funcs.settheme'light'
-                end)
+                funcs.settheme'light'
+                api.nvim_del_autocmd(themeac)
             end
         })
-        -- funcs.settheme'light'
 
         -- less space so should hide statusline
         opt.laststatus = 1
@@ -249,7 +251,7 @@ else
 
         -- more zero cmdheight shenanigans are in keymaps
         -- opt.cmdheight = 0
-        -- api.nvim_create_autocmd({ 'InsertEnter' }, {
+        -- api.nvim_create_autocmd('InsertEnter', {
         --     callback = function ()
         --         opt.cmdheight = (fn.reg_recording() == '') and 0 or 1
         --     end
@@ -263,7 +265,7 @@ else
 
         -- plugin management (packer)
         require'plugins'
-        api.nvim_create_autocmd({ 'BufWritePost' }, {
+        api.nvim_create_autocmd('BufWritePost', {
             pattern = 'plugins.lua',
             command = 'source <afile> | PackerCompile',
         })
@@ -277,7 +279,7 @@ else
         local cmp = require'cmp'
         cmp.setup {
             snippet = {
-                expand = function(args)
+                expand = function (args)
                     luasnip.lsp_expand(args.body)
                 end,
             },
@@ -300,7 +302,7 @@ else
                 end, { 'i', 's' }),
 
                 -- luasnip mappings
-                ['<Tab>'] = cmp.mapping(function(fallback)
+                ['<Tab>'] = cmp.mapping(function (fallback)
                     if cmp.visible() then
                         cmp.select_next_item()
                     elseif luasnip.expand_or_jumpable() then
@@ -314,7 +316,7 @@ else
                         end
                     end
                 end, { 'i', 's' }),
-                ['<S-Tab>'] = cmp.mapping(function(fallback)
+                ['<S-Tab>'] = cmp.mapping(function (fallback)
                     if cmp.visible() then
                         cmp.select_prev_item()
                     elseif luasnip.jumpable(-1) then
@@ -402,8 +404,8 @@ else
         end
 
         -- Disable git-blame.nvim on big files
-        api.nvim_create_autocmd({ 'BufEnter' }, {
-            callback = function()
+        api.nvim_create_autocmd('BufEnter', {
+            callback = function ()
                 if api.nvim_buf_line_count(0) > 10000 then
                     cmd [[GitBlameDisable]]
                 else
@@ -461,7 +463,7 @@ else
         telescope.load_extension'howdoi'
 
         -- config lazygit
-        api.nvim_create_autocmd({ 'BufEnter' }, {
+        api.nvim_create_autocmd('BufEnter', {
             callback = require'lazygit.utils'.project_root_dir
         })
         g.lazygit_floating_window_use_plenary = 1
