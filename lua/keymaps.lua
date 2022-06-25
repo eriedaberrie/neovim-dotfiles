@@ -179,6 +179,6 @@ return {
         { 'n', [[gl]], [[g~l]] },
 
         -- Copy to clipboard
-        { 'n', '<Leader>yy', [[<Cmd>%y+<CR>]] }
+        { 'n', [[<Leader>yy]], [[<Cmd>%y+<CR>]] },
     },
 }

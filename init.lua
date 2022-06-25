@@ -269,6 +269,13 @@ else
             cmd [[cd ~]]
         end
 
+        -- add .path to sh filetype
+        api.nvim_create_autocmd('BufRead', {
+            pattern = '\\.path',
+            group = initgroup,
+            command = 'set filetype=sh',
+        })
+
         -- plugin management (packer)
         require'plugins'
         api.nvim_create_autocmd('BufWritePost', {
