@@ -26,7 +26,9 @@ opt.ignorecase = true
 opt.smartcase  = true
 
 -- disable K being "man" which doesn't really exist on Windows
-opt.keywordprg = ':help'
+if not isWSL then
+    opt.keywordprg = ':help'
+end
 
 -- turn on lazy redraw - reenablable through keymaps
 opt.lazyredraw = true
@@ -38,7 +40,7 @@ api.nvim_create_user_command('WQ', 'wq', {})
 api.nvim_create_user_command('Q',  'q',  {})
 
 -- set up init autogroup
-local initgroup = api.nvim_create_augroup('InitGroup', {})
+local initgroup = api.nvim_create_augroup('InitGroup', { clear = true })
 
 ---------- global plugins ----------
 
@@ -58,6 +60,9 @@ if g.vscode then
 
     -- disable emmet plugin
     g.user_emmet_install_global = 0
+
+    -- disable git blame plugin
+    g.gitblame_enabled = 0
 
 -- for stuff that doesn't apply to VSCode extension
 else
@@ -87,6 +92,14 @@ else
         nbsp     = 'x',
     }
 
+    -- neovim terminal emulator things
+    -- automatically enter insert mode
+    api.nvim_create_autocmd({ 'BufEnter', 'TermOpen' }, {
+        group = initgroup,
+        pattern = 'term://*',
+        command = 'startinsert',
+    })
+
     ---------- plugins ----------
     -- cursor underline setup
     --[[ require'nvim-cursorline'.setup {
@@ -106,7 +119,7 @@ else
         '*',
         '!text',
         '!markdown',
-    }-- parentheses are necessary for defaults
+    }
 
     -- require'nvim-autopairs'.setup {
     --     map_cr = false,
@@ -121,7 +134,7 @@ else
             enable = true,
             additional_vim_regex_highlighting = true,
             disable = function (_, buf) -- _ is lang
-                return api.nvim_buf_line_count(buf) > 30000
+                return api.nvim_buf_line_count(buf) > 5000
             end,
         },
         -- nvim-ts-rainbow parentheses highlighting
@@ -154,6 +167,8 @@ else
             api.nvim_buf_set_keymap(buf, 'n', key, val, mapopts)
         end
     end
+
+    -- LSP servers
     local servers = {
         -- python
         pyright = {},
@@ -182,7 +197,13 @@ else
         -- tsserver = {},
         -- C stuff
         clangd = {},
+        -- Scala
+        metals = {},
     }
+    -- Java
+    if isWSL then
+        servers['jdtls'] = {}
+    end
 
     -- use <Leader>ee/E for text
     vim.diagnostic.config { virtual_text = false }
@@ -234,6 +255,8 @@ else
             }
         end
 
+        -- disable git blame plugin
+        g.gitblame_enabled = 0
 
     -- finally, for exclusively vanilla neovim
     else
@@ -269,12 +292,9 @@ else
             cmd [[cd ~]]
         end
 
-        -- add .path to sh filetype
-        api.nvim_create_autocmd('BufRead', {
-            pattern = '\\.path',
-            group = initgroup,
-            command = 'set filetype=sh',
-        })
+        -- filetype associations
+        funcs.setfiletype(initgroup, '.path', 'sh')
+        funcs.setfiletype(initgroup, '*.nasm', 'asm')
 
         -- plugin management (packer)
         require'plugins'
@@ -421,7 +441,7 @@ else
         api.nvim_create_autocmd('BufEnter', {
             group = initgroup,
             callback = function ()
-                if api.nvim_buf_line_count(0) > 10000 then
+                if api.nvim_buf_line_count(0) > 5000 then
                     cmd [[GitBlameDisable]]
                 else
                     cmd [[GitBlameEnable]]
@@ -485,7 +505,7 @@ else
         g.lazygit_floating_window_use_plenary = 1
 
         -- filetree explorer
-        require'nvim-tree'.setup{
+        require'nvim-tree'.setup {
             view = {
                 mappings = {
                     list = {
@@ -493,9 +513,6 @@ else
                         { key = 'D', action = 'remove' },
                     },
                 },
-            },
-            trash = {
-                cmd = 'recycle',
             },
         }
 
@@ -515,8 +532,9 @@ else
         -- terminal neovim
         else
             -- italics outside of Neovide specifically tends to cause rendering problems with this font
-            g.gruvbox_italic = false
-            g.gruvbox_italicize_comments = false
+            require'gruvbox'.setup {
+                italic = false,
+            }
 
             -- smooth scrolling
             -- require'neoscroll'.setup{}

@@ -91,5 +91,13 @@ M.resizetext = function (newsize)
     o.guifont = table.concat(newguifont)
 end
 
+M.setfiletype = function (group, pattern, ft)
+    vim.api.nvim_create_autocmd('BufRead', {
+        group = group,
+        pattern = pattern,
+        command = 'set filetype=' .. ft,
+    })
+end
+
 
 return M
