@@ -28,20 +28,14 @@ return {
         { 'n', [[<Leader>cd]], [[<Cmd>lcd %:h<CR>]] },
 
         -- Delete trailing spaces
-        { 'n', [[<Leader>ds]], [[<Cmd>%s/\s\+$//<bar>norm!``<CR><Cmd>noh<CR>]] },
+        { 'n', [[<Leader>ds]], [[<Cmd>%s/\s\+$//<Bar>norm!``<CR><Cmd>noh<CR>]] },
 
         -- Delete buffer without closing the current window
-        { 'n', [[<Leader>bd]], [[<Cmd>bp<bar>bd#<CR>]]  },
-        { 'n', [[<Leader>Bd]], [[<Cmd>bp<bar>bd!#<CR>]] },
+        { 'n', [[<Leader>bd]], [[<Cmd>bp<Bar>bd#<CR>]]  },
+        { 'n', [[<Leader>Bd]], [[<Cmd>bp<Bar>bd!#<CR>]] },
 
         -- Open nvim tree without accidentally closing the current tabpage
         { 'n', [[<Leader>e.]], [[<Cmd>NvimTreeToggle<CR>]] },
-
-        -- Window resize
-        { 'n', [[+]], [[<C-w>+]] },
-        { 'n', [[-]], [[<C-w>-]] },
-        { 'n', [[<M-,>]], [[<C-w><]] },
-        { 'n', [[<M-.>]], [[<C-w>>]] },
 
         -- Telescope maps
         { 'n', [[<Leader>ff]], [[<Cmd>Telescope find_files<CR>]] },
@@ -58,7 +52,7 @@ return {
         { 'n', [[<Leader>gg]], [[<Cmd>LazyGit<CR>]] },
 
         -- Zero cmdheight stuff
-        -- { 'n', [[<Esc>]], [[<Cmd>noh<bar>set cmdheight=0<CR>]] },
+        -- { 'n', [[<Esc>]], [[<Cmd>noh<Bar>set cmdheight=0<CR>]] },
     },
 
     -- 0b0100
@@ -81,9 +75,18 @@ return {
         -- Maps Ctrl-Backspace to do the thing
         { 'ic', [[<C-bs>]], [[<C-w>]], { silent = false } },
 
+        -- Window resize
+        { 'n', [[+]],     [[<C-w>+]], { silent = false } },
+        { 'n', [[-]],     [[<C-w>-]], { silent = false } },
+        { 'n', [[<M-,>]], [[<C-w><]], { silent = false } },
+        { 'n', [[<M-.>]], [[<C-w>>]], { silent = false } },
+
+        -- Easy enter terminal mode
+        { 'n', [[<Leader>to]], [['<Cmd>botright vsplit <Bar> terminal' . (has('WSL') ? '' : ' pwsh.exe') . '<CR>']], { expr = true } },
+
         -- Easy exit terminal mode
-        { 't', [[<C-\><Esc>]], [[<C-\><C-n>]] },
-        { 't', [[<C-\><Leader>]], [[<C-\><C-n>]] },
+        { 't', [[<C-\><Esc>]],    [[<C-\><C-n>]], { silent = false } },
+        { 't', [[<C-\><Leader>]], [[<C-\><C-n>]], { silent = false } },
 
         -- Use alt keys in terminal mode to change window
         { 'nt', [[<M-h>]], [[<C-\><C-n><C-w>h]] },
@@ -123,7 +126,7 @@ return {
         { 'n', [[<CR>]], [[expand('%') ==# '[Command Line]' ? '<CR>' : '']], { silent = false, expr = true } },
 
         -- Swap to visual linewise movement (for editing actual paragraphs)
-        { 'n', [[<Leader>jk]], [[<Cmd>nnoremap j gj<CR><Cmd>nnoremap k gk<CR>]] },
+        { 'n', [[<Leader>jk]], [[<Cmd>nnoremap j gj<CR><Cmd>nnoremap k gk<CR><Cmd>nnoremap 0 g0<CR><Cmd>nnoremap $ g$<CR>]] },
 
         -- Telescope howdoi
         { 'n', [[<Leader>hdi]], [[<Cmd>Telescope howdoi<CR>]] },
