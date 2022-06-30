@@ -99,5 +99,16 @@ M.setfiletype = function (group, pattern, ft)
     })
 end
 
+M.del_autocmds = function ()
+    local augroups = {}
+    for _, au in ipairs(vim.api.nvim_get_autocmds{}) do
+        if au.group_name then augroups[au.group_name] = true end
+    end
+    for aug, _ in pairs(augroups) do
+        vim.api.nvim_del_augroup_by_name(aug)
+    end
+    vim.api.nvim_clear_autocmds{}
+end
+
 
 return M
