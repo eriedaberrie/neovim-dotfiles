@@ -76,17 +76,17 @@ return {
         { 'ic', [[<C-bs>]], [[<C-w>]], { silent = false } },
 
         -- Window resize
-        { 'n', [[+]],     [[<C-w>+]], { silent = false } },
-        { 'n', [[-]],     [[<C-w>-]], { silent = false } },
-        { 'n', [[<M-,>]], [[<C-w><]], { silent = false } },
-        { 'n', [[<M-.>]], [[<C-w>>]], { silent = false } },
+        { 'n', [[+]],     [[<C-w>+]] },
+        { 'n', [[-]],     [[<C-w>-]] },
+        { 'n', [[<M-,>]], [[<C-w><]] },
+        { 'n', [[<M-.>]], [[<C-w>>]] },
 
         -- Easy enter terminal mode
         { 'n', [[<Leader>to]], [['<Cmd>botright vsplit <Bar> terminal' . (has('WSL') ? '' : ' pwsh.exe') . '<CR>']], { expr = true } },
 
         -- Easy exit terminal mode
-        { 't', [[<C-\><Esc>]],    [[<C-\><C-n>]], { silent = false } },
-        { 't', [[<C-\><Leader>]], [[<C-\><C-n>]], { silent = false } },
+        { 't', [[<C-\><Esc>]],    [[<C-\><C-n>]] },
+        { 't', [[<C-\><Leader>]], [[<C-\><C-n>]] },
 
         -- Use alt keys in terminal mode to change window
         { 'nt', [[<M-h>]], [[<C-\><C-n><C-w>h]] },

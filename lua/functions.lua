@@ -7,7 +7,7 @@ local g = vim.g
 
 M.set_keymaps = function (maptable)
     local launchmask = g.started_by_firenvim and 8 or (g.vscode and 4 or (vim.isWSL and 2 or 1))
-    local opts
+    local opts, mapto
 
     for flags, val in pairs(maptable) do
         if flags % (launchmask + launchmask) >= launchmask then
@@ -23,7 +23,12 @@ M.set_keymaps = function (maptable)
                 end
 
                 for c in map[1]:gmatch'.' do
-                    vim.api.nvim_set_keymap(c, map[2], map[3], opts)
+                    if c == 't' then
+                        mapto = [[<Cmd>set nolazyredraw<CR>]] .. map[3] .. [[<Cmd>set lazyredraw<CR>]]
+                    else
+                        mapto = map[3]
+                    end
+                    vim.api.nvim_set_keymap(c, map[2], mapto, opts)
                 end
             end
         end

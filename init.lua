@@ -94,10 +94,15 @@ else
 
     -- neovim terminal emulator things
     -- automatically enter insert mode
-    api.nvim_create_autocmd({ 'BufEnter', 'TermOpen' }, {
+    api.nvim_create_autocmd({ 'TermOpen', 'BufEnter' }, {
         group = initgroup,
         pattern = 'term://*',
         command = 'startinsert',
+    })
+    api.nvim_create_autocmd('TermOpen', {
+        group = initgroup,
+        -- command = 'set nonumber norelativenumber',
+        callback = function () end,
     })
 
     ---------- plugins ----------
