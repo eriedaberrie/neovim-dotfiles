@@ -85,14 +85,14 @@ return {
         { 'n', [[<Leader>to]], [['<Cmd>botright vsplit <Bar> terminal' . (has('WSL') ? '' : ' pwsh.exe') . '<CR>']], { expr = true } },
 
         -- Easy exit terminal mode
-        { 't', [[<C-\><Esc>]],    [[<C-\><C-n>]] },
-        { 't', [[<C-\><Leader>]], [[<C-\><C-n>]] },
+        { 't', [[<C-\><Esc>]],    [[<C-\><C-n>]], { nolazyredraw = true } },
+        { 't', [[<C-\><Leader>]], [[<C-\><C-n>]], { nolazyredraw = true } },
 
         -- Use alt keys in terminal mode to change window
-        { 'nt', [[<M-h>]], [[<C-\><C-n><C-w>h]] },
-        { 'nt', [[<M-j>]], [[<C-\><C-n><C-w>j]] },
-        { 'nt', [[<M-k>]], [[<C-\><C-n><C-w>k]] },
-        { 'nt', [[<M-l>]], [[<C-\><C-n><C-w>l]] },
+        { 'nt', [[<M-h>]], [[<C-\><C-n><C-w>h]], { nolazyredraw = true } },
+        { 'nt', [[<M-j>]], [[<C-\><C-n><C-w>j]], { nolazyredraw = true } },
+        { 'nt', [[<M-k>]], [[<C-\><C-n><C-w>k]], { nolazyredraw = true } },
+        { 'nt', [[<M-l>]], [[<C-\><C-n><C-w>l]], { nolazyredraw = true } },
 
         -- Use alt keys in command mode
         { 'c', [[<M-h>]], [[<Left>]],  { silent = false } },

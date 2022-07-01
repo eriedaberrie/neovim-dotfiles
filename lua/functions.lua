@@ -7,28 +7,45 @@ local g = vim.g
 
 M.set_keymaps = function (maptable)
     local launchmask = g.started_by_firenvim and 8 or (g.vscode and 4 or (vim.isWSL and 2 or 1))
-    local opts, mapto
+    local opts, nolazyredraw
 
     for flags, val in pairs(maptable) do
         if flags % (launchmask + launchmask) >= launchmask then
             for _, map in ipairs(val) do
                 opts = { noremap = true, silent = true }
+                nolazyredraw = false
+
                 if map[4] then
+                    if map[4].nolazyredraw then
+                        map[4].nolazyredraw = nil
+                        nolazyredraw = true
+                    end
+
                     opts = vim.tbl_extend('force', opts, map[4])
                 end
 
                 if type(map[3]) == 'function' then
-                    opts.callback = map[3]
+                    if nolazyredraw then
+                        opts.callback = function ()
+                            local prevlr = o.lazyredraw
+                            o.lazyredraw = false
+                            map[3]()
+                            o.lazyredraw = prevlr
+                        end
+                    else
+                        opts.callback = map[3]
+                    end
                     map[3] = ''
+                elseif nolazyredraw then
+                    if opts.expr then
+                        map[3] = [['<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>' . ]] .. map[3] .. [[ . '<Cmd>let &lazyredraw=g:oldlazyredraw<CR>']]
+                    else
+                        map[3] = [[<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>]] .. map[3] .. [[<Cmd>let &lazyredraw=g:oldlazyredraw<CR>]]
+                    end
                 end
 
                 for c in map[1]:gmatch'.' do
-                    if c == 't' then
-                        mapto = [[<Cmd>set nolazyredraw<CR>]] .. map[3] .. [[<Cmd>set lazyredraw<CR>]]
-                    else
-                        mapto = map[3]
-                    end
-                    vim.api.nvim_set_keymap(c, map[2], mapto, opts)
+                    vim.api.nvim_set_keymap(c, map[2], map[3], opts)
                 end
             end
         end
