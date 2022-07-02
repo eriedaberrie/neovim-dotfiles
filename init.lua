@@ -1,6 +1,7 @@
 ---------- NEOVIM INIT ----------
 local opt = vim.opt
 local g   = vim.g
+local v   = vim.v
 local api = vim.api
 local fn  = vim.fn
 local cmd = vim.cmd
@@ -103,6 +104,15 @@ else
         group = initgroup,
         -- command = 'set nonumber norelativenumber',
         callback = function () end,
+    })
+    -- autoclose if exits with 0
+    api.nvim_create_autocmd('TermClose', {
+        group = initgroup,
+        callback = function (args)
+            if v.event.status == 0 and args.file:sub(-8) ~= ':lazygit' then
+                api.nvim_buf_delete(args.buf, {})
+            end
+        end,
     })
 
     ---------- plugins ----------
@@ -240,13 +250,12 @@ else
         }
 
         -- Gruvbox Theme plugin with light theme (insanely roundabout way for some reason)
-        local themeac -- idk it stops the linter from yelling at me
-        themeac = api.nvim_create_autocmd('BufReadPre', {
+        api.nvim_create_autocmd('BufReadPre', {
             group = initgroup,
             callback = function ()
                 funcs.settheme'light'
-                api.nvim_del_autocmd(themeac)
-            end
+            end,
+            once = true,
         })
 
         -- less space so should hide statusline
