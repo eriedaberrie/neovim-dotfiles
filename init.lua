@@ -44,7 +44,6 @@ api.nvim_create_user_command('Q',  'q',  {})
 local initgroup = api.nvim_create_augroup('InitGroup', { clear = true })
 
 ---------- global plugins ----------
-
 -- comment config
 require'Comment'.setup{}
 
@@ -319,10 +318,6 @@ else
         })
 
         ---------- more plugins ----------
-        -- adding luasnip snippets
-        local luasnip = require'luasnip'
-        require'luasnip.loaders.from_vscode'.lazy_load()
-
         -- actually setting up the LSP servers
         for server, settings in pairs(servers) do
             lspconfig[server].setup {

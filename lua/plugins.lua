@@ -18,12 +18,6 @@ return require'packer'.startup(function (use)
     -- Collection of configurations for the built-in LSP client
     use 'neovim/nvim-lspconfig'
 
-    -- Snippet engine
-    use 'L3MON4D3/LuaSnip'
-
-    -- Snippets
-    use 'rafamadriz/friendly-snippets'
-
     -- Auto pairs
     use 'windwp/nvim-autopairs'
 
