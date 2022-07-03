@@ -463,6 +463,43 @@ else
 
     -- smooth scrolling
     -- require'neoscroll'.setup{}
+
+    -- Windows Terminal cursor fix
+    if env.WT_SESSION then
+        api.nvim_set_hl(0, 'WindowsTerminalCursorFg', {} )
+        api.nvim_set_hl(0, 'WindowsTerminalCursorBg', {} )
+        opt.guicursor:append('n-v-c-sm:WindowsTerminalCursorBg')
+
+        -- WindowsTerminalFixHighlight
+        api.nvim_create_autocmd({ 'FocusGained', 'InsertLeave', 'CursorMoved' }, {
+            group = initgroup,
+            callback = function ()
+                if fn.mode() == 'i' then return end
+
+                pcall(function () fn.matchdelete(99991) end)
+                local l, c = unpack(api.nvim_win_get_cursor(0))
+                fn.matchaddpos('WindowsTerminalCursorFg', {{ l, c + 1 }}, 100, 99991)
+
+                local bg = fn.synIDattr(fn.synIDtrans(fn.synID(l, c, 1)), 'fg#')
+                if bg == '' then bg = fn.synIDattr(fn.synIDtrans(fn.hlID('Normal')), 'fg#') end
+                if bg == '' then bg = 'black' end
+
+                api.nvim_set_hl(0, 'WindowsTerminalCursorFg', { reverse = true })
+                api.nvim_set_hl(0, 'WindowsTerminalCursorBg', { bg = bg })
+            end,
+        })
+        -- WindowsTerminalFixClear
+        api.nvim_create_autocmd({ 'FocusLost', 'InsertEnter' }, {
+            group = initgroup,
+            callback = function ()
+                pcall(function () fn.matchdelete(99991) end)
+
+                local bg = fn.synIDattr(fn.synIDtrans(fn.hlID('Normal')), 'fg#')
+                if bg == '' then bg = 'black' end
+                api.nvim_set_hl(0, 'WindowsTerminalCursorBg', { bg = bg })
+            end,
+        })
+    end
 end
 
 -- set theme after deciding on italics
