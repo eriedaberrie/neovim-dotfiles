@@ -172,7 +172,7 @@ return {
         { 'i', [[<M-l>]], [[<Right>]] },
 
         -- EasyAlign
-        { 'nx', '<Leader>ga', [[<Plug>(EasyAlign)]] },
+        { 'nx', [[<Leader>ga]], [[<Plug>(EasyAlign)]] },
 
         -- Easy access to clipboard in normal mode
         { 'n', [[<Leader>+]], [["+]] },
@@ -183,5 +183,8 @@ return {
 
         -- Copy to clipboard
         { 'n', [[<Leader>yy]], [[<Cmd>%y+<CR>]] },
+
+        -- Don't move the cursor with insert mode <C-o>
+        { 'i', [[<C-o>]], [[<C-\><C-o>]], { silent = false } },
     },
 }
