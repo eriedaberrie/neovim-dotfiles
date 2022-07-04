@@ -288,6 +288,9 @@ funcs.autoprepend({ 'git', 'rubocop' }, '!')
 -- make it easier to use funcs
 funcs.alias('funcs', 'lua vim.funcs')
 
+-- make it easier to help
+funcs.alias('H', 'h')
+
 -- make Bd not close the current window
 api.nvim_create_user_command('Bd',  'bp<Bar>bd#',  {})
 api.nvim_create_user_command('BD',  'bp<Bar>bd#',  {})
