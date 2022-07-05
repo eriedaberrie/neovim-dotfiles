@@ -12,11 +12,6 @@ if exists(':GuiRenderLigatures')
     GuiRenderLigatures 1
 endif
 
-" Enable Gui Font
-if exists(':GuiFont')
-    GuiFont! FiraCode Nerd Font Mono:h10
-endif
-
 " Disable GUI Tabline
 if exists(':GuiTabline')
     GuiTabline 0
