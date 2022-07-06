@@ -497,7 +497,7 @@ else
             end,
         })
         -- WindowsTerminalFixClear
-        api.nvim_create_autocmd({ 'InsertEnter' }, {
+        api.nvim_create_autocmd({ 'InsertEnter', 'TermEnter' }, {
             group = initgroup,
             callback = delmatch,
         })
