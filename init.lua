@@ -474,11 +474,10 @@ else
 
         local function delmatch ()
             if lastmatchid ~= -1 then
-                pcall(function ()
+                if api.nvim_win_is_valid(lastwin) then
                     fn.matchdelete(lastmatchid, lastwin)
-                    lastmatchid = -1
-                end)
-            else
+                end
+                lastmatchid = -1
             end
         end
 
