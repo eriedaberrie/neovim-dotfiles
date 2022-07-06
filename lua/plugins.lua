@@ -49,10 +49,10 @@ return require'packer'.startup(function (use)
     -- use 'Mofiqul/trld.nvim'
 
     -- Git blame
-    use '~/Downloads/git-blame.nvim'
+    use 'f-person/git-blame.nvim'
 
     -- Lazygit
-    use '~/Downloads/lazygit.nvim'
+    use 'kdheepak/lazygit.nvim'
 
     -- Run code
     use 'arjunmahishi/run-code.nvim'
@@ -105,7 +105,7 @@ return require'packer'.startup(function (use)
 
     -- Todo comments
     use {
-        '~/Downloads/todo-comments.nvim',
+        'vinnyA3/todo-comments.nvim',
         requires = 'nvim-lua/plenary.nvim',
     }
 
