@@ -145,6 +145,17 @@ require'colorizer'.setup {
 require'nvim-treesitter.configs'.setup {
     ensure_installed = {
         'norg',
+        'lua', 'vim',
+        'ruby', 'python',
+        'c', 'c_sharp', 'cpp',
+        'html', 'css', 'javascript', 'typescript', 'tsx',
+        'json', 'json5', 'jsonc', 'yaml',
+        'jsdoc',
+        'markdown', 'rst', 'latex',
+        'bash',
+        'make', 'cmake', 'ninja',
+        'fennel', 'scala',
+        'java', 'go', 'rust',
     },
     highlight = {
         enable = true,
