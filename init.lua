@@ -262,6 +262,9 @@ if g.started_by_firenvim then
     -- less space so should hide statusline
     opt.laststatus = 1
 
+    -- decrease fontsize
+    funcs.resizetext(8)
+
     -- set up LSP for firenvim
     for server, settings in pairs(servers) do
         lspconfig[server].setup {
