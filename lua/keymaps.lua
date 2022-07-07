@@ -66,8 +66,6 @@ return {
 
     -- 0b1000
     [8] = {
-        -- Pressing Escape twice in normal mode exits the Vim editor
-        { 'n', [[<Esc><Esc>]], [[:wq<CR>]], { silent = false } },
     },
 
     -- 0b1011
@@ -157,9 +155,6 @@ return {
 
         -- Run previous command with lua prefix
         { 'n', [[<Leader>lu]], [[:lua <C-r>:<CR>]], { silent = false } },
-
-        -- Pressing Ctrl-k to delete a pair of brackets ("deprecated" in favor of vim-surround)
-        -- {'n', [[<C-k>]], [[mk%x`kx]]},
 
         -- ^ is more useful than 0
         { 'nx', [[0]], [[^]] },
