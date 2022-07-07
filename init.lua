@@ -341,6 +341,7 @@ end
 local oldsettheme = funcs.settheme
 -- add lualine to the theme (do it after so that it updates)
 local gitblame = require'gitblame'
+g.gitblame_ignored_filetypes = { 'NvimTree' }
 g.gitblame_display_virtual_text = 0
 funcs.settheme = function (theme)
     oldsettheme(theme)
