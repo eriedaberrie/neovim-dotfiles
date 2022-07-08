@@ -224,12 +224,12 @@ local servers = {
     -- tsserver = {},
     -- C stuff
     clangd = {},
-    -- Scala
-    metals = {},
 }
--- Java
 if isWSL then
-    servers['jdtls'] = {}
+    -- Java
+    servers.jdtls = {}
+    -- Scala
+    servers.metals = {}
 end
 
 -- use <Leader>ee/E for text
