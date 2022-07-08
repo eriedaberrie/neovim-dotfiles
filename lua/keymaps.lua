@@ -169,9 +169,9 @@ return {
         -- EasyAlign
         { 'nx', [[<Leader>ga]], [[<Plug>(EasyAlign)]] },
 
-        -- Easy access to clipboard in normal mode
-        { 'n', [[<Leader>+]], [["+]] },
-        { 'n', [[<Leader>"]], [["+]] },
+        -- Easy access to clipboard in normal, visual mode
+        { 'nx', [[<Leader>+]], [["+]] },
+        { 'nx', [[<Leader>"]], [["+]] },
 
         -- Swap case of letter
         { 'n', [[gl]], [[g~l]] },
