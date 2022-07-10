@@ -500,7 +500,8 @@ else
         api.nvim_create_autocmd({ 'VimEnter', 'InsertLeave', 'CursorMoved' }, {
             group = initgroup,
             callback = function ()
-                if fn.mode() == 'i' then return end
+                local mode = fn.mode()
+                if mode == 'i' or mode == 't' then return end
 
                 delmatch()
                 api.nvim_set_hl(0, 'WindowsTerminalCursorFg', { reverse = true })

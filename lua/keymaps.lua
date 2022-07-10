@@ -34,6 +34,15 @@ return {
         { 'n', [[<Leader>bd]], [[<Cmd>bp<Bar>bd#<CR>]]  },
         { 'n', [[<Leader>Bd]], [[<Cmd>bp<Bar>bd!#<CR>]] },
 
+        -- Change buffer easily
+        { 'nt', [[<M-n>]], [[<Cmd>exe v:count . 'bn'<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-N>]], [[<Cmd>exe v:count . 'bN'<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-p>]], [[<Cmd>exe v:count . 'bp'<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-3>]], [[<Cmd>b#<CR>]], { nolazyredraw = true } },
+
+        -- Temporarily increase scrolloff
+        { 'n', [[<Leader>zz]], [['<Cmd>set scrolloff=8<CR><Cmd>set scrolloff=' . &scrolloff . '<CR>']], { expr = true } },
+
         -- Open nvim tree without accidentally closing the current tabpage
         { 'n', [[<Leader>e.]], [[<Cmd>NvimTreeToggle<CR>]] },
 
