@@ -116,6 +116,12 @@ api.nvim_create_autocmd('TermClose', {
     end,
 })
 
+-- highlight yanked text
+api.nvim_create_autocmd('TextYankPost', {
+    group = initgroup,
+    callback = function () pcall(vim.highlight.on_yank) end,
+})
+
 ---------- plugins ----------
 -- cursor underline setup
 --[[ require'nvim-cursorline'.setup {
