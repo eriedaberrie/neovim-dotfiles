@@ -170,10 +170,10 @@ return {
         { 'nx', [[^]], [[0]] },
 
         -- Move around in insert mode with alt
-        { 'i', [[<M-h>]], [[<Left>]]  },
-        { 'i', [[<M-j>]], [[<Down>]]  },
-        { 'i', [[<M-k>]], [[<Up>]]    },
-        { 'i', [[<M-l>]], [[<Right>]] },
+        { 'i', [[<M-h>]], [[<Left>]],  { noremap = false } },
+        { 'i', [[<M-j>]], [[<Down>]],  { noremap = false } },
+        { 'i', [[<M-k>]], [[<Up>]],    { noremap = false } },
+        { 'i', [[<M-l>]], [[<Right>]], { noremap = false } },
 
         -- EasyAlign
         { 'nx', [[<Leader>ga]], [[<Plug>(EasyAlign)]] },
