@@ -47,6 +47,16 @@ local initgroup = api.nvim_create_augroup('InitGroup', { clear = true })
 -- comment config
 require'Comment'.setup{}
 
+-- nvim-surround config
+require'nvim-surround'.setup {
+    delimiters = {
+        pairs = {
+            z = { 'function () ', ' end' },
+        },
+    },
+}
+api.nvim_set_hl(0, 'NvimSurroundHighlightTextObject', { link = 'IncSearch' })
+
 -- VSCode Neovim stuff
 if g.vscode then
     -- disable neovim syntax highlighting

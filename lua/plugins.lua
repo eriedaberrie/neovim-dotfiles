@@ -45,6 +45,9 @@ return require'packer'.startup(function (use)
     -- Commenting
     use 'numToStr/Comment.nvim'
 
+    -- Surround but in lua
+    use 'kylechui/nvim-surround'
+
     -- Line diagnostics
     -- use 'Mofiqul/trld.nvim'
 
@@ -130,12 +133,6 @@ return require'packer'.startup(function (use)
 
     -- ReplaceWithRegister
     use 'inkarkat/vim-ReplaceWithRegister'
-
-    -- surround.vim
-    use 'tpope/vim-surround'
-
-    -- repeat.vim
-    use 'tpope/vim-repeat'
 
     -- sleuth.vim
     use 'tpope/vim-sleuth'
