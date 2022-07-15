@@ -6,7 +6,7 @@ local o = vim.o
 local g = vim.g
 
 M.set_keymaps = function (maptable)
-    local launchmask = g.started_by_firenvim and 8 or (g.vscode and 4 or (vim.isWSL and 2 or 1))
+    local launchmask = g.started_by_firenvim and 8 or (g.vscode and 4 or (vim.isUnix and 2 or 1))
     local opts, nolazyredraw
 
     for flags, val in pairs(maptable) do

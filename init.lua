@@ -10,9 +10,9 @@ local env = vim.env
 -- decrease startup time
 require'impatient'
 
--- whether or not it's running WSL
-local isWSL = fn.has('WSL') == 1
-vim.isWSL = isWSL
+-- whether or not it's running Unix-like
+local isUnix = fn.has('Unix') == 1
+vim.isUnix = isUnix
 
 -- my functions
 local funcs = require'functions'
@@ -27,7 +27,7 @@ opt.ignorecase = true
 opt.smartcase  = true
 
 -- disable K being "man" which doesn't really exist on Windows
-if not isWSL then
+if not isUnix then
     opt.keywordprg = ':help'
 end
 
@@ -231,7 +231,7 @@ local servers = {
     -- C stuff
     clangd = {},
 }
-if isWSL then
+if isUnix then
     -- Java
     servers.jdtls = {}
     -- Scala
@@ -310,6 +310,9 @@ funcs.alias('funcs', 'lua vim.funcs')
 
 -- make it easier to help
 funcs.alias('H', 'h')
+
+-- make it easier to help in new tab
+funcs.alias('ht', 'tab help')
 
 -- make Bd not close the current window
 api.nvim_create_user_command('Bd',  'bp<Bar>bd#',  {})

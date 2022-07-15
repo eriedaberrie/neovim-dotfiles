@@ -3,7 +3,7 @@
 
 -- Flags:
 -- 0b0001 - default
--- 0b0010 - WSL
+-- 0b0010 - Unix
 -- 0b0100 - VSCode plugin
 -- 0b1000 - Firenvim
 
@@ -89,7 +89,7 @@ return {
         { 'n', [[<M-.>]], [[<C-w>>]] },
 
         -- Easy enter terminal mode
-        { 'n', [[<Leader>to]], [['<Cmd>botright vsplit <Bar> terminal' . (has('WSL') ? '' : ' pwsh.exe') . '<CR>']], { expr = true } },
+        { 'n', [[<Leader>to]], [['<Cmd>botright vsplit <Bar> terminal' . (has('Unix') ? '' : ' pwsh.exe') . '<CR>']], { expr = true } },
 
         -- Easy exit terminal mode
         { 't', [[<C-\><Esc>]],    [[<C-\><C-n>]], { nolazyredraw = true } },
