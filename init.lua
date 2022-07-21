@@ -133,6 +133,11 @@ api.nvim_create_autocmd('TextYankPost', {
 })
 
 ---------- plugins ----------
+-- fuck it italics suck in general
+require'gruvbox'.setup {
+    italic = false,
+}
+
 -- cursor underline setup
 --[[ require'nvim-cursorline'.setup {
     cursorline = {
@@ -493,11 +498,6 @@ if g.neovide then
 
 -- terminal neovim
 else
-    -- italics outside of Neovide specifically tends to cause rendering problems with this font
-    require'gruvbox'.setup {
-        italic = false,
-    }
-
     -- smooth scrolling
     -- require'neoscroll'.setup{}
 
