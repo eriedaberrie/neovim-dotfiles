@@ -366,8 +366,8 @@ api.nvim_create_autocmd('BufWritePost', {
 -- actually setting up the LSP servers
 for server, settings in pairs(servers) do
     lspconfig[server].setup {
-        on_attach    = on_attach,
-        settings     = settings,
+        on_attach = on_attach,
+        settings  = settings,
     }
 end
 
@@ -473,14 +473,31 @@ g.lazygit_floating_window_use_plenary = 1
 
 -- filetree explorer
 require'nvim-tree'.setup {
+    respect_buf_cwd = true,
+    sync_root_with_cwd = true,
+    trash = {
+        cmd = isUnix and 'gio trash' or 'recycle-bin',
+    },
     view = {
+        preserve_window_proportions = true,
+        signcolumn = 'auto',
         mappings = {
             list = {
-                { key = 'd', action = 'trash' },
-                { key = 'D', action = 'remove' },
+                { key = 'bmv', action = '' }, -- idc about this, too long
+                { key = 'q',   action = '' }, -- allow macros :)
+                { key = 'd',   action = 'trash' },
+                { key = 'D',   action = 'remove' },
             },
         },
     },
+    renderer = {
+        full_name = true,
+        highlight_opened_files = 'name',
+        indent_markers = {
+            enable = true,
+        },
+    },
+    api.nvim_set_hl(0, 'NvimTreeOpenedFile', { link = 'GruvboxBlueBold' })
 }
 
 -- set nvim-notify as default notifier

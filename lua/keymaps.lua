@@ -25,7 +25,7 @@ return {
     -- 0b0011
     [3] = {
         -- Set cwd to current file directory
-        { 'n', [[<Leader>cd]], [[<Cmd>lcd %:h<CR>]] },
+        { 'n', [[<Leader>cd]], [[<Cmd>tcd %:h<CR>]] },
 
         -- Delete trailing spaces
         { 'n', [[<Leader>ds]], [[<Cmd>%s/\s\+$//<Bar>norm!``<CR><Cmd>noh<CR>]] },
