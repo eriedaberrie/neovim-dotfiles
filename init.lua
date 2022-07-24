@@ -74,6 +74,11 @@ if g.vscode then
     -- disable git blame plugin
     g.gitblame_enabled = 0
 
+    -- disable context plugin
+    require'treesitter-context'.setup {
+        enable = false,
+    }
+
     return
 end
 
@@ -200,6 +205,11 @@ api.nvim_create_autocmd('BufWinEnter', {
     group = initgroup,
     command = [[normal zR]],
 })
+
+-- context config
+require'treesitter-context'.setup {
+    mode = 'topline',
+}
 
 -- LSP config base
 local lspconfig = require'lspconfig'
@@ -389,7 +399,7 @@ funcs.settheme = function (theme)
             lualine_a = { 'mode' },
             lualine_b = { 'filename' },
             lualine_c = {{ gitblame.get_current_blame_text, cond = gitblame.is_blame_text_available }},
-            lualine_x = { 'encoding', 'fileformat', 'filetype' },
+            lualine_x = { 'encoding', 'fileformat', 'filesize', 'filetype' },
             lualine_y = { 'progress' },
             lualine_z = { 'location' }
         },
@@ -400,7 +410,32 @@ funcs.settheme = function (theme)
             lualine_x = {},
             lualine_y = {},
             lualine_z = { 'tabs' },
-        }
+        },
+        -- winbar = {
+        --     lualine_a = {
+        --         function ()
+        --             local ts_utils    = require'nvim-treesitter.ts_utils'
+        --             local highlighter = require'nvim-treesitter.highlighter'
+        --             local parsers     = require'nvim-treesitter.parsers'
+        --             local patterns = {
+        --                 'class',
+        --                 'functions',
+        --                 'method',
+        --                 'for',
+        --                 'while',
+        --                 'if',
+        --                 'switch',
+        --                 'case',
+        --             }
+        --             return 'hi'
+        --         end
+        --     },
+        --     lualine_b = {},
+        --     lualine_c = {},
+        --     lualine_x = {},
+        --     lualine_y = {},
+        --     lualine_z = {},
+        -- },
     }
 end
 

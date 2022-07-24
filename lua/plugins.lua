@@ -103,6 +103,8 @@ return require'packer'.startup(function (use)
         requires = {
             -- Rainbow parentheses
             'p00f/nvim-ts-rainbow',
+            -- Function context
+            'nvim-treesitter/nvim-treesitter-context',
         },
     }
 
