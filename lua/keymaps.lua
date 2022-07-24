@@ -129,8 +129,8 @@ return {
         { 'n', [[<Leader>rc]], [[<Cmd>RunCodeFile<CR>]] },
         { 'x', [[<Leader>rc]], [[<Cmd>RunCodeSelected<CR>]] },
 
-        -- Preserve q: <CR> functionality
-        { 'n', [[<CR>]], [[expand('%') ==# '[Command Line]' ? '<CR>' : '']], { silent = false, expr = true } },
+        -- Preserve q: and quickfix <CR> functionality
+        { 'n', [[<CR>]], [[!(index(['[Command Line]'], expand('%')) is -1) || (&filetype == 'qf') ? '<CR>' : '']], { silent = false, expr = true } },
 
         -- Swap to visual linewise movement (for editing actual paragraphs)
         { 'n', [[<Leader>jk]], [[<Cmd>nnoremap j gj<CR><Cmd>nnoremap k gk<CR><Cmd>nnoremap 0 g0<CR><Cmd>nnoremap $ g$<CR>]] },
