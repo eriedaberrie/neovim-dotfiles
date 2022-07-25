@@ -357,7 +357,7 @@ api.nvim_create_user_command('BD1', 'bp<Bar>bd!#', {})
 -- set cwd to ~ if launched from windows start menu
 local cwd = fn.fnamemodify(fn.getcwd(), ':~')
 if cwd:sub(1, 21) == [[~\scoop\apps\neovide\]] or cwd == [[C:\WINDOWS\system32]] then
-    cmd [[cd ~]]
+    cmd.cd('~')
 end
 
 -- filetype associations
@@ -444,9 +444,9 @@ api.nvim_create_autocmd('BufEnter', {
     group = initgroup,
     callback = function ()
         if api.nvim_buf_line_count(0) > 5000 then
-            cmd [[GitBlameDisable]]
+            cmd.GitBlameDisable()
         else
-            cmd [[GitBlameEnable]]
+            cmd.GitBlameEnable()
         end
     end
 })

@@ -54,9 +54,9 @@ end
 
 M.alias = function (lhs, rhs)
     -- WARNING: can't use apostrophes
-    vim.cmd(string.format(
-        [[cnoreabbrev <expr> %s (getcmdtype() ==# ':' && getcmdline() ==# '%s') ? '%s' : '%s']],
-        lhs, lhs, rhs, lhs
+    vim.cmd.cnoreabbrev('<expr>', lhs, string.format(
+        [[(getcmdtype() ==# ':' && getcmdline() ==# '%s') ? '%s' : '%s']],
+        lhs, rhs, lhs
     ))
 end
 
@@ -70,7 +70,7 @@ M.settheme = function (theme)
     if theme then
         vim.opt.background = theme
     end
-    return vim.cmd [[colorscheme gruvbox]]
+    return vim.cmd.colorscheme('gruvbox')
 end
 
 M.toggleshell = function (newshell)
