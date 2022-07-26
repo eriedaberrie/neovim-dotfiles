@@ -34,6 +34,9 @@ end
 -- turn on lazy redraw - reenablable through keymaps
 opt.lazyredraw = true
 
+-- disable mouse by default on non-gui im not sure why nightly added this
+opt.mouse = ''
+
 -- easier to exit
 api.nvim_create_user_command('W',  'w',  {})
 api.nvim_create_user_command('Wq', 'wq', {})
@@ -158,9 +161,9 @@ require'gruvbox'.setup {
 -- colorizor setup
 opt.termguicolors = true -- needs to be explicitly set before setting up
 require'colorizer'.setup {
-    '*',
-    '!text',
-    '!markdown',
+    ['*'] = { names = false },
+    html  = { names = true },
+    css   = { names = true },
 }
 
 -- require'nvim-autopairs'.setup {
@@ -547,6 +550,8 @@ if g.neovide then
     g.neovide_cursor_trail_length            = 0.8
     g.neovide_cursor_unfocused_outline_width = 0.075
     g.neovide_cursor_vfx_mode                = 'railgun'
+
+    opt.mouse = 'a'
 
 -- terminal neovim
 else
