@@ -15,6 +15,9 @@ return {
         -- { 'n', [[<Leader>dg]], [[<Cmd>!pwsh.exe -NoProfile -NoLogo -NonInteractive -Command cd "$(git rev-parse --show-toplevel)"  && Start-Process -FilePath "Game.exe" -ArgumentList "debug"<CR>]] },
         { 'n', [[<Leader>dg]], [[&shell ==# 'cmd.exe' ? '<Cmd>!for /f "usebackq tokens=*" \%a in (`git rev-parse --show-toplevel`) do start /d "\%a" Game.exe debug<CR><CR>' : '<Cmd>!start -FilePath Game.exe -WorkingDirectory "$(git rev-parse --show-toplevel)" -ArgumentList "debug"<CR><CR>']], { expr = true } },
         -- { 'n', [[<Leader>gd]], [[<Cmd>!pwsh.exe -NoProfile -NoLogo -NonInteractive -Command cd "$(git rev-parse --show-toplevel)" && .\Game.exe debug<CR>]] },
+
+        -- Don't accidentaly permanently suspend in Windows
+        { 'n', [[<C-z>]], [[<Nop>]] },
     },
 
     -- 0b0010
