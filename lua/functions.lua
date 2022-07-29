@@ -2,8 +2,11 @@
 
 local M = {}
 
-local o = vim.o
-local g = vim.g
+local o   = vim.o
+local g   = vim.g
+local api = vim.api
+local fn  = vim.fn
+local cmd = vim.cmd
 
 M.set_keymaps = function (maptable)
     local launchmask = g.started_by_firenvim and 8 or (g.vscode and 4 or (vim.isUnix and 2 or 1))
@@ -38,14 +41,25 @@ M.set_keymaps = function (maptable)
                     map[3] = ''
                 elseif nolazyredraw then
                     if opts.expr then
-                        map[3] = [['<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>' . ]] .. map[3] .. [[ . '<Cmd>let &lazyredraw=g:oldlazyredraw<CR>']]
+                        map[3] = [['<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>' . ]] ..
+                                map[3] .. [[ . '<Cmd>let &lazyredraw=g:oldlazyredraw<CR>']]
                     else
-                        map[3] = [[<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>]] .. map[3] .. [[<Cmd>let &lazyredraw=g:oldlazyredraw<CR>]]
+                        map[3] = [[<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>]] ..
+                                map[3] .. [[<Cmd>let &lazyredraw=g:oldlazyredraw<CR>]]
                     end
                 end
 
                 for c in map[1]:gmatch'.' do
-                    vim.api.nvim_set_keymap(c, map[2], map[3], opts)
+                    if c == '_' then
+                        -- text object mapping
+                        api.nvim_set_keymap('x', map[2], map[3], opts)
+                        local tempopts = opts
+                        tempopts.callback = nil
+                        tempopts.expr = nil
+                        api.nvim_set_keymap('o', map[2], '<Cmd>norm v' .. map[2] .. '<CR>', tempopts)
+                    else
+                        api.nvim_set_keymap(c, map[2], map[3], opts)
+                    end
                 end
             end
         end
@@ -54,7 +68,7 @@ end
 
 M.alias = function (lhs, rhs)
     -- WARNING: can't use apostrophes
-    vim.cmd.cnoreabbrev('<expr>', lhs, string.format(
+    cmd.cnoreabbrev('<expr>', lhs, string.format(
         [[(getcmdtype() ==# ':' && getcmdline() ==# '%s') ? '%s' : '%s']],
         lhs, rhs, lhs
     ))
@@ -66,11 +80,52 @@ M.autoprepend = function (originals, prefix)
     end
 end
 
+M.selectindent = function (around)
+    local startline = api.nvim_win_get_cursor(0)[1]
+    local curline = startline
+    while curline > 0 and api.nvim_buf_get_lines(0, curline - 1, curline, true)[1] == '' do
+        curline = curline - 1
+    end
+    local startindent = fn.indent(curline)
+
+    local curup = curline
+    while curline > 0 do
+        local curindent = fn.indent(curline)
+        if curindent >= startindent then
+            curup = curline
+        elseif curindent ~= 0 or api.nvim_buf_get_lines(0, curline - 1, curline, true)[1] ~= '' then
+            break
+        end
+        curline = curline - 1
+    end
+
+    local maxline = api.nvim_buf_line_count(0)
+    local curdown = startline
+    while startline <= maxline do
+        local curindent = fn.indent(startline)
+        if curindent >= startindent then
+            curdown = startline
+        elseif curindent ~= 0 or api.nvim_buf_get_lines(0, startline - 1, startline, true)[1] ~= '' then
+            break
+        end
+        startline = startline + 1
+    end
+
+    if around then
+        curdown = startline - 1
+    end
+
+    if fn.mode() ~= 'V' then cmd.normal{ 'V', bang = true } end
+    api.nvim_win_set_cursor(0, { curdown, 0 })
+    cmd.normal{ 'o', bang = true }
+    api.nvim_win_set_cursor(0, { curup, 0 })
+end
+
 M.settheme = function (theme)
     if theme then
-        vim.opt.background = theme
+        o.background = theme
     end
-    return vim.cmd.colorscheme('gruvbox')
+    return cmd.colorscheme('gruvbox')
 end
 
 M.toggleshell = function (newshell)
@@ -114,7 +169,7 @@ M.resizetext = function (newsize)
 end
 
 M.setfiletype = function (group, pattern, ft)
-    vim.api.nvim_create_autocmd('BufRead', {
+    api.nvim_create_autocmd('BufRead', {
         group = group,
         pattern = pattern,
         command = 'set filetype=' .. ft,
@@ -123,13 +178,13 @@ end
 
 M.del_autocmds = function ()
     local augroups = {}
-    for _, au in ipairs(vim.api.nvim_get_autocmds{}) do
+    for _, au in ipairs(api.nvim_get_autocmds{}) do
         if au.group_name then augroups[au.group_name] = true end
     end
     for aug, _ in pairs(augroups) do
-        vim.api.nvim_del_augroup_by_name(aug)
+        api.nvim_del_augroup_by_name(aug)
     end
-    vim.api.nvim_clear_autocmds{}
+    api.nvim_clear_autocmds{}
 end
 
 

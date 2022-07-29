@@ -122,7 +122,7 @@ return {
         { 'nx', [[<Leader><Leader>]], [[<Cmd>set list!<CR>]] },
 
         -- Toggles dark/light themes
-        { 'nx', [[<Leader>tt]], [[<Cmd>lua vim.funcs.settheme(vim.o.background == 'dark' and 'light' or 'dark')<CR>]] },
+        { 'nx', [[<Leader>tt]], function () vim.funcs.settheme(vim.o.background == 'dark' and 'light' or 'dark') end },
 
         -- Quickfix movement
         { 'nx', [[<Leader>n]], [[<Cmd>lne<CR>]] },
@@ -168,10 +168,6 @@ return {
         -- Run previous command with lua prefix
         { 'n', [[<Leader>lu]], [[:lua <C-r>:<CR>]], { silent = false } },
 
-        -- ^ is more useful than 0
-        { 'nx', [[0]], [[^]] },
-        { 'nx', [[^]], [[0]] },
-
         -- Move around in insert mode with alt
         { 'i', [[<M-h>]], [[<Left>]],  { noremap = false } },
         { 'i', [[<M-j>]], [[<Down>]],  { noremap = false } },
@@ -193,5 +189,16 @@ return {
 
         -- Don't move the cursor with insert mode <C-o>
         { 'i', [[<C-o>]], [[<C-\><C-o>]], { silent = false } },
+
+        -- Current line text object
+        { '_', [[il]], [[0o$h]] },
+        { '_', [[al]], [[(line('.') ==# line('$')) ? 'V' : '0o$']], { expr = true } },
+
+        -- Current buffer text object
+        { '_', [[i%]], [[V0Gogg]] },
+
+        -- Indentation text object
+        { '_', [[ii]], function () vim.funcs.selectindent(false) end },
+        { '_', [[ai]], function () vim.funcs.selectindent(true) end },
     },
 }
