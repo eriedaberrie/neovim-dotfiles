@@ -110,13 +110,37 @@ return {
         { 'c', [[<M-k>]], [[<Up>]],    { silent = false } },
         { 'c', [[<M-l>]], [[<Right>]], { silent = false } },
 
-        -- LSP maps
+        -- Loclist and Quickfixlist toggles
+        { 'n', [[<Leader>lo]], [[<Cmd>lopen<CR>]] },
+        { 'n', [[<Leader>lc]], [[<Cmd>lclose<CR>]] },
+        { 'n', [[<Leader>co]], [[<Cmd>copen<CR>]] },
+        { 'n', [[<Leader>cc]], [[<Cmd>cclose<CR>]] },
+
+        -- LSP diagnostic maps
+        { 'n', [[<Leader>eE]], vim.diagnostic.setloclist },
         { 'n', [[<Leader>ee]], vim.diagnostic.open_float },
-        { 'n', [[<Leader>E]],  vim.diagnostic.setloclist },
         { 'n', [[<Leader>el]], vim.diagnostic.goto_next },
         { 'n', [[<Leader>eh]], vim.diagnostic.goto_prev },
         { 'n', [[<Leader>ej]], [[$<Cmd>lua vim.diagnostic.goto_next()<CR>]] },
         { 'n', [[<Leader>ek]], [[0<Cmd>lua vim.diagnostic.goto_prev()<CR>]] },
+
+        -- More LSP maps
+        { 'n', [[<Leader>eI]], [[<Cmd>LspInfo<CR>]] },
+        { 'n', [[<Leader>E]],  vim.lsp.buf.hover },
+        { 'n', [[<Leader>ed]], vim.lsp.buf.definition },
+        { 'n', [[<Leader>eD]], vim.lsp.buf.declaration },
+        { 'n', [[<Leader>ei]], vim.lsp.buf.implementation },
+        { 'n', [[<Leader>er]], vim.lsp.buf.rename },
+        { 'n', [[<Leader>eR]], vim.lsp.buf.references },
+        { 'n', [[<Leader>et]], vim.lsp.buf.type_definition },
+        { 'n', [[<Leader>ef]], vim.lsp.buf.format },
+        { 'x', [[<Leader>ef]], vim.lsp.buf.range_formatting },
+        { 'n', [[<Leader>ec]], vim.lsp.buf.code_action },
+        { 'x', [[<Leader>ec]], vim.lsp.buf.range_code_action },
+        { 'n', [[<Leader>es]], vim.lsp.buf.signature_help },
+        { 'n', [[<Leader>ew]], vim.lsp.buf.add_workspace_folder },
+        { 'n', [[<Leader>eW]], vim.lsp.buf.remove_workspace_folder },
+        { 'n', [[<Leader>e<C-w>]], function () vim.pretty_print(vim.lsp.buf.list_workspace_folders()) end },
 
         -- Toggle whitespace visibility
         { 'nx', [[<Leader><Leader>]], [[<Cmd>set list!<CR>]] },

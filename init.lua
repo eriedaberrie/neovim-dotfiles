@@ -218,15 +218,9 @@ require'treesitter-context'.setup {
 local lspconfig = require'lspconfig'
 -- vim.lsp.set_log_level'debug'
 
-local mapopts = { noremap = true, silent = true }
+-- local mapopts = { noremap = true, silent = true }
 local on_attach = function (_, buf)
     api.nvim_buf_set_option(buf, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-    local lspmaps = {
-    }
-
-    for key, val in pairs(lspmaps) do
-        api.nvim_buf_set_keymap(buf, 'n', key, val, mapopts)
-    end
 end
 
 -- LSP servers
