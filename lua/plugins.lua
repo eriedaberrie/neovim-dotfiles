@@ -99,13 +99,12 @@ return require'packer'.startup(function (use)
     -- Treesitter
     use {
         'nvim-treesitter/nvim-treesitter',
-        -- Modules not dependencies
-        requires = {
-            -- Rainbow parentheses
-            'p00f/nvim-ts-rainbow',
-            -- Function context
-            'nvim-treesitter/nvim-treesitter-context',
-        },
+        'nvim-treesitter/playground',
+
+        -- Rainbow parentheses
+        'p00f/nvim-ts-rainbow',
+        -- Function context
+        'nvim-treesitter/nvim-treesitter-context',
     }
 
     -- Todo comments

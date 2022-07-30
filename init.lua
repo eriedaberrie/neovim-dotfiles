@@ -169,6 +169,9 @@ require'colorizer'.setup {
 -- require'nvim-autopairs'.setup {
 --     map_cr = false,
 -- }
+local tsdisable = function (_, buf) -- _ is lang
+    return api.nvim_buf_line_count(buf) > 5000
+end
 
 -- treesitter config
 require'nvim-treesitter.configs'.setup {
@@ -189,24 +192,29 @@ require'nvim-treesitter.configs'.setup {
     highlight = {
         enable = true,
         additional_vim_regex_highlighting = true,
-        disable = function (_, buf) -- _ is lang
-            return api.nvim_buf_line_count(buf) > 5000
-        end,
+        disable = tsdisable,
     },
     -- nvim-ts-rainbow parentheses highlighting
     rainbow = {
         enable = true,
         extended_mode = true,
+        disable = tsdisable,
     },
 }
 
--- treesitter fold options
-opt.foldmethod = 'expr'
-opt.foldexpr   = 'nvim_treesitter#foldexpr()'
--- auto open folds
+opt.foldexpr = 'nvim_treesitter#foldexpr()'
+
+-- disable treesitter fold on large buffers, auto open folds
 api.nvim_create_autocmd('BufWinEnter', {
     group = initgroup,
-    command = [[normal zR]],
+    callback = function ()
+        if not tsdisable(nil, 0) then
+            vim.wo.foldmethod = 'expr'
+            cmd.normal{ 'zR', bang = true }
+        else
+            vim.wo.foldmethod = 'manual'
+        end
+    end,
 })
 
 -- context config
