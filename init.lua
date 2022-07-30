@@ -184,14 +184,24 @@ require'nvim-treesitter.configs'.setup {
     },
     highlight = {
         enable = true,
-        additional_vim_regex_highlighting = true,
         disable = tsdisable,
+        additional_vim_regex_highlighting = true,
+    },
+    incremental_selection = {
+        enable = true,
+        disable = tsdisable,
+        keymaps = {
+            init_selection    = '<Leader>ti',
+            node_incremental  = '<Leader>ti',
+            scope_incremental = '<Leader>tt',
+            node_decremental  = '<Leader>td',
+        }
     },
     -- nvim-ts-rainbow parentheses highlighting
     rainbow = {
         enable = true,
-        extended_mode = true,
         disable = tsdisable,
+        extended_mode = true,
     },
 }
 
