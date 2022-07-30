@@ -18,6 +18,11 @@ return require'packer'.startup(function (use)
     -- Collection of configurations for the built-in LSP client
     use 'neovim/nvim-lspconfig'
 
+    -- Code completion (supposedly quite speedy as well)
+    use 'ms-jpq/coq_nvim'
+    use 'ms-jpq/coq.artifacts'
+    use 'ms-jpq/coq.thirdparty'
+
     -- Auto pairs
     use 'windwp/nvim-autopairs'
 

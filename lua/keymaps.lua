@@ -145,6 +145,12 @@ return {
         { 'n', [[<Leader>eW]], vim.lsp.buf.remove_workspace_folder },
         { 'n', [[<Leader>e<C-w>]], function () vim.pretty_print(vim.lsp.buf.list_workspace_folders()) end },
 
+        -- Coq_nvim + nvim-autopairs keymaps
+        { 'i', [[<Esc>]], [[pumvisible() ? '<C-e><Esc>' : '<Esc>']], { expr = true } },
+        { 'i', [[<C-c>]], [[pumvisible() ? '<C-e><C-c>' : '<C-c>']], { expr = true } },
+        { 'i', [[<Tab>]],   [[pumvisible() ? '<C-n>' : '<Tab>']], { expr = true } },
+        { 'i', [[<S-Tab>]], [[pumvisible() ? '<C-p>' : '<Tab>']], { expr = true } },
+
         -- Toggle whitespace visibility
         { 'nx', [[<Leader><Leader>]], [[<Cmd>set list!<CR>]] },
 

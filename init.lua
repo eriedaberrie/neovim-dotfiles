@@ -78,9 +78,7 @@ if g.vscode then
     g.gitblame_enabled = 0
 
     -- disable context plugin
-    require'treesitter-context'.setup {
-        enable = false,
-    }
+    require'treesitter-context'.setup { enable = false }
 
     return
 end
@@ -142,9 +140,7 @@ api.nvim_create_autocmd('TextYankPost', {
 
 ---------- plugins ----------
 -- fuck it italics suck in general
-require'gruvbox'.setup {
-    italic = false,
-}
+require'gruvbox'.setup { italic = false }
 
 -- cursor underline setup
 --[[ require'nvim-cursorline'.setup {
@@ -166,9 +162,6 @@ require'colorizer'.setup {
     css   = { names = true },
 }
 
--- require'nvim-autopairs'.setup {
---     map_cr = false,
--- }
 local tsdisable = function (_, buf) -- _ is lang
     return api.nvim_buf_line_count(buf) > 5000
 end
@@ -218,15 +211,12 @@ api.nvim_create_autocmd('BufWinEnter', {
 })
 
 -- context config
-require'treesitter-context'.setup {
-    mode = 'topline',
-}
+require'treesitter-context'.setup { mode = 'topline' }
 
 -- LSP config base
 local lspconfig = require'lspconfig'
 -- vim.lsp.set_log_level'debug'
 
--- local mapopts = { noremap = true, silent = true }
 local on_attach = function (_, buf)
     api.nvim_buf_set_option(buf, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 end
@@ -245,9 +235,6 @@ local servers = {
             },
             diagnostics = {
                 globals = { 'vim' }
-            },
-            workspace = {
-                library = vim.api.nvim_get_runtime_file('', true),
             },
             telemetry = {
                 enable = false,
@@ -268,8 +255,63 @@ if isUnix then
     servers.metals = {}
 end
 
+-- coq_nvim settings
+g.coq_settings = {
+    auto_start = 'shut-up',
+    keymap = {
+        -- in order to use nvim-autopairs, see keymaps.lua and below
+        recommended = false,
+        -- ctrl+slash since ctrl+space doesn't send
+        manual_complete = '<C-_>',
+    },
+    display = {
+        pum = {
+            fast_close = false,
+        },
+    },
+}
+
+-- third party coq sources
+require'coq_3p' {
+    { src = "nvimlua", short_name = "nLUA", conf_only = true },
+    { src = 'bc', short_name = 'MATH', precision = 6 },
+}
+
+-- actually setting up the LSP servers
+local coq = require'coq'
+for server, settings in pairs(servers) do
+    lspconfig[server].setup(coq.lsp_ensure_capabilities {
+        on_attach = on_attach,
+        settings  = settings,
+    })
+end
+
+-- set up the complicated nvim-autopairs keymaps
+local npairs = require'nvim-autopairs'
+npairs.setup { map_bs = false, map_cr = false }
+
+api.nvim_set_keymap('i', '<CR>', '', { noremap = true, expr = true, callback = function ()
+    if vim.fn.pumvisible() ~= 0 then
+        if vim.fn.complete_info{ 'selected' }.selected ~= -1 then
+            return npairs.esc('<C-y>')
+        else
+            return npairs.esc('<C-e>') .. npairs.autopairs_cr(api.nvim_get_current_buf())
+        end
+    else
+        return npairs.autopairs_cr(api.nvim_get_current_buf())
+    end
+end })
+
+api.nvim_set_keymap('i', '<BS>', '', { noremap = true, expr = true, callback = function()
+    if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info{ 'mode' }.mode == 'eval' then
+        return npairs.esc('<C-e>') .. npairs.autopairs_bs(api.nvim_get_current_buf())
+    else
+        return npairs.autopairs_bs(api.nvim_get_current_buf())
+    end
+end })
+
 -- use <Leader>ee/E for text
-vim.diagnostic.config { virtual_text = false }
+-- vim.diagnostic.config { virtual_text = false }
 
 -- make emmet use my leader key instead of hijacking ctrl-y
 g.user_emmet_leader_key = '<Leader>y'
@@ -311,14 +353,6 @@ if g.started_by_firenvim then
 
     -- decrease fontsize
     funcs.resizetext(8)
-
-    -- set up LSP for firenvim
-    for server, settings in pairs(servers) do
-        lspconfig[server].setup {
-            on_attach    = on_attach,
-            settings     = settings,
-        }
-    end
 
     -- disable git blame plugin
     g.gitblame_enabled = 0
@@ -378,14 +412,6 @@ api.nvim_create_autocmd('BufWritePost', {
 })
 
 ---------- more plugins ----------
--- actually setting up the LSP servers
-for server, settings in pairs(servers) do
-    lspconfig[server].setup {
-        on_attach = on_attach,
-        settings  = settings,
-    }
-end
-
 -- GitHub Theme
 -- only set up once so running :so% doesn't ruin the tabline (not anymore)
 local oldsettheme = funcs.settheme
