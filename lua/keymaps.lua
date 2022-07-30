@@ -110,6 +110,9 @@ return {
         { 'c', [[<M-k>]], [[<Up>]],    { silent = false } },
         { 'c', [[<M-l>]], [[<Right>]], { silent = false } },
 
+        -- Close help page easily
+        { 'n', [[<Leader>hc]], [[<Cmd>helpclose<CR>]] },
+
         -- Loclist and Quickfixlist toggles
         { 'n', [[<Leader>lo]], [[<Cmd>lopen<CR>]] },
         { 'n', [[<Leader>lc]], [[<Cmd>lclose<CR>]] },
@@ -169,6 +172,12 @@ return {
         { 'n', [[z%]], [[0V%o:fold<CR>]] }
     },
 
+    -- 0b1101
+    [13] = {
+        -- Toggle shell
+        { 'n', [[<Leader>ss]], vim.funcs.toggleshell },
+    },
+
     -- 0b1111
     [15] = {
         -- Indent without exiting visual mode
@@ -189,9 +198,6 @@ return {
 
         -- Toggle lazy redraw
         { 'n', [[<Leader>lr]], [[<Cmd>set lazyredraw! lazyredraw?<CR>]] },
-
-        -- Toggle shell
-        { 'n', [[<Leader>ss]], vim.funcs.toggleshell },
 
         -- Run previous command with ! prefix
         { 'n', [[<Leader>!]], [[:!<C-r>:<CR>]], { silent = false } },
