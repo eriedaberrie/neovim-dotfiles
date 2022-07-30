@@ -164,6 +164,9 @@ return {
 
         -- Telescope howdoi
         { 'n', [[<Leader>hdi]], [[<Cmd>Telescope howdoi<CR>]] },
+
+        -- Folding in files too large for treesitter
+        { 'n', [[z%]], [[0V%o:fold<CR>]] }
     },
 
     -- 0b1111
@@ -179,6 +182,10 @@ return {
 
         -- Pressing Escape cancels search highlights
         { 'n', [[<Esc>]], [[<Cmd>noh<CR>]] },
+
+        -- Save and close easily
+        { 'n', [[<Leader>w]], [[<Cmd>w<CR>]] },
+        { 'n', [[<Leader>q]], [[<Cmd>q<CR>]] },
 
         -- Toggle lazy redraw
         { 'n', [[<Leader>lr]], [[<Cmd>set lazyredraw! lazyredraw?<CR>]] },
