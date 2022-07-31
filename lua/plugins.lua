@@ -65,12 +65,6 @@ return require'packer'.startup(function (use)
     -- Run code
     use 'arjunmahishi/run-code.nvim'
 
-    -- REPL
-    use {
-        'pappasam/nvim-repl',
-        requires = 'tpope/vim-repeat',
-    }
-
     -- Neorg
     use {
         'nvim-neorg/neorg',
