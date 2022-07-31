@@ -65,12 +65,6 @@ if g.vscode then
     -- disable neovim syntax highlighting
     opt.syntax = 'off'
 
-    -- remap broken commands
-    -- doesn't work for some reason
-    -- funcs.alias('bn', 'call VSCodeNotify("workbench.action.nextEditorInGroup")')
-    -- funcs.alias('bN', 'call VSCodeNotify("workbench.action.previousEditorInGroup")')
-    -- funcs.alias('bd', 'q')
-
     -- disable emmet plugin
     g.user_emmet_install_global = 0
 
@@ -141,18 +135,6 @@ api.nvim_create_autocmd('TextYankPost', {
 ---------- plugins ----------
 -- fuck it italics suck in general
 require'gruvbox'.setup { italic = false }
-
--- cursor underline setup
---[[ require'nvim-cursorline'.setup {
-    cursorline = {
-        enable = false,
-    },
-    cursorword = {
-        enable = true,
-        min_length = 3,
-        hl = { underline = true },
-    }
-} ]]
 
 -- colorizor setup
 opt.termguicolors = true -- needs to be explicitly set before setting up
@@ -394,15 +376,6 @@ api.nvim_create_user_command('BD',  'bp<Bar>bd#',  {})
 api.nvim_create_user_command('Bd1', 'bp<Bar>bd!#', {})
 api.nvim_create_user_command('BD1', 'bp<Bar>bd!#', {})
 
--- more zero cmdheight shenanigans are in keymaps
--- opt.cmdheight = 0
--- api.nvim_create_autocmd('InsertEnter', {
---     group = initgroup,
---     callback = function ()
---         opt.cmdheight = (fn.reg_recording() == '') and 0 or 1
---     end
--- })
-
 -- set cwd to ~ if launched from windows start menu
 local cwd = fn.fnamemodify(fn.getcwd(), ':~')
 if cwd:sub(1, 21) == [[~\scoop\apps\neovide\]] or cwd == [[C:\WINDOWS\system32]] then
@@ -452,31 +425,6 @@ funcs.settheme = function (theme)
             lualine_y = {},
             lualine_z = { 'tabs' },
         },
-        -- winbar = {
-        --     lualine_a = {
-        --         function ()
-        --             local ts_utils    = require'nvim-treesitter.ts_utils'
-        --             local highlighter = require'nvim-treesitter.highlighter'
-        --             local parsers     = require'nvim-treesitter.parsers'
-        --             local patterns = {
-        --                 'class',
-        --                 'functions',
-        --                 'method',
-        --                 'for',
-        --                 'while',
-        --                 'if',
-        --                 'switch',
-        --                 'case',
-        --             }
-        --             return 'hi'
-        --         end
-        --     },
-        --     lualine_b = {},
-        --     lualine_c = {},
-        --     lualine_x = {},
-        --     lualine_y = {},
-        --     lualine_z = {},
-        -- },
     }
 end
 
@@ -528,11 +476,6 @@ telescope.setup {
         howdoi = {
             command_executor = { 'cmd.exe', '/c' },
         },
-        --[[ fzf_writer = {
-            minimum_grep_characters = 2,
-            minimum_files_characters = 2,
-            use_highlighter = true,
-        }, ]]
     },
 }
 telescope.load_extension'neoclip'
