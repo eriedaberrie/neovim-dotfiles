@@ -630,6 +630,12 @@ else
             group = initgroup,
             callback = delmatch,
         })
+
+        -- restore blinking cursor
+        api.nvim_create_autocmd('VimLeave', {
+            group = initgroup,
+            callback = function () opt.guicursor = 'a:block-blinkon750' end
+        })
     end
 end
 
