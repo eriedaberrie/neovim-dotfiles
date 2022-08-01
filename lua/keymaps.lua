@@ -63,6 +63,9 @@ return {
         -- Lazygit maps
         { 'n', [[<Leader>gg]], [[<Cmd>LazyGit<CR>]] },
 
+        -- :PackerSync
+        { 'n', [[<Leader>ps]], [[<Cmd>PackerSync<CR>]] },
+
         -- Zero cmdheight stuff
         -- { 'n', [[<Esc>]], [[<Cmd>noh<Bar>set cmdheight=0<CR>]] },
     },

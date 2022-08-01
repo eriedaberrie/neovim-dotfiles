@@ -1,152 +1,147 @@
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
 
--- Following autocmmand migrated to lua in init.lua
---- vim.cmd([[
----   augroup packer_user_config
----     autocmd!
----     autocmd BufWritePost plugins.lua source <afile> | PackerCompile
----   augroup end
---- ]])
+return require'packer'.startup {
+    function (use)
+        -- Packer can manage itself
+        use 'wbthomason/packer.nvim'
 
-return require'packer'.startup(function (use)
-    -- Packer can manage itself
-    use 'wbthomason/packer.nvim'
+        -- Impatient.nvim (decrease startup time)
+        use 'lewis6991/impatient.nvim'
 
-    -- Impatient.nvim (decrease startup time)
-    use 'lewis6991/impatient.nvim'
+        -- Collection of configurations for the built-in LSP client
+        use 'neovim/nvim-lspconfig'
 
-    -- Collection of configurations for the built-in LSP client
-    use 'neovim/nvim-lspconfig'
+        -- Code completion (supposedly quite speedy as well)
+        use 'ms-jpq/coq_nvim'
+        use 'ms-jpq/coq.artifacts'
+        use 'ms-jpq/coq.thirdparty'
 
-    -- Code completion (supposedly quite speedy as well)
-    use 'ms-jpq/coq_nvim'
-    use 'ms-jpq/coq.artifacts'
-    use 'ms-jpq/coq.thirdparty'
+        -- Auto pairs
+        use 'windwp/nvim-autopairs'
 
-    -- Auto pairs
-    use 'windwp/nvim-autopairs'
+        -- Gruvbox Neovim theme
+        use 'ellisonleao/gruvbox.nvim'
 
-    -- Gruvbox Neovim theme
-    use 'ellisonleao/gruvbox.nvim'
+        -- GitHub Neovim Theme
+        -- use 'projekt0n/github-nvim-theme'
 
-    -- GitHub Neovim Theme
-    -- use 'projekt0n/github-nvim-theme'
+        -- Smoother scrolling animation
+        use 'karb94/neoscroll.nvim'
 
-    -- Smoother scrolling animation
-    use 'karb94/neoscroll.nvim'
+        -- Indent line
+        -- use 'lukas-reineke/indent-blankline.nvim'
 
-    -- Indent line
-    -- use 'lukas-reineke/indent-blankline.nvim'
+        -- Highlight word under cursor
+        -- use 'yamatsum/nvim-cursorline'
 
-    -- Highlight word under cursor
-    -- use 'yamatsum/nvim-cursorline'
+        -- Color hex codes
+        use 'norcalli/nvim-colorizer.lua'
 
-    -- Color hex codes
-    use 'norcalli/nvim-colorizer.lua'
+        -- Notifications
+        use 'rcarriga/nvim-notify'
 
-    -- Notifications
-    use 'rcarriga/nvim-notify'
+        -- Commenting
+        use 'numToStr/Comment.nvim'
 
-    -- Commenting
-    use 'numToStr/Comment.nvim'
+        -- Surround but in lua
+        use 'kylechui/nvim-surround'
 
-    -- Surround but in lua
-    use 'kylechui/nvim-surround'
+        -- Line diagnostics
+        -- use 'Mofiqul/trld.nvim'
 
-    -- Line diagnostics
-    -- use 'Mofiqul/trld.nvim'
+        -- Git blame
+        use 'f-person/git-blame.nvim'
 
-    -- Git blame
-    use 'f-person/git-blame.nvim'
+        -- Lazygit
+        use 'kdheepak/lazygit.nvim'
 
-    -- Lazygit
-    use 'kdheepak/lazygit.nvim'
+        -- Run code
+        use 'arjunmahishi/run-code.nvim'
 
-    -- Run code
-    use 'arjunmahishi/run-code.nvim'
-
-    -- Neorg
-    use {
-        'nvim-neorg/neorg',
-        requires = 'nvim-lua/plenary.nvim',
-    }
-
-    -- nvim-tree.lua
-    use {
-        '~/Downloads/nvim-tree.lua',
-        requires = 'kyazdani42/nvim-web-devicons',
-    }
-
-    -- Neoclip
-    use {
-        'AckslD/nvim-neoclip.lua',
-        requires = 'nvim-telescope/telescope.nvim',
-    }
-
-    -- Howdoi Telescope integration
-    use {
-        'zane-/howdoi.nvim',
-        requires = 'nvim-telescope/telescope.nvim',
-    }
-
-    -- Telescope
-    use {
-        'nvim-telescope/telescope.nvim',
-        requires = 'nvim-lua/plenary.nvim',
-    }
-
-    -- Treesitter
-    use {
-        'nvim-treesitter/nvim-treesitter',
-        'nvim-treesitter/playground',
-
-        -- Rainbow parentheses
-        'p00f/nvim-ts-rainbow',
-        -- Function context
-        'nvim-treesitter/nvim-treesitter-context',
-    }
-
-    -- Todo comments
-    use {
-        'vinnyA3/todo-comments.nvim',
-        requires = 'nvim-lua/plenary.nvim',
-    }
-
-    -- LuaLine
-    use {
-        'nvim-lualine/lualine.nvim',
-        -- after = 'github-nvim-theme',
-        requires = 'kyazdani42/nvim-web-devicons',
-    }
-
-    -- firenvim (browser extension)
-    if not vim.isUnix then
+        -- Neorg
         use {
-            'glacambre/firenvim',
-            run = function() vim.fn['firenvim#install'](0) end
+            'nvim-neorg/neorg',
+            requires = 'nvim-lua/plenary.nvim',
         }
-    end
 
-    ---------- .vim plugins ----------
-    -- vim-easy-align
-    use 'junegunn/vim-easy-align'
+        -- nvim-tree.lua
+        use {
+            'eriedaberrie/nvim-tree.lua.fork',
+            branch = 'release',
+            requires = 'kyazdani42/nvim-web-devicons',
+        }
 
-    -- ReplaceWithRegister
-    use 'inkarkat/vim-ReplaceWithRegister'
+        -- Neoclip
+        use {
+            'AckslD/nvim-neoclip.lua',
+            requires = 'nvim-telescope/telescope.nvim',
+        }
 
-    -- sleuth.vim
-    use 'tpope/vim-sleuth'
+        -- Howdoi Telescope integration
+        use {
+            'zane-/howdoi.nvim',
+            requires = 'nvim-telescope/telescope.nvim',
+        }
 
-    -- Emmet
-    use 'mattn/emmet-vim'
+        -- Telescope
+        use {
+            'nvim-telescope/telescope.nvim',
+            requires = 'nvim-lua/plenary.nvim',
+        }
 
-    -- fzf finder
-    use {
-        'junegunn/fzf.vim',
-        requires = 'junegunn/fzf',
-        disable = true,
-    }
+        -- Treesitter
+        use {
+            'nvim-treesitter/nvim-treesitter',
+            'nvim-treesitter/playground',
 
-    ---------- minesweeper ----------
-    use 'seandewar/nvimesweeper'
-end)
+            -- Rainbow parentheses
+            'p00f/nvim-ts-rainbow',
+            -- Function context
+            'nvim-treesitter/nvim-treesitter-context',
+        }
+
+        -- Todo comments
+        use {
+            'vinnyA3/todo-comments.nvim',
+            requires = 'nvim-lua/plenary.nvim',
+        }
+
+        -- LuaLine
+        use {
+            'nvim-lualine/lualine.nvim',
+            -- after = 'github-nvim-theme',
+            requires = 'kyazdani42/nvim-web-devicons',
+        }
+
+        -- firenvim (browser extension)
+        if not vim.isUnix then
+            use {
+                'glacambre/firenvim',
+                run = function() vim.fn['firenvim#install'](0) end
+            }
+        end
+
+        ---------- .vim plugins ----------
+        -- vim-easy-align
+        use 'junegunn/vim-easy-align'
+
+        -- ReplaceWithRegister
+        use 'inkarkat/vim-ReplaceWithRegister'
+
+        -- sleuth.vim
+        use 'tpope/vim-sleuth'
+
+        -- Emmet
+        use 'mattn/emmet-vim'
+
+        -- fzf finder
+        use {
+            'junegunn/fzf.vim',
+            requires = 'junegunn/fzf',
+            disable = true,
+        }
+
+        ---------- minesweeper ----------
+        use 'seandewar/nvimesweeper'
+    end,
+}
