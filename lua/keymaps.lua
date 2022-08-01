@@ -27,41 +27,12 @@ return {
 
     -- 0b0011
     [3] = {
-        -- Set cwd to current file directory
-        { 'n', [[<Leader>cd]], [[<Cmd>tcd %:h<CR>]] },
-
-        -- Delete trailing spaces
-        { 'n', [[<Leader>ds]], [[<Cmd>%s/\s\+$//<Bar>norm!``<CR><Cmd>noh<CR>]] },
-
-        -- Delete buffer without closing the current window
-        { 'n', [[<Leader>bd]], [[<Cmd>bp<Bar>bd#<CR>]]  },
-        { 'n', [[<Leader>Bd]], [[<Cmd>bp<Bar>bd!#<CR>]] },
-
-        -- Change buffer easily
-        { 'nt', [[<M-n>]], [[<Cmd>exe v:count . 'bn'<CR>]], { nolazyredraw = true } },
-        { 'nt', [[<M-N>]], [[<Cmd>exe v:count . 'bN'<CR>]], { nolazyredraw = true } },
-        { 'nt', [[<M-p>]], [[<Cmd>exe v:count . 'bp'<CR>]], { nolazyredraw = true } },
-        { 'nt', [[<M-3>]], [[<Cmd>b#<CR>]], { nolazyredraw = true } },
-
-        -- Temporarily increase scrolloff
-        { 'n', [[<Leader>zz]], [['<Cmd>set scrolloff=8<CR><Cmd>set scrolloff=' . &scrolloff . '<CR>']], { expr = true } },
-
-        -- Open nvim tree without accidentally closing the current tabpage
-        { 'n', [[<Leader>e.]], [[<Cmd>NvimTreeToggle<CR>]] },
-
-        -- Telescope maps
-        { 'n', [[<Leader>ff]], [[<Cmd>Telescope find_files<CR>]] },
-        { 'n', [[<Leader>fg]], [[<Cmd>Telescope live_grep<CR>]]  },
-        { 'n', [[<Leader>fb]], [[<Cmd>Telescope buffers<CR>]]    },
-        { 'n', [[<Leader>fh]], [[<Cmd>Telescope help_tags<CR>]]  },
-        { 'n', [[<Leader>fc]], [[<Cmd>Telescope neoclip<CR>]]    },
-        { 'n', [[<Leader>fr]], [[<Cmd>Telescope resume<CR>]]     },
-
         -- Reload impatient.nvim cache
         { 'n', '<Leader>I', [[:LuaCacheClear<CR>]], { silent = false } },
 
         -- Lazygit maps
         { 'n', [[<Leader>gg]], [[<Cmd>LazyGit<CR>]] },
+        { 'n', [[<Leader>fl]], [[<Cmd>Telescope lazygit<CR>]] },
 
         -- :PackerSync
         { 'n', [[<Leader>ps]], [[<Cmd>PackerSync<CR>]] },
@@ -174,8 +145,37 @@ return {
         -- Swap to visual linewise movement (for editing actual paragraphs)
         { 'n', [[<Leader>jk]], [[<Cmd>nnoremap j gj<CR><Cmd>nnoremap k gk<CR><Cmd>nnoremap 0 g0<CR><Cmd>nnoremap $ g$<CR>]] },
 
-        -- Telescope howdoi
-        { 'n', [[<Leader>hdi]], [[<Cmd>Telescope howdoi<CR>]] },
+        -- Set cwd to current file directory
+        { 'n', [[<Leader>cd]], [[<Cmd>tcd %:h<CR>]] },
+
+        -- Delete trailing spaces
+        { 'n', [[<Leader>ds]], [[<Cmd>%s/\s\+$//<Bar>norm!``<CR><Cmd>noh<CR>]] },
+
+        -- Delete buffer without closing the current window
+        { 'n', [[<Leader>bd]], [[<Cmd>bp<Bar>bd#<CR>]]  },
+        { 'n', [[<Leader>Bd]], [[<Cmd>bp<Bar>bd!#<CR>]] },
+
+        -- Change buffer easily
+        { 'nt', [[<M-n>]], [[<Cmd>exe v:count . 'bn'<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-N>]], [[<Cmd>exe v:count . 'bN'<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-p>]], [[<Cmd>exe v:count . 'bp'<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-3>]], [[<Cmd>b#<CR>]], { nolazyredraw = true } },
+
+        -- Temporarily increase scrolloff
+        { 'n', [[<Leader>zz]], [['<Cmd>set scrolloff=8<CR><Cmd>set scrolloff=' . &scrolloff . '<CR>']], { expr = true } },
+
+        -- Telescope maps
+        { 'n', [[<Leader>ff]], [[<Cmd>Telescope find_files<CR>]] },
+        { 'n', [[<Leader>fg]], [[<Cmd>Telescope live_grep<CR>]]  },
+        { 'n', [[<Leader>fb]], [[<Cmd>Telescope buffers<CR>]]    },
+        { 'n', [[<Leader>fh]], [[<Cmd>Telescope help_tags<CR>]]  },
+        { 'n', [[<Leader>fc]], [[<Cmd>Telescope neoclip<CR>]]    },
+        { 'n', [[<Leader>fn]], [[<Cmd>Telescope notify<CR>]]     },
+        { 'n', [[<Leader>fr]], [[<Cmd>Telescope resume<CR>]]     },
+        { 'n', [[<Leader>fH]], [[<Cmd>Telescope howdoi<CR>]]     },
+
+        -- Open nvim tree without accidentally closing the current tabpage
+        { 'n', [[<Leader>e.]], [[<Cmd>NvimTreeToggle<CR>]] },
 
         -- Folding in files too large for treesitter
         { 'n', [[z%]], [[0V%o:fold<CR>]] }

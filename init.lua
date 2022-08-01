@@ -305,6 +305,70 @@ end })
 -- use <Leader>ee/E for text
 -- vim.diagnostic.config { virtual_text = false }
 
+-- filetree explorer
+require'nvim-tree'.setup {
+    respect_buf_cwd = true,
+    sync_root_with_cwd = true,
+    on_attach = function (bufnr)
+        local inject_node = require'nvim-tree.utils'.inject_node
+        local map = function (key, func)
+            api.nvim_buf_set_keymap(bufnr, 'n', key, '', { callback = inject_node(func), nowait = true, noremap = true })
+        end
+
+        map('d', require'nvim-tree.actions.fs.trash'.fn)
+        map('D', require'nvim-tree.actions.fs.remove-file'.fn)
+    end,
+    remove_keymaps = { 'q', 'bmv' }, -- enable macros, never gonna use bulk move in my life
+    trash = {
+        cmd = isUnix and 'gio trash' or 'recycle-bin',
+    },
+    view = {
+        preserve_window_proportions = true,
+        signcolumn = 'auto',
+    },
+    renderer = {
+        full_name = true,
+        highlight_opened_files = 'name',
+        indent_markers = {
+            enable = true,
+        },
+    },
+    api.nvim_set_hl(0, 'NvimTreeOpenedFile', { link = 'GruvboxBlueBold' })
+}
+
+-- telescope
+local telescope = require'telescope'
+telescope.setup {
+    defaults = {
+        mappings = {
+            n = {
+                ['q']     = 'close',
+                ['<C-c>'] = 'close',
+            },
+        },
+    },
+    extensions = {
+        howdoi = {
+            command_executor = { 'cmd.exe', '/c' },
+        },
+    },
+}
+telescope.load_extension'neoclip'
+telescope.load_extension'notify'
+telescope.load_extension'howdoi'
+
+-- set dressing as default input and select
+require'dressing'.setup{}
+
+-- set nvim-notify as default notifier
+vim.notify = require'notify'
+
+-- neoclip
+require'neoclip'.setup{}
+
+-- todo comments
+require'todo-comments'.setup{}
+
 -- make emmet use my leader key instead of hijacking ctrl-y
 g.user_emmet_leader_key = '<Leader>y'
 
@@ -455,33 +519,8 @@ require'neorg'.setup {
     }
 }
 
--- neoclip
-require'neoclip'.setup{}
-
--- todo comments
-require'todo-comments'.setup{}
-
--- telescope
-local telescope = require'telescope'
-telescope.setup {
-    defaults = {
-        mappings = {
-            n = {
-                ['q']     = 'close',
-                ['<C-c>'] = 'close',
-            },
-        },
-    },
-    extensions = {
-        howdoi = {
-            command_executor = { 'cmd.exe', '/c' },
-        },
-    },
-}
-telescope.load_extension'neoclip'
-telescope.load_extension'notify'
+-- telescope lazygit (not in firenvim)
 telescope.load_extension'lazygit'
-telescope.load_extension'howdoi'
 
 -- config lazygit
 api.nvim_create_autocmd('BufEnter', {
@@ -489,43 +528,6 @@ api.nvim_create_autocmd('BufEnter', {
     callback = require'lazygit.utils'.project_root_dir
 })
 g.lazygit_floating_window_use_plenary = 1
-
--- filetree explorer
-require'nvim-tree'.setup {
-    respect_buf_cwd = true,
-    sync_root_with_cwd = true,
-    on_attach = function (bufnr)
-        local inject_node = require'nvim-tree.utils'.inject_node
-        local map = function (key, func)
-            api.nvim_buf_set_keymap(bufnr, 'n', key, '', { callback = inject_node(func), nowait = true, noremap = true })
-        end
-
-        map('d', require'nvim-tree.actions.fs.trash'.fn)
-        map('D', require'nvim-tree.actions.fs.remove-file'.fn)
-    end,
-    remove_keymaps = { 'q', 'bmv' }, -- enable macros, never gonna use bulk move in my life
-    trash = {
-        cmd = isUnix and 'gio trash' or 'recycle-bin',
-    },
-    view = {
-        preserve_window_proportions = true,
-        signcolumn = 'auto',
-    },
-    renderer = {
-        full_name = true,
-        highlight_opened_files = 'name',
-        indent_markers = {
-            enable = true,
-        },
-    },
-    api.nvim_set_hl(0, 'NvimTreeOpenedFile', { link = 'GruvboxBlueBold' })
-}
-
--- set dressing as default input and select
-require'dressing'.setup{}
-
--- set nvim-notify as default notifier
-vim.notify = require'notify'
 
 -- Neovide (GUI) options
 if g.neovide then
