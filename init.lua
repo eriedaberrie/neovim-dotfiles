@@ -280,7 +280,7 @@ end
 
 -- set up the complicated nvim-autopairs keymaps
 local npairs = require'nvim-autopairs'
-npairs.setup { map_bs = false, map_cr = false }
+npairs.setup { map_bs = false, map_cr = false, map_c_w = true }
 
 api.nvim_set_keymap('i', '<CR>', '', { noremap = true, expr = true, callback = function ()
     if vim.fn.pumvisible() ~= 0 then

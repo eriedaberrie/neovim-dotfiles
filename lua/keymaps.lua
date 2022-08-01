@@ -86,7 +86,7 @@ return {
     -- 0b1011
     [11] = {
         -- Maps Ctrl-Backspace to do the thing
-        { 'ic', [[<C-bs>]], [[<C-w>]], { silent = false } },
+        { 'ic', [[<C-BS>]], [[<C-w>]], { silent = false, noremap = false } },
 
         -- Window resize
         { 'n', [[+]],     [[<C-w>+]] },
