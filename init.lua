@@ -494,20 +494,22 @@ g.lazygit_floating_window_use_plenary = 1
 require'nvim-tree'.setup {
     respect_buf_cwd = true,
     sync_root_with_cwd = true,
+    on_attach = function (bufnr)
+        local inject_node = require'nvim-tree.utils'.inject_node
+        local map = function (key, func)
+            api.nvim_buf_set_keymap(bufnr, 'n', key, '', { callback = inject_node(func), nowait = true, noremap = true })
+        end
+
+        map('d', require'nvim-tree.actions.fs.trash'.fn)
+        map('D', require'nvim-tree.actions.fs.remove-file'.fn)
+    end,
+    remove_keymaps = { 'q', 'bmv' }, -- enable macros, never gonna use bulk move in my life
     trash = {
         cmd = isUnix and 'gio trash' or 'recycle-bin',
     },
     view = {
         preserve_window_proportions = true,
         signcolumn = 'auto',
-        mappings = {
-            list = {
-                { key = 'bmv', action = '' }, -- idc about this, too long
-                { key = 'q',   action = '' }, -- allow macros :)
-                { key = 'd',   action = 'trash' },
-                { key = 'D',   action = 'remove' },
-            },
-        },
     },
     renderer = {
         full_name = true,
