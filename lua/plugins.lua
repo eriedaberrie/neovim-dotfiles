@@ -37,6 +37,9 @@ return require'packer'.startup {
         -- Color hex codes
         use 'norcalli/nvim-colorizer.lua'
 
+        -- Input and select UI
+        use 'stevearc/dressing.nvim'
+
         -- Notifications
         use 'rcarriga/nvim-notify'
 

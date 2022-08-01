@@ -521,6 +521,9 @@ require'nvim-tree'.setup {
     api.nvim_set_hl(0, 'NvimTreeOpenedFile', { link = 'GruvboxBlueBold' })
 }
 
+-- set dressing as default input and select
+require'dressing'.setup{}
+
 -- set nvim-notify as default notifier
 vim.notify = require'notify'
 
