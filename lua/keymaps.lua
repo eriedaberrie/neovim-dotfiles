@@ -178,7 +178,7 @@ return {
         { 'n', [[<Leader>e.]], [[<Cmd>NvimTreeToggle<CR>]] },
 
         -- Folding in files too large for treesitter
-        { 'n', [[z%]], [[0V%o:fold<CR>]] }
+        { 'n', [[z%]], [[V%o:fold<CR>]] }
     },
 
     -- 0b1101
