@@ -69,8 +69,9 @@ return require'packer'.startup {
 
         -- nvim-tree.lua
         use {
-            'eriedaberrie/nvim-tree.lua.fork',
-            branch = 'release',
+            'kyazdani42/nvim-tree.lua',
+            -- 'eriedaberrie/nvim-tree.lua.fork',
+            -- branch = 'release',
             requires = 'kyazdani42/nvim-web-devicons',
         }
 
@@ -147,4 +148,11 @@ return require'packer'.startup {
         ---------- minesweeper ----------
         use 'seandewar/nvimesweeper'
     end,
+    config = {
+        git = {
+            subcommands = {
+                update = 'pull --progress --rebase=true --no-autostash',
+            },
+        },
+    }
 }
