@@ -26,6 +26,9 @@ funcs.set_keymaps(require'keymaps')
 opt.ignorecase = true
 opt.smartcase  = true
 
+-- if spell is ever turend on
+opt.spelllang = 'en_us'
+
 -- disable K being "man" which doesn't really exist on Windows
 if not isUnix then
     opt.keywordprg = ':help'
@@ -528,6 +531,25 @@ api.nvim_create_autocmd('BufEnter', {
     callback = require'lazygit.utils'.project_root_dir
 })
 g.lazygit_floating_window_use_plenary = 1
+
+-- committia.vim
+g.committia_hooks = {
+    edit_open = function (_)
+        -- spellcheck
+        api.nvim_win_set_option(0, 'spell', true)
+
+        -- auto insert mode on blank commit messages
+        if fn.getline(1) == '' then cmd.startinsert() end
+
+        -- scrolling keymaps
+        api.nvim_buf_set_keymap(0, 'i', [[<C-f>]], [[<Plug>(committia-scroll-diff-down-page)]], { noremap = false })
+        api.nvim_buf_set_keymap(0, 'i', [[<C-b>]], [[<Plug>(committia-scroll-diff-up-page)]],   { noremap = false })
+        api.nvim_buf_set_keymap(0, 'i', [[<C-d>]], [[<Plug>(committia-scroll-diff-down-half)]], { noremap = false })
+        api.nvim_buf_set_keymap(0, 'i', [[<C-u>]], [[<Plug>(committia-scroll-diff-up-half)]],   { noremap = false })
+        api.nvim_buf_set_keymap(0, 'i', [[<C-e>]], [[<Plug>(committia-scroll-diff-down)]], { noremap = false })
+        api.nvim_buf_set_keymap(0, 'i', [[<C-y>]], [[<Plug>(committia-scroll-diff-up)]],   { noremap = false })
+    end
+}
 
 -- Neovide (GUI) options
 if g.neovide then

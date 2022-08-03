@@ -138,6 +138,9 @@ return require'packer'.startup {
         -- Emmet
         use 'mattn/emmet-vim'
 
+        -- Better git commit editing
+        use 'rhysd/committia.vim'
+
         -- fzf finder
         use {
             'junegunn/fzf.vim',
