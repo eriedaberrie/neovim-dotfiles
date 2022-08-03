@@ -197,10 +197,10 @@ api.nvim_create_autocmd('BufWinEnter', {
     group = initgroup,
     callback = function ()
         if not tsdisable(nil, 0) then
-            vim.wo.foldmethod = 'expr'
+            api.nvim_win_set_option(0, 'foldmethod', 'expr')
             cmd.normal{ 'zR', bang = true }
         else
-            vim.wo.foldmethod = 'manual'
+            api.nvim_win_set_option(0, 'foldmethod', 'manual')
         end
     end,
 })
@@ -286,8 +286,8 @@ local npairs = require'nvim-autopairs'
 npairs.setup { map_bs = false, map_cr = false, map_c_w = true }
 
 api.nvim_set_keymap('i', '<CR>', '', { noremap = true, expr = true, callback = function ()
-    if vim.fn.pumvisible() ~= 0 then
-        if vim.fn.complete_info{ 'selected' }.selected ~= -1 then
+    if fn.pumvisible() ~= 0 then
+        if fn.complete_info{ 'selected' }.selected ~= -1 then
             return npairs.esc('<C-y>')
         else
             return npairs.esc('<C-e>') .. npairs.autopairs_cr(api.nvim_get_current_buf())
@@ -298,7 +298,7 @@ api.nvim_set_keymap('i', '<CR>', '', { noremap = true, expr = true, callback = f
 end })
 
 api.nvim_set_keymap('i', '<BS>', '', { noremap = true, expr = true, callback = function()
-    if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info{ 'mode' }.mode == 'eval' then
+    if fn.pumvisible() ~= 0 and fn.complete_info{ 'mode' }.mode == 'eval' then
         return npairs.esc('<C-e>') .. npairs.autopairs_bs(api.nvim_get_current_buf())
     else
         return npairs.autopairs_bs(api.nvim_get_current_buf())
