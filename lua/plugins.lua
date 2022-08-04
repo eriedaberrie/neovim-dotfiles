@@ -11,6 +11,9 @@ return require'packer'.startup {
         -- Collection of configurations for the built-in LSP client
         use 'neovim/nvim-lspconfig'
 
+        -- LSP signature help
+        use 'ray-x/lsp_signature.nvim'
+
         -- Code completion (supposedly quite speedy as well)
         use 'ms-jpq/coq_nvim'
         use 'ms-jpq/coq.artifacts'
@@ -100,8 +103,6 @@ return require'packer'.startup {
 
             -- Rainbow parentheses
             'p00f/nvim-ts-rainbow',
-            -- Function context
-            'nvim-treesitter/nvim-treesitter-context',
         }
 
         -- Todo comments

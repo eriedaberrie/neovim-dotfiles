@@ -74,9 +74,6 @@ if g.vscode then
     -- disable git blame plugin
     g.gitblame_enabled = 0
 
-    -- disable context plugin
-    require'treesitter-context'.setup { enable = false }
-
     return
 end
 
@@ -205,16 +202,12 @@ api.nvim_create_autocmd('BufWinEnter', {
     end,
 })
 
--- context config
-require'treesitter-context'.setup { mode = 'topline' }
 -- coq_nvim settings
 g.coq_settings = {
     auto_start = 'shut-up',
     keymap = {
         -- in order to use nvim-autopairs, see keymaps.lua and below
         recommended = false,
-        -- ctrl+slash since ctrl+space doesn't send
-        manual_complete = '<C-_>',
     },
     display = {
         pum = {
@@ -227,6 +220,15 @@ g.coq_settings = {
 require'coq_3p' {
     { src = "nvimlua", short_name = "nLUA", conf_only = true },
     { src = 'bc', short_name = 'MATH', precision = 6 },
+}
+
+-- lsp_signature setup
+require'lsp_signature'.setup {
+    always_trigger = true,
+    -- this is ctrl+slash
+    toggle_key = '<C-_>',
+    move_cursor_key = '<M-/>',
+    select_signature_key = '<M-n>',
 }
 
 -- LSP config base
