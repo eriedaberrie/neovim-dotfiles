@@ -204,6 +204,7 @@ return {
         -- Save and close easily
         { 'n', [[<Leader>w]], [[<Cmd>w<CR>]] },
         { 'n', [[<Leader>q]], [[<Cmd>q<CR>]] },
+        { 'n', [[<Leader>Q]], [[<Cmd>qa!<CR>]] },
 
         -- Toggle lazy redraw
         { 'n', [[<Leader>lr]], [[<Cmd>set lazyredraw! lazyredraw?<CR>]] },
