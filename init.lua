@@ -207,6 +207,27 @@ api.nvim_create_autocmd('BufWinEnter', {
 
 -- context config
 require'treesitter-context'.setup { mode = 'topline' }
+-- coq_nvim settings
+g.coq_settings = {
+    auto_start = 'shut-up',
+    keymap = {
+        -- in order to use nvim-autopairs, see keymaps.lua and below
+        recommended = false,
+        -- ctrl+slash since ctrl+space doesn't send
+        manual_complete = '<C-_>',
+    },
+    display = {
+        pum = {
+            fast_close = false,
+        },
+    },
+}
+
+-- third party coq sources
+require'coq_3p' {
+    { src = "nvimlua", short_name = "nLUA", conf_only = true },
+    { src = 'bc', short_name = 'MATH', precision = 6 },
+}
 
 -- LSP config base
 local lspconfig = require'lspconfig'
@@ -249,28 +270,6 @@ if isUnix then
     -- Scala
     servers.metals = {}
 end
-
--- coq_nvim settings
-g.coq_settings = {
-    auto_start = 'shut-up',
-    keymap = {
-        -- in order to use nvim-autopairs, see keymaps.lua and below
-        recommended = false,
-        -- ctrl+slash since ctrl+space doesn't send
-        manual_complete = '<C-_>',
-    },
-    display = {
-        pum = {
-            fast_close = false,
-        },
-    },
-}
-
--- third party coq sources
-require'coq_3p' {
-    { src = "nvimlua", short_name = "nLUA", conf_only = true },
-    { src = 'bc', short_name = 'MATH', precision = 6 },
-}
 
 -- actually setting up the LSP servers
 local coq = require'coq'
