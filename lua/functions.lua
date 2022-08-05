@@ -121,6 +121,14 @@ M.selectindent = function (around)
     api.nvim_win_set_cursor(0, { curup, 0 })
 end
 
+M.tsdisable = function (_, buf) -- _ is lang
+    return api.nvim_buf_line_count(buf) > 5000
+end
+
+M.autsdisable = function (lang, buf)
+    return M.tsdisable(lang, buf) or not vim.treesitter.require_language(lang, nil, true)
+end
+
 M.settheme = function (theme)
     if theme then
         o.background = theme

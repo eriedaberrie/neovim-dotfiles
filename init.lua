@@ -144,10 +144,6 @@ require'colorizer'.setup {
     css   = { names = true },
 }
 
-local tsdisable = function (_, buf) -- _ is lang
-    return api.nvim_buf_line_count(buf) > 5000
-end
-
 -- treesitter config
 require'nvim-treesitter.configs'.setup {
     ensure_installed = {
@@ -166,12 +162,12 @@ require'nvim-treesitter.configs'.setup {
     },
     highlight = {
         enable = true,
-        disable = tsdisable,
+        disable = funcs.tsdisable,
         additional_vim_regex_highlighting = true,
     },
     incremental_selection = {
         enable = true,
-        disable = tsdisable,
+        disable = funcs.tsdisable,
         keymaps = {
             init_selection    = '<Leader>ti',
             node_incremental  = '<Leader>ti',
@@ -182,7 +178,7 @@ require'nvim-treesitter.configs'.setup {
     -- nvim-ts-rainbow parentheses highlighting
     rainbow = {
         enable = true,
-        disable = tsdisable,
+        disable = funcs.tsdisable,
         extended_mode = true,
     },
 }
@@ -190,14 +186,17 @@ require'nvim-treesitter.configs'.setup {
 opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
 -- disable treesitter fold on large buffers, auto open folds
-api.nvim_create_autocmd('BufWinEnter', {
+api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
     group = initgroup,
-    callback = function ()
-        if not tsdisable(nil, 0) then
-            api.nvim_win_set_option(0, 'foldmethod', 'expr')
-            cmd.normal{ 'zR', bang = true }
-        else
+    callback = function (arg)
+        if funcs.autsdisable(api.nvim_buf_get_option(0, 'filetype'), 0) then
             api.nvim_win_set_option(0, 'foldmethod', 'manual')
+        else
+            local oldmethod = api.nvim_win_get_option(0, 'foldmethod')
+            api.nvim_win_set_option(0, 'foldmethod', 'expr')
+            if arg.event == 'BufEnter' or oldmethod == 'manual' then
+                cmd.normal{ 'zR', bang = true }
+            end
         end
     end,
 })
