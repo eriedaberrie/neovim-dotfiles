@@ -103,6 +103,11 @@ opt.listchars = {
     space    = '·',
     nbsp     = 'x',
 }
+-- https://www.reddit.com/r/neovim/comments/psl8rq/sexy_folds/
+opt.foldexpr = 'nvim_treesitter#foldexpr()'
+opt.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend))]]
+        .. [[ . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
+opt.fillchars:append('fold: ')
 
 -- neovim terminal emulator things
 -- automatically enter insert mode
@@ -182,8 +187,6 @@ require'nvim-treesitter.configs'.setup {
         extended_mode = true,
     },
 }
-
-opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
 -- disable treesitter fold on large buffers, auto open folds
 api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
