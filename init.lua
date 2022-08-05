@@ -451,8 +451,10 @@ if cwd:sub(1, 21) == [[~\scoop\apps\neovide\]] or cwd == [[C:\WINDOWS\system32]]
 end
 
 -- filetype associations
-funcs.setfiletype(initgroup, '.path', 'sh')
-funcs.setfiletype(initgroup, '*.nasm', 'asm')
+vim.filetype.add {
+    filename  = { ['.path']  = 'sh' },
+    extension = { ['nasm'] = 'asm' }
+}
 
 -- plugin management (packer)
 require'plugins'

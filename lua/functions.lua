@@ -168,14 +168,6 @@ M.resizetext = function (newsize)
     o.guifont = table.concat(newguifont)
 end
 
-M.setfiletype = function (group, pattern, ft)
-    api.nvim_create_autocmd('BufRead', {
-        group = group,
-        pattern = pattern,
-        command = 'set filetype=' .. ft,
-    })
-end
-
 M.del_autocmds = function ()
     local augroups = {}
     for _, au in ipairs(api.nvim_get_autocmds{}) do
