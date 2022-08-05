@@ -88,7 +88,7 @@ opt.expandtab      = true
 opt.shiftwidth     = 0
 opt.completeopt    = 'menu,menuone,noselect'
 -- guifont (mainly for Neovide)
-opt.guifont        = 'FiraCode NF:h11'
+opt.guifont        = 'FiraCode NF:h10'
 -- linebreak
 opt.linebreak      = true
 opt.breakindent    = true
