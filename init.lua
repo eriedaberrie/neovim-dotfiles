@@ -363,6 +363,18 @@ telescope.load_extension'neoclip'
 telescope.load_extension'notify'
 telescope.load_extension'howdoi'
 
+-- -- set winbar to treesitter context
+-- api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
+--     group = initgroup,
+--     callback = function ()
+--         if funcs.autsdisable(api.nvim_buf_get_option(0, 'filetype'), 0) then
+--             api.nvim_win_set_option(0, 'winbar', '')
+--         else
+--             api.nvim_win_set_option(0, 'winbar', '%{%v:lua.vim.funcs.winbar()%}')
+--         end
+--     end,
+-- })
+
 -- set dressing as default input and select
 require'dressing'.setup{}
 
