@@ -100,6 +100,8 @@ return require'packer'.startup {
 
             -- Rainbow parentheses
             'p00f/nvim-ts-rainbow',
+            -- Context in winbar
+            'SmiteshP/nvim-navic'
         }
 
         -- Todo comments

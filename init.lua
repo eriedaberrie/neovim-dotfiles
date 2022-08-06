@@ -246,8 +246,10 @@ require'lsp_signature'.setup {
 local lspconfig = require'lspconfig'
 -- vim.lsp.set_log_level'debug'
 
-local on_attach = function (_, buf)
+local navic = require'nvim-navic'
+local on_attach = function (client, buf)
     api.nvim_buf_set_option(buf, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    if not g.started_by_firenvim then navic.attach(client, buf) end
 end
 
 -- LSP servers
@@ -371,18 +373,6 @@ telescope.setup {
 telescope.load_extension'neoclip'
 telescope.load_extension'notify'
 telescope.load_extension'howdoi'
-
--- -- set winbar to treesitter context
--- api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
---     group = initgroup,
---     callback = function ()
---         if funcs.autsdisable(api.nvim_buf_get_option(0, 'filetype'), 0) then
---             api.nvim_win_set_option(0, 'winbar', '')
---         else
---             api.nvim_win_set_option(0, 'winbar', '%{%v:lua.vim.funcs.winbar()%}')
---         end
---     end,
--- })
 
 -- set dressing as default input and select
 require'dressing'.setup{}
@@ -520,6 +510,9 @@ funcs.settheme = function (theme)
         },
     }
 end
+
+-- treesitter-based navic winbar
+opt.winbar = "%#Underlined#%{%v:lua.require'nvim-navic'.get_location()%}%*"
 
 -- Disable git-blame.nvim on big files
 api.nvim_create_autocmd('BufEnter', {

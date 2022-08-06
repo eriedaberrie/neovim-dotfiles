@@ -129,48 +129,6 @@ M.autsdisable = function (lang, buf)
     return M.tsdisable(lang, buf) or not vim.treesitter.require_language(lang, nil, true)
 end
 
-M.winbar = function ()
-    local ts_utils = require'nvim-treesitter.ts_utils'
-
-    local type_patterns = {
-        ['class']               = { ' ', 'TSInclude' },
-        ['function']            = { ' ', 'TSInclude' },
-        ['function_definition'] = { ' ', 'TSInclude' },
-        ['function_item']       = { ' ', 'TSInclude' },
-        ['macro_definition']    = { ' ', 'TSTextReference' },
-        ['macro_item']          = { ' ', 'TSTextReference' },
-        ['preproc_def']         = { ' ', 'TSTextReference' },
-        ['struct_specifier']    = { ' ', 'Typedef' },
-        ['type_spec']           = { ' ', 'Typedef' },
-        ['method']              = { ' ', 'TSFunction' },
-        ['interface']           = { '練', 'TSSymbol' },
-        ['block_mapping']       = { ' ', 'TSSymbol' },
-        ['pair']                = { ' ', 'TSSymbol' },
-        ['dictionary']          = { ' ', 'TSSymbol' },
-        ['object']              = { ' ', 'TSSymbol' },
-        ['table']               = { ' ', 'TSSymbol' },
-        ['array']               = { ' ', 'TSSymbol' },
-        ['list']                = { ' ', 'TSSymbol' },
-        ['if']                  = { ' ', 'TSConditional' },
-        ['if_statement']        = { ' ', 'TSConditional' },
-        ['while']               = { '凌', 'TSRepeat' },
-        ['while_statement']     = { '凌', 'TSRepeat' },
-        ['for']                 = { '凌', 'TSRepeat' },
-        ['for_statement']       = { '凌', 'TSRepeat' },
-        ['for_in_statement']    = { '凌', 'TSRepeat' },
-        ['call']                = { ' ', 'TSKeyword' },
-        ['call_expression']     = { ' ', 'TSKeyword' },
-    }
-
-    -- local context = require'nvim-treesitter'.statusline {
-    --     indicator_size = o.columns,
-    --     -- type_patterns = type_patterns,
-    -- }
-    local context = 'fsdf'
-
-    return '%#GruvboxAqua#' .. context .. '%*'
-end
-
 M.settheme = function (theme)
     if theme then
         o.background = theme
