@@ -32,7 +32,7 @@ return require'packer'.startup {
         use 'karb94/neoscroll.nvim'
 
         -- Indent line
-        -- use 'lukas-reineke/indent-blankline.nvim'
+        use 'lukas-reineke/indent-blankline.nvim'
 
         -- Highlight word under cursor
         -- use 'yamatsum/nvim-cursorline'
@@ -60,9 +60,6 @@ return require'packer'.startup {
 
         -- Lazygit
         use 'kdheepak/lazygit.nvim'
-
-        -- Run code
-        use 'arjunmahishi/run-code.nvim'
 
         -- Neorg
         use {

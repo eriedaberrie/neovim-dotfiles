@@ -53,11 +53,17 @@ local initgroup = api.nvim_create_augroup('InitGroup', { clear = true })
 -- comment config
 require'Comment'.setup{}
 
+local sconfig = require'nvim-surround.config'
 -- nvim-surround config
 require'nvim-surround'.setup {
-    delimiters = {
-        pairs = {
-            z = { 'function () ', ' end' },
+    surrounds = {
+        F = {
+            add = function ()
+                local result = sconfig.get_input('Arguments: ')
+                if result then
+                    return { { 'function (' .. result .. ') ' }, { ' end' } }
+                end
+            end
         },
     },
 }
@@ -73,6 +79,9 @@ if g.vscode then
 
     -- disable git blame plugin
     g.gitblame_enabled = 0
+
+    -- disable indent blankline plugin
+    g.indent_blankline_enabled = false
 
     return
 end

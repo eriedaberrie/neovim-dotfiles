@@ -178,7 +178,10 @@ return {
         { 'n', [[<Leader>e.]], [[<Cmd>NvimTreeToggle<CR>]] },
 
         -- Folding in files too large for treesitter
-        { 'n', [[z%]], [[V%o:fold<CR>]] }
+        { 'n', [[z%]], [[V%o:fold<CR>]] },
+
+        -- Toggle indent-blankline plugin
+        { 'n', [[<Leader>ib]], [[<Cmd>let g:indent_blankline_enabled = g:indent_blankline_enabled ? v:false : v:true<CR>]] },
     },
 
     -- 0b1101
