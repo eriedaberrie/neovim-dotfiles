@@ -53,6 +53,9 @@ local initgroup = api.nvim_create_augroup('InitGroup', { clear = true })
 -- comment config
 require'Comment'.setup{}
 
+-- CursorHold config
+g.cursorhold_updatetime = 50
+
 local sconfig = require'nvim-surround.config'
 -- nvim-surround config
 require'nvim-surround'.setup {
@@ -233,6 +236,15 @@ require'coq_3p' {
     { src = 'bc', short_name = 'MATH', precision = 6 },
 }
 
+-- lspsaga config
+local saga = require'lspsaga'
+
+saga.init_lsp_saga {
+    code_action_keys = {
+        quit = '<Esc>'
+    },
+}
+
 -- lsp_signature setup
 require'lsp_signature'.setup {
     always_trigger = true,
@@ -278,6 +290,8 @@ local servers = {
     -- tsserver = {},
     -- C stuff
     clangd = {},
+    -- Rust
+    rust_analyzer = {},
 }
 if isUnix then
     -- Java

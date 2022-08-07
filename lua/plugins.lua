@@ -8,8 +8,14 @@ return require'packer'.startup {
         -- Impatient.nvim (decrease startup time)
         use 'lewis6991/impatient.nvim'
 
+        -- Fix the CursorHold event with LuaLine
+        use 'antoinemadec/FixCursorHold.nvim'
+
         -- Collection of configurations for the built-in LSP client
         use 'neovim/nvim-lspconfig'
+
+        -- General LSP help
+        use 'glepnir/lspsaga.nvim'
 
         -- LSP signature help
         use 'ray-x/lsp_signature.nvim'
