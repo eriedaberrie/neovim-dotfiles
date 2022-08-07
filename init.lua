@@ -152,11 +152,11 @@ require'gruvbox'.setup { italic = false }
 
 -- colorizor setup
 opt.termguicolors = true -- needs to be explicitly set before setting up
-require'colorizer'.setup {
-    ['*'] = { names = false },
+require'colorizer'.setup ({
+    '*',
     html  = { names = true },
     css   = { names = true },
-}
+}, { names = false })
 
 -- treesitter config
 require'nvim-treesitter.configs'.setup {
