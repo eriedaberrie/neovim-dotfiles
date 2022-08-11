@@ -92,12 +92,6 @@ return {
         { 'nt', [[<M-k>]], [[<C-\><C-n><Cmd>wincmd k<CR>]], { nolazyredraw = true } },
         { 'nt', [[<M-l>]], [[<C-\><C-n><Cmd>wincmd l<CR>]], { nolazyredraw = true } },
 
-        -- Use alt keys in command mode
-        { 'c', [[<M-h>]], [[<Left>]],  { silent = false } },
-        { 'c', [[<M-j>]], [[<Down>]],  { silent = false } },
-        { 'c', [[<M-k>]], [[<Up>]],    { silent = false } },
-        { 'c', [[<M-l>]], [[<Right>]], { silent = false } },
-
         -- Close help page easily
         { 'n', [[<Leader>hc]], [[<Cmd>helpclose<CR>]] },
 
@@ -106,6 +100,10 @@ return {
         { 'n', [[<Leader>lc]], [[<Cmd>lclose<CR>]] },
         { 'n', [[<Leader>co]], [[<Cmd>copen<CR>]] },
         { 'n', [[<Leader>cc]], [[<Cmd>cclose<CR>]] },
+        { 'nx', [[<Leader>ln]], [[<Cmd>lnext<CR>]] },
+        { 'nx', [[<Leader>lp]], [[<Cmd>lprev<CR>]] },
+        { 'nx', [[<Leader>cn]], [[<Cmd>cnext<CR>]] },
+        { 'nx', [[<Leader>cp]], [[<Cmd>cprev<CR>]] },
 
         -- LSP maps
         { 'n', [[<Leader>eE]], vim.diagnostic.setloclist },
@@ -158,10 +156,6 @@ return {
 
         -- Toggles dark/light themes
         { 'nx', [[<Leader>tt]], function () vim.funcs.settheme(vim.o.background == 'dark' and 'light' or 'dark') end },
-
-        -- Quickfix movement
-        { 'nx', [[<Leader>n]], [[<Cmd>lne<CR>]] },
-        { 'nx', [[<Leader>N]], [[<Cmd>lp<CR>]]  },
 
         -- Preserve q: and quickfix <CR> functionality
         { 'n', [[<CR>]], [[!(index(['[Command Line]'], expand('%')) is -1) || (&filetype == 'qf') ? '<CR>' : '']], { silent = false, expr = true } },
@@ -242,11 +236,11 @@ return {
         -- Run previous command with lua prefix
         { 'n', [[<Leader>lu]], [[:lua <C-r>:<CR>]], { silent = false } },
 
-        -- Move around in insert mode with alt
-        { 'i', [[<M-h>]], [[<Left>]],  { noremap = false } },
-        { 'i', [[<M-j>]], [[<Down>]],  { noremap = false } },
-        { 'i', [[<M-k>]], [[<Up>]],    { noremap = false } },
-        { 'i', [[<M-l>]], [[<Right>]], { noremap = false } },
+        -- Move around in insert modes with alt
+        { 'l', [[<M-h>]], [[<Left>]],  { noremap = false } },
+        { 'l', [[<M-j>]], [[<Down>]],  { noremap = false } },
+        { 'l', [[<M-k>]], [[<Up>]],    { noremap = false } },
+        { 'l', [[<M-l>]], [[<Right>]], { noremap = false } },
 
         -- EasyAlign
         { 'nx', [[<Leader>ga]], [[<Plug>(EasyAlign)]] },
