@@ -1,7 +1,6 @@
 ---------- NEOVIM INIT ----------
 local opt = vim.opt
 local g   = vim.g
-local v   = vim.v
 local api = vim.api
 local fn  = vim.fn
 local cmd = vim.cmd
@@ -29,10 +28,8 @@ opt.smartcase  = true
 -- if spell is ever turend on
 opt.spelllang = 'en_us'
 
--- disable K being "man" which doesn't really exist on Windows
-if not isUnix then
-    opt.keywordprg = ':help'
-end
+-- disable K being "man" which is just not useful even on Unix
+opt.keywordprg = ':help'
 
 -- turn on lazy redraw - reenablable through keymaps
 opt.lazyredraw = true
@@ -120,28 +117,6 @@ opt.foldexpr = 'nvim_treesitter#foldexpr()'
 opt.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend))]]
         .. [[ . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
 opt.fillchars:append('fold: ')
-
--- neovim terminal emulator things
--- automatically enter insert mode
-api.nvim_create_autocmd({ 'TermOpen', 'BufEnter' }, {
-    group = initgroup,
-    pattern = [[term://*]],
-    command = [[startinsert]],
-})
-api.nvim_create_autocmd('TermOpen', {
-    group = initgroup,
-    -- command = [[set nonumber norelativenumber]],
-    callback = function () end,
-})
--- autoclose if exits with 0
-api.nvim_create_autocmd('TermClose', {
-    group = initgroup,
-    callback = function (args)
-        if v.event.status == 0 and args.file:sub(-8) ~= ':lazygit' then
-            api.nvim_buf_delete(args.buf, {})
-        end
-    end,
-})
 
 -- highlight yanked text
 api.nvim_create_autocmd('TextYankPost', {
@@ -335,6 +310,20 @@ end })
 
 -- use <Leader>ee/E for text
 -- vim.diagnostic.config { virtual_text = false }
+
+-- toggleterm setup
+require'toggleterm'.setup {
+    open_mapping = [[<C-\><C-\>]],
+    insert_mappings = false,
+    shell = isUnix and opt.shell:get() or 'pwsh.exe',
+    size = function (term)
+        if term.direction == 'horizontal' then
+            return opt.lines:get() < 40 and opt.lines:get() * 0.5 or 20
+        elseif term.direction == 'vertical' then
+            return opt.columns:get() * 0.4
+        end
+    end,
+}
 
 -- filetree explorer
 require'nvim-tree'.setup {

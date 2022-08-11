@@ -67,6 +67,9 @@ return require'packer'.startup {
         -- Lazygit
         use 'kdheepak/lazygit.nvim'
 
+        -- Terminal helper
+        use 'akinsho/toggleterm.nvim'
+
         -- Neorg
         use {
             'nvim-neorg/neorg',

@@ -60,23 +60,37 @@ return {
         { 'ic', [[<C-BS>]], [[<C-w>]], { silent = false, noremap = false } },
 
         -- Window resize
-        { 'n', [[+]],     [[<C-w>+]] },
-        { 'n', [[-]],     [[<C-w>-]] },
-        { 'n', [[<M-,>]], [[<C-w><]] },
-        { 'n', [[<M-.>]], [[<C-w>>]] },
+        { 'n', [[+]],     [[<Cmd>wincmd +<CR>]] },
+        { 'n', [[-]],     [[<Cmd>wincmd -<CR>]] },
+        { 'n', [[<M-,>]], [[<Cmd>wincmd <<CR>]] },
+        { 'n', [[<M-.>]], [[<Cmd>wincmd ><CR>]] },
 
         -- Easy enter terminal mode
-        { 'n', [[<Leader>to]], [['<Cmd>botright vsplit <Bar> terminal' . (has('Unix') ? '' : ' pwsh.exe') . '<CR>']], { expr = true } },
+        { 'n', [[<Leader>to]], [[<Cmd>exe v:count . 'ToggleTerm'<CR>]] },
+        { 'n', [[<Leader>th]], [[<Cmd>exe v:count . 'ToggleTerm direction=horizontal'<CR>]] },
+        { 'n', [[<Leader>tv]], [[<Cmd>exe v:count . 'ToggleTerm direction=vertical'<CR>]] },
+        { 'n', [[<Leader>ta]], [[<Cmd>ToggleTermToggleAll<CR>]] },
+        { 'n', [[<C-\>h]], [[<Cmd>exe v:count . 'ToggleTerm direction=horizontal'<CR>]] },
+        { 'n', [[<C-\>v]], [[<Cmd>exe v:count . 'ToggleTerm direction=vertical'<CR>]] },
+        { 'n', [[<C-\>a]], [[<Cmd>ToggleTermToggleAll<CR>]] },
+
+        -- More ToggleTerm maps
+        { 'n', [[<Leader>ts]], [[<Cmd>exe 'ToggleTermSendCurrentLine ' . v:count<CR>]] },
+        { 'x', [[<Leader>ts]], [[<Cmd>exe 'ToggleTermSendCurrentLines ' . v:count<CR>]] },
+        { 'x', [[<Leader>tS]], [[<Cmd>exe 'ToggleTermSendCurrentSelection ' . v:count<CR>]] },
+        { 'n', [[<C-\>s]], [[<Cmd>exe 'ToggleTermSendCurrentLine ' . v:count<CR>]] },
+        { 'x', [[<C-\>s]], [[<Cmd>exe 'ToggleTermSendCurrentLines ' . v:count<CR>]] },
+        { 'x', [[<C-\>S]], [[<Cmd>exe 'ToggleTermSendCurrentSelection ' . v:count<CR>]] },
 
         -- Easy exit terminal mode
         { 't', [[<C-\><Esc>]],    [[<C-\><C-n>]], { nolazyredraw = true } },
         { 't', [[<C-\><Leader>]], [[<C-\><C-n>]], { nolazyredraw = true } },
 
         -- Use alt keys in terminal mode to change window
-        { 'nt', [[<M-h>]], [[<C-\><C-n><C-w>h]], { nolazyredraw = true } },
-        { 'nt', [[<M-j>]], [[<C-\><C-n><C-w>j]], { nolazyredraw = true } },
-        { 'nt', [[<M-k>]], [[<C-\><C-n><C-w>k]], { nolazyredraw = true } },
-        { 'nt', [[<M-l>]], [[<C-\><C-n><C-w>l]], { nolazyredraw = true } },
+        { 'nt', [[<M-h>]], [[<C-\><C-n><Cmd>wincmd h<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-j>]], [[<C-\><C-n><Cmd>wincmd j<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-k>]], [[<C-\><C-n><Cmd>wincmd k<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-l>]], [[<C-\><C-n><Cmd>wincmd l<CR>]], { nolazyredraw = true } },
 
         -- Use alt keys in command mode
         { 'c', [[<M-h>]], [[<Left>]],  { silent = false } },
@@ -149,10 +163,6 @@ return {
         { 'nx', [[<Leader>n]], [[<Cmd>lne<CR>]] },
         { 'nx', [[<Leader>N]], [[<Cmd>lp<CR>]]  },
 
-        -- Run code
-        { 'n', [[<Leader>rc]], [[<Cmd>RunCodeFile<CR>]] },
-        { 'x', [[<Leader>rc]], [[<Cmd>RunCodeSelected<CR>]] },
-
         -- Preserve q: and quickfix <CR> functionality
         { 'n', [[<CR>]], [[!(index(['[Command Line]'], expand('%')) is -1) || (&filetype == 'qf') ? '<CR>' : '']], { silent = false, expr = true } },
 
@@ -163,7 +173,7 @@ return {
         { 'n', [[<Leader>cd]], [[<Cmd>tcd %:h<CR>]] },
 
         -- Delete trailing spaces
-        { 'n', [[<Leader>ds]], [[<Cmd>%s/\s\+$//<Bar>norm!``<CR><Cmd>noh<CR>]] },
+        { 'n', [[<Leader>tr]], [[<Cmd>%s/\s\+$//<Bar>norm!``<CR><Cmd>noh<CR>]] },
 
         -- Delete buffer without closing the current window
         { 'n', [[<Leader>bd]], [[<Cmd>bp<Bar>bd#<CR>]]  },
