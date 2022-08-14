@@ -87,10 +87,10 @@ return {
         { 't', [[<C-\><Leader>]], [[<C-\><C-n>]], { nolazyredraw = true } },
 
         -- Use alt keys in terminal mode to change window
-        { 'nt', [[<M-h>]], [[<C-\><C-n><Cmd>wincmd h<CR>]], { nolazyredraw = true } },
-        { 'nt', [[<M-j>]], [[<C-\><C-n><Cmd>wincmd j<CR>]], { nolazyredraw = true } },
-        { 'nt', [[<M-k>]], [[<C-\><C-n><Cmd>wincmd k<CR>]], { nolazyredraw = true } },
-        { 'nt', [[<M-l>]], [[<C-\><C-n><Cmd>wincmd l<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-h>]], [[<Cmd>wincmd h<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-j>]], [[<Cmd>wincmd j<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-k>]], [[<Cmd>wincmd k<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-l>]], [[<Cmd>wincmd l<CR>]], { nolazyredraw = true } },
 
         -- Close help page easily
         { 'n', [[<Leader>hc]], [[<Cmd>helpclose<CR>]] },
