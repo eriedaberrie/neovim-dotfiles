@@ -67,7 +67,7 @@ require'nvim-surround'.setup {
         },
     },
 }
-api.nvim_set_hl(0, 'NvimSurroundHighlightTextObject', { link = 'IncSearch' })
+api.nvim_set_hl(0, 'NvimSurroundHighlight', { link = 'IncSearch' })
 
 -- VSCode Neovim stuff
 if g.vscode then

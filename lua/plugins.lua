@@ -20,11 +20,6 @@ return require'packer'.startup {
         -- LSP signature help
         use 'ray-x/lsp_signature.nvim'
 
-        -- Code completion (supposedly quite speedy as well)
-        use 'ms-jpq/coq_nvim'
-        use 'ms-jpq/coq.artifacts'
-        use 'ms-jpq/coq.thirdparty'
-
         -- Auto pairs
         use 'windwp/nvim-autopairs'
 
@@ -100,6 +95,13 @@ return require'packer'.startup {
         use {
             'nvim-telescope/telescope.nvim',
             requires = 'nvim-lua/plenary.nvim',
+        }
+
+        -- Code completion (supposedly quite speedy as well)
+        use {
+            'ms-jpq/coq_nvim',
+            'ms-jpq/coq.artifacts',
+            'ms-jpq/coq.thirdparty',
         }
 
         -- Treesitter
