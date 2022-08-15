@@ -212,13 +212,48 @@ require'coq_3p' {
 }
 
 -- lspsaga config
-local saga = require'lspsaga'
-
-saga.init_lsp_saga {
+require'lspsaga'.init_lsp_saga {
     code_action_keys = {
-        quit = '<Esc>'
+        quit = '<Esc>',
+    },
+    symbol_in_winbar = {
+        enable = true,
+        separator = '  '
     },
 }
+
+-- make lspsaga winbar use theme
+local _pre_lspsaga_settheme = funcs.settheme
+---@diagnostic disable-next-line: duplicate-set-field
+funcs.settheme = function (theme)
+    _pre_lspsaga_settheme(theme)
+    local colors = {
+        fg     = '#bbc2cf',
+        red    = '#e95678',
+        orange = '#FF8700',
+        yellow = '#f7bb3b',
+        green  = '#afd700',
+        cyan   = '#36d0e0',
+        blue   = '#61afef',
+        violet = '#CBA6F7',
+        teal   = '#1abc9c',
+    }
+    local changes = {
+        [colors.fg]     = 'ModeMsg',
+        [colors.red]    = 'Exception',
+        [colors.orange] = 'Special',
+        [colors.yellow] = 'ModeMsg',
+        [colors.green]  = 'Title',
+        [colors.cyan]   = 'Macro',
+        [colors.blue]   = 'Identifier',
+        [colors.violet] = 'Constant',
+        [colors.teal]   = 'Macro',
+    }
+    for _, kind in pairs(require'lspsaga.lspkind') do
+        api.nvim_set_hl(0, 'LspSagaWinbar' .. kind[1], { link = changes[kind[3]] })
+    end
+    api.nvim_set_hl(0, 'LspSagaWinbarSep', { link = 'Comment' })
+end
 
 -- lsp_signature setup
 require'lsp_signature'.setup {
@@ -233,10 +268,8 @@ require'lsp_signature'.setup {
 local lspconfig = require'lspconfig'
 -- vim.lsp.set_log_level'debug'
 
-local navic = require'nvim-navic'
-local on_attach = function (client, buf)
+local on_attach = function (_, buf)
     api.nvim_buf_set_option(buf, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-    if not g.started_by_firenvim then navic.attach(client, buf) end
 end
 
 -- LSP servers
@@ -483,13 +516,14 @@ api.nvim_create_autocmd('BufWritePost', {
 ---------- more plugins ----------
 -- GitHub Theme
 -- only set up once so running :so% doesn't ruin the tabline (not anymore)
-local oldsettheme = funcs.settheme
+local _pre_lualine_settheme = funcs.settheme
 -- add lualine to the theme (do it after so that it updates)
 local gitblame = require'gitblame'
 g.gitblame_ignored_filetypes = { 'NvimTree' }
 g.gitblame_display_virtual_text = 0
+---@diagnostic disable-next-line: duplicate-set-field
 funcs.settheme = function (theme)
-    oldsettheme(theme)
+    _pre_lualine_settheme(theme)
     require'lualine'.setup {
         options = {
             theme = 'gruvbox',
@@ -513,9 +547,6 @@ funcs.settheme = function (theme)
         },
     }
 end
-
--- treesitter-based navic winbar
-opt.winbar = "%#Underlined#%{%v:lua.require'nvim-navic'.get_location()%}%*"
 
 -- Disable git-blame.nvim on big files
 api.nvim_create_autocmd('BufEnter', {

@@ -133,7 +133,7 @@ M.settheme = function (theme)
     if theme then
         o.background = theme
     end
-    return cmd.colorscheme('gruvbox')
+    cmd.colorscheme('gruvbox')
 end
 
 M.toggleshell = function (newshell)
