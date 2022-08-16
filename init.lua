@@ -461,10 +461,13 @@ if g.started_by_firenvim then
     opt.laststatus = 1
 
     -- decrease fontsize
-    funcs.resizetext(8)
+    funcs.resizetext(11)
 
     -- disable git blame plugin
     g.gitblame_enabled = 0
+
+    -- disable indent blankline plugin
+    g.indent_blankline_enabled = false
 
     return
 end
