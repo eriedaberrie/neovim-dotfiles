@@ -7,6 +7,8 @@
 -- 0b0100 - VSCode plugin
 -- 0b1000 - Firenvim
 
+local lspsaga_action = require'lspsaga.action'
+
 return {
     -- 0b0001
     [1] = {
@@ -117,7 +119,7 @@ return {
         { 'n', [[<Leader>ed]], vim.lsp.buf.definition },
         { 'n', [[<Leader>eD]], vim.lsp.buf.declaration },
         { 'n', [[<Leader>ei]], vim.lsp.buf.implementation },
-        { 'n', [[<Leader>er]], vim.lsp.buf.rename },
+        -- { 'n', [[<Leader>er]], vim.lsp.buf.rename },
         { 'n', [[<Leader>eR]], vim.lsp.buf.references },
         { 'n', [[<Leader>et]], vim.lsp.buf.type_definition },
         { 'n', [[<Leader>eF]], vim.lsp.buf.format },
@@ -141,9 +143,9 @@ return {
         { 'n', [[<Leader>eh]], [[<Cmd>Lspsaga diagnostic_jump_prev<CR>]] },
         { 'n', [[<Leader>ej]], [[$<Cmd>Lspsaga diagnostic_jump_next<CR>]] },
         { 'n', [[<Leader>ek]], [[0<Cmd>Lspsaga diagnostic_jump_prev<CR>]] },
-        { 'n', [[<Leader>e<C-r>]], [[<Cmd>Lspsaga rename<CR>]] },
-        { 'n', [[<C-f>]], function () require'lspsaga.action'.smart_scroll_with_saga(1) end },
-        { 'n', [[<C-b>]], function () require'lspsaga.action'.smart_scroll_with_saga(-1) end },
+        { 'n', [[<Leader>er]], [[<Cmd>Lspsaga rename<CR>]] },
+        { 'n', [[<C-f>]], function () lspsaga_action.smart_scroll_with_saga(1) end },
+        { 'n', [[<C-b>]], function () lspsaga_action.smart_scroll_with_saga(-1) end },
 
         -- Coq_nvim + nvim-autopairs keymaps
         { 'i', [[<Esc>]], [[pumvisible() ? '<C-e><Esc>' : '<Esc>']], { expr = true } },
