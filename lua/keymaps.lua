@@ -60,10 +60,10 @@ return {
         { 'ic', [[<C-BS>]], [[<C-w>]], { silent = false, noremap = false } },
 
         -- Window resize
-        { 'n', [[+]],     [[<Cmd>wincmd +<CR>]] },
-        { 'n', [[-]],     [[<Cmd>wincmd -<CR>]] },
-        { 'n', [[<M-,>]], [[<Cmd>wincmd <<CR>]] },
-        { 'n', [[<M-.>]], [[<Cmd>wincmd ><CR>]] },
+        { 'n', [[+]],     [[<Cmd>exe v:count . 'wincmd +'<CR>]] },
+        { 'n', [[-]],     [[<Cmd>exe v:count . 'wincmd -'<CR>]] },
+        { 'n', [[<M-,>]], [[<Cmd>exe v:count . 'wincmd <'<CR>]] },
+        { 'n', [[<M-.>]], [[<Cmd>exe v:count . 'wincmd >'<CR>]] },
 
         -- Easy enter terminal mode
         { 'n', [[<Leader>to]], [[<Cmd>exe v:count . 'ToggleTerm'<CR>]] },
@@ -87,10 +87,10 @@ return {
         { 't', [[<C-\><Leader>]], [[<C-\><C-n>]], { nolazyredraw = true } },
 
         -- Use alt keys in terminal mode to change window
-        { 'nt', [[<M-h>]], [[<Cmd>wincmd h<CR>]], { nolazyredraw = true } },
-        { 'nt', [[<M-j>]], [[<Cmd>wincmd j<CR>]], { nolazyredraw = true } },
-        { 'nt', [[<M-k>]], [[<Cmd>wincmd k<CR>]], { nolazyredraw = true } },
-        { 'nt', [[<M-l>]], [[<Cmd>wincmd l<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-h>]], [[<Cmd>exe v:count . 'wincmd h'<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-j>]], [[<Cmd>exe v:count . 'wincmd j'<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-k>]], [[<Cmd>exe v:count . 'wincmd k'<CR>]], { nolazyredraw = true } },
+        { 'nt', [[<M-l>]], [[<Cmd>exe v:count . 'wincmd l'<CR>]], { nolazyredraw = true } },
 
         -- Close help page easily
         { 'n', [[<Leader>hc]], [[<Cmd>helpclose<CR>]] },
@@ -237,10 +237,10 @@ return {
         { 'n', [[<Leader>lu]], [[:lua <C-r>:<CR>]], { silent = false } },
 
         -- Move around in insert modes with alt
-        { 'l', [[<M-h>]], [[<Left>]],  { noremap = false } },
-        { 'l', [[<M-j>]], [[<Down>]],  { noremap = false } },
-        { 'l', [[<M-k>]], [[<Up>]],    { noremap = false } },
-        { 'l', [[<M-l>]], [[<Right>]], { noremap = false } },
+        { 'ic', [[<M-h>]], [[<Left>]],  { noremap = false } },
+        { 'ic', [[<M-j>]], [[<Down>]],  { noremap = false } },
+        { 'ic', [[<M-k>]], [[<Up>]],    { noremap = false } },
+        { 'ic', [[<M-l>]], [[<Right>]], { noremap = false } },
 
         -- EasyAlign
         { 'nx', [[<Leader>ga]], [[<Plug>(EasyAlign)]] },
