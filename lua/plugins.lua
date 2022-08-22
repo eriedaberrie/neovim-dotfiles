@@ -99,7 +99,10 @@ return require'packer'.startup {
 
         -- Code completion (supposedly quite speedy as well)
         use {
-            'ms-jpq/coq_nvim',
+            {
+                'ms-jpq/coq_nvim',
+                run = vim.isUnix and ':COQdeps' or nil,
+            },
             'ms-jpq/coq.artifacts',
             'ms-jpq/coq.thirdparty',
         }
@@ -130,7 +133,7 @@ return require'packer'.startup {
         if vim.isUnix == false then
             use {
                 'glacambre/firenvim',
-                run = function() vim.fn['firenvim#install'](0) end
+                run = function () vim.fn['firenvim#install'](0) end
             }
         end
 
