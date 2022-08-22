@@ -147,9 +147,6 @@ return require'packer'.startup {
         -- sleuth.vim
         use 'tpope/vim-sleuth'
 
-        -- Emmet
-        use 'mattn/emmet-vim'
-
         -- Better git commit editing
         use 'rhysd/committia.vim'
 

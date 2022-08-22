@@ -74,9 +74,6 @@ if g.vscode then
     -- disable neovim syntax highlighting
     opt.syntax = 'off'
 
-    -- disable emmet plugin
-    g.user_emmet_install_global = 0
-
     -- disable git blame plugin
     g.gitblame_enabled = 0
 
@@ -300,6 +297,8 @@ local servers = {
     clangd = {},
     -- Rust
     rust_analyzer = {},
+    -- Emmet snippets
+    emmet_ls = {},
 }
 if isUnix then
     -- Java
@@ -421,12 +420,6 @@ require'neoclip'.setup{}
 
 -- todo comments
 require'todo-comments'.setup{}
-
--- make emmet use my leader key instead of hijacking ctrl-y
-g.user_emmet_leader_key = '<Leader>y'
-
--- so it doesn't mess with my insert mode typing
-g.user_emmet_mode = 'n'
 
 -- firenvim stuff
 if g.started_by_firenvim then
