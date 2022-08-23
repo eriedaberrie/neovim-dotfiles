@@ -65,6 +65,9 @@ return require'packer'.startup {
         -- Terminal helper
         use 'akinsho/toggleterm.nvim'
 
+        -- Just require plenary at all times no matter what
+        use 'nvim-lua/plenary.nvim'
+
         -- Neorg
         use {
             'nvim-neorg/neorg',
@@ -95,6 +98,18 @@ return require'packer'.startup {
         use {
             'nvim-telescope/telescope.nvim',
             requires = 'nvim-lua/plenary.nvim',
+        }
+
+        -- Debugger
+        use {
+            'mfussenegger/nvim-dap',
+
+            -- UI
+            'theHamsta/nvim-dap-virtual-text',
+            'rcarriga/nvim-dap-ui',
+
+            -- Additional configurations
+            'mfussenegger/nvim-dap-python',
         }
 
         -- Code completion (supposedly quite speedy as well)

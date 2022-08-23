@@ -571,6 +571,9 @@ require'neorg'.setup {
     }
 }
 
+-- nvim-dap configuration file
+require'dap-config'
+
 -- telescope lazygit (not in firenvim)
 telescope.load_extension'lazygit'
 

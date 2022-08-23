@@ -7,16 +7,15 @@
 -- 0b0100 - VSCode plugin
 -- 0b1000 - Firenvim
 
+local dap = require'dap'
+local dapui = require'dapui'
 local lspsaga_action = require'lspsaga.action'
 
 return {
     -- 0b0001
     [1] = {
         -- Open RPG maker game in debug mode
-        -- { 'n', [[<Leader>dg]], [[<Cmd>!cmd.exe /s /c for /f "tokens=*" \%a in ('git rev-parse --show-toplevel') do start /d "\%a" Game.exe debug<CR>]] },
-        -- { 'n', [[<Leader>dg]], [[<Cmd>!pwsh.exe -NoProfile -NoLogo -NonInteractive -Command cd "$(git rev-parse --show-toplevel)"  && Start-Process -FilePath "Game.exe" -ArgumentList "debug"<CR>]] },
-        { 'n', [[<Leader>dg]], [[&shell ==# 'cmd.exe' ? '<Cmd>!for /f "usebackq tokens=*" \%a in (`git rev-parse --show-toplevel`) do start /d "\%a" Game.exe debug<CR><CR>' : '<Cmd>!start -FilePath Game.exe -WorkingDirectory "$(git rev-parse --show-toplevel)" -ArgumentList "debug"<CR><CR>']], { expr = true } },
-        -- { 'n', [[<Leader>gd]], [[<Cmd>!pwsh.exe -NoProfile -NoLogo -NonInteractive -Command cd "$(git rev-parse --show-toplevel)" && .\Game.exe debug<CR>]] },
+        { 'n', [[<Leader>pd]], [[&shell ==# 'cmd.exe' ? '<Cmd>!for /f "usebackq tokens=*" \%a in (`git rev-parse --show-toplevel`) do start /d "\%a" Game.exe debug<CR><CR>' : '<Cmd>!start -FilePath Game.exe -WorkingDirectory "$(git rev-parse --show-toplevel)" -ArgumentList "debug"<CR><CR>']], { expr = true } },
 
         -- Don't accidentaly permanently suspend in Windows
         { 'n', [[<C-z>]], [[<Nop>]] },
@@ -24,7 +23,6 @@ return {
 
     -- 0b0010
     [2] = {
-        { 'n', [[<Leader>dg]], [[]] },
     },
 
     -- 0b0011
@@ -39,8 +37,22 @@ return {
         -- :PackerSync
         { 'n', [[<Leader>ps]], [[<Cmd>PackerSync<CR>]] },
 
-        -- Zero cmdheight stuff
-        -- { 'n', [[<Esc>]], [[<Cmd>noh<Bar>set cmdheight=0<CR>]] },
+        -- Debugging
+        { 'n', [[<Leader>D]],  dap.continue },
+        { 'n', [[<Leader>dr]], dap.repl.toggle },
+        { 'n', [[<Leader>dd]], dap.toggle_breakpoint },
+        { 'n', [[<Leader>ds]], dap.step_into },
+        { 'n', [[<Leader>do]], dap.step_over },
+        { 'n', [[<Leader>dg]], function () dap.goto_(vim.v.count ~= 0 and vim.v.count) end },
+        { 'n', [[<Leader>dO]], dap.step_out },
+        { 'n', [[<Leader>dB]], dap.step_back },
+        { 'n', [[<Leader>dT]], dap.terminate },
+        { 'n', [[<Leader>dD]], dap.disconnect },
+        { 'n', [[<Leader>dC]], dap.close },
+        { 'n',  [[<Leader>dU]],  dapui.toggle },
+        { 'n',  [[<Leader>duu]], dapui.toggle },
+        { 'n',  [[<Leader>duf]], dapui.float_element },
+        { 'nx', [[<Leader>due]], dapui.eval },
     },
 
     -- 0b0100
