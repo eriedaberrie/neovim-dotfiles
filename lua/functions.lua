@@ -167,20 +167,34 @@ M.toggleshell = function (newshell)
     end
 end
 
-M.resizetext = function (newsize)
-    local newsizestring = tostring(newsize or 11)
+M.resizetext = function (intin, mode)
+    local modenum = type(mode) == 'number'
+
+    local newsize
+    if modenum then
+        newsize = 10 + (intin or vim.v.count1) * mode
+    else
+        newsize = intin or vim.v.count ~= 0 and vim.v.count or 10
+    end
+
     if o.guifont == '' or o.guifont == nil then
-        o.guifont = 'FiraCode NF:h' .. newsizestring
+        o.guifont = 'FiraCode NF:h' .. tostring(newsize)
         return
     end
 
     local newguifont = { o.guifont:match'^[^:]+' }
+
     for item in o.guifont:gmatch':[^:]+' do
         if item:sub(2, 2) ~= 'h' then
             table.insert(newguifont, item)
+        elseif modenum then
+            local cursize = tonumber(item:sub(3))
+            if cursize then
+                newsize = newsize - 10 + cursize
+            end
         end
     end
-    table.insert(newguifont, ':h' .. newsizestring)
+    table.insert(newguifont, ':h' .. tostring(newsize))
     o.guifont = table.concat(newguifont)
 end
 

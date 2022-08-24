@@ -77,6 +77,11 @@ return {
         map. n ([[<M-,>]], [[<Cmd>exe v:count . 'wincmd <'<CR>]])
         map. n ([[<M-.>]], [[<Cmd>exe v:count . 'wincmd >'<CR>]])
 
+        -- Text resize maps
+        map. n ([[<Leader>0]], vim.funcs.resizetext)
+        map. n ([[<Leader>=]], function () vim.funcs.resizetext(vim.v.count1, 1) end)
+        map. n ([[<Leader>-]], function () vim.funcs.resizetext(vim.v.count1, -1) end)
+
         -- Easy enter terminal mode
         local toggleterm = require'toggleterm'
         map. n ([[<Leader>to]], function () toggleterm.toggle(vim.v.count) end)
@@ -266,7 +271,6 @@ return {
         map. nx ([[<Leader>ga]], [[<Plug>(EasyAlign)]])
 
         -- Easy access to clipboard in normal, visual mode
-        map. nx ([[<Leader>+]], [["+]])
         map. nx ([[<Leader>"]], [["+]])
 
         -- Swap case of letter
