@@ -332,7 +332,7 @@ api.nvim_set_keymap('i', '<CR>', '', { noremap = true, expr = true, callback = f
     end
 end })
 
-api.nvim_set_keymap('i', '<BS>', '', { noremap = true, expr = true, callback = function()
+api.nvim_set_keymap('i', '<BS>', '', { noremap = true, expr = true, callback = function ()
     if fn.pumvisible() ~= 0 and fn.complete_info{ 'mode' }.mode == 'eval' then
         return npairs.esc('<C-e>') .. npairs.autopairs_bs(api.nvim_get_current_buf())
     else
@@ -444,9 +444,7 @@ if g.started_by_firenvim then
     -- Gruvbox Theme plugin with light theme (insanely roundabout way for some reason)
     api.nvim_create_autocmd('BufReadPre', {
         group = initgroup,
-        callback = function ()
-            funcs.settheme'light'
-        end,
+        callback = function () funcs.settheme'light' end,
         once = true,
     })
 
@@ -500,6 +498,13 @@ vim.filetype.add {
     filename  = { ['.path']  = 'sh' },
     extension = { ['nasm'] = 'asm' }
 }
+
+-- enable spellcheck depending on filetype
+api.nvim_create_autocmd('FileType', {
+    group = initgroup,
+    pattern = 'markdown,norg,gitcommit',
+    command = [[setlocal spell]]
+})
 
 -- plugin management (packer)
 require'plugins'
@@ -571,6 +576,9 @@ require'neorg'.setup {
     }
 }
 
+-- indent_blankline configuration
+g.indentLine_fileTypeExclude = { '', 'text', 'norg', 'lspinfo', 'packer', 'checkhealth', 'help', 'man' }
+
 -- nvim-dap configuration file
 require'dap-config'
 
@@ -587,9 +595,6 @@ g.lazygit_floating_window_use_plenary = 1
 -- committia.vim
 g.committia_hooks = {
     edit_open = function (_)
-        -- spellcheck
-        api.nvim_win_set_option(0, 'spell', true)
-
         -- auto insert mode on blank commit messages
         if fn.getline(1) == '' then cmd.startinsert() end
 
@@ -658,7 +663,7 @@ else
         -- restore blinking cursor
         api.nvim_create_autocmd('VimLeave', {
             group = initgroup,
-            callback = function () opt.guicursor = 'a:block-blinkon750' end
+            command = [[set guicursor=a:block-blinkon750]],
         })
     end
 end

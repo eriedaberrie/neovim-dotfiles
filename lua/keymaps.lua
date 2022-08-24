@@ -196,6 +196,10 @@ return {
         -- Temporarily increase scrolloff
         { 'n', [[<Leader>zz]], [['<Cmd>set scrolloff=8<CR><Cmd>set scrolloff=' . &scrolloff . '<CR>']], { expr = true } },
 
+        -- Go to misspelled word in insert mode
+        { 'i', [[<C-z>]], [[<Esc>b[sviw<Esc>a]] },
+        { 'i', [[<C-s>]], [[<Esc>]sviw<Esc>a]] },
+
         -- Telescope maps
         { 'n', [[<Leader>ff]], [[<Cmd>Telescope find_files<CR>]] },
         { 'n', [[<Leader>fg]], [[<Cmd>Telescope live_grep<CR>]]  },
@@ -251,10 +255,10 @@ return {
         { 'n', [[<Leader>lu]], [[:lua <C-r>:<CR>]], { silent = false } },
 
         -- Move around in insert modes with alt
-        { 'ic', [[<M-h>]], [[<Left>]],  { noremap = false } },
-        { 'ic', [[<M-j>]], [[<Down>]],  { noremap = false } },
-        { 'ic', [[<M-k>]], [[<Up>]],    { noremap = false } },
-        { 'ic', [[<M-l>]], [[<Right>]], { noremap = false } },
+        { 'ic', [[<M-h>]], [[<Left>]],  { noremap = false, silent = false } },
+        { 'ic', [[<M-j>]], [[<Down>]],  { noremap = false, silent = false } },
+        { 'ic', [[<M-k>]], [[<Up>]],    { noremap = false, silent = false } },
+        { 'ic', [[<M-l>]], [[<Right>]], { noremap = false, silent = false } },
 
         -- EasyAlign
         { 'nx', [[<Leader>ga]], [[<Plug>(EasyAlign)]] },
