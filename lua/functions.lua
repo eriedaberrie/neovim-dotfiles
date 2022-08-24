@@ -12,56 +12,64 @@ M.set_keymaps = function (maptable)
     local launchmask = g.started_by_firenvim and 8 or (g.vscode and 4 or (vim.isUnix and 2 or 1))
     local opts, nolazyredraw
 
-    for flags, val in pairs(maptable) do
-        if flags % (launchmask + launchmask) >= launchmask then
-            for _, map in ipairs(val) do
+    local mapfunc = setmetatable({}, {
+        __index = function (t, shortname)
+            t[shortname] = function (lhs, rhs, customopts)
                 opts = { noremap = true, silent = true }
                 nolazyredraw = false
 
-                if map[4] then
-                    if map[4].nolazyredraw then
-                        map[4].nolazyredraw = nil
+                if customopts then
+                    if customopts.nolazyredraw then
+                        customopts.nolazyredraw = nil
                         nolazyredraw = true
                     end
 
-                    opts = vim.tbl_extend('force', opts, map[4])
+                    opts = vim.tbl_extend('force', opts, customopts)
                 end
 
-                if type(map[3]) == 'function' then
+                if type(rhs) == 'function' then
                     if nolazyredraw then
                         opts.callback = function ()
                             local prevlr = o.lazyredraw
                             o.lazyredraw = false
-                            map[3]()
+                            rhs()
                             o.lazyredraw = prevlr
                         end
                     else
-                        opts.callback = map[3]
+                        opts.callback = rhs
                     end
-                    map[3] = ''
+
+                    rhs = ''
                 elseif nolazyredraw then
                     if opts.expr then
-                        map[3] = [['<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>' . ]] ..
-                                map[3] .. [[ . '<Cmd>let &lazyredraw=g:oldlazyredraw<CR>']]
+                        rhs = [['<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>' . ]] ..
+                                rhs .. [[ . '<Cmd>let &lazyredraw=g:oldlazyredraw<CR>']]
                     else
-                        map[3] = [[<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>]] ..
-                                map[3] .. [[<Cmd>let &lazyredraw=g:oldlazyredraw<CR>]]
+                        rhs = [[<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>]] ..
+                                rhs .. [[<Cmd>let &lazyredraw=g:oldlazyredraw<CR>]]
                     end
                 end
 
-                for c in map[1]:gmatch'.' do
-                    if c == '_' then
+                for c in shortname:gmatch'.' do
+                    if c == 'O' then
                         -- text object mapping
-                        api.nvim_set_keymap('x', map[2], map[3], opts)
+                        api.nvim_set_keymap('x', lhs, rhs, opts)
                         local tempopts = opts
                         tempopts.callback = nil
                         tempopts.expr = nil
-                        api.nvim_set_keymap('o', map[2], '<Cmd>norm v' .. map[2] .. '<CR>', tempopts)
+                        api.nvim_set_keymap('o', lhs, '<Cmd>norm v' .. lhs .. '<CR>', tempopts)
                     else
-                        api.nvim_set_keymap(c, map[2], map[3], opts)
+                        api.nvim_set_keymap(c, lhs, rhs, opts)
                     end
                 end
             end
+            return t[shortname]
+        end,
+    })
+
+    for flags, mappings in pairs(maptable) do
+        if flags % (launchmask + launchmask) >= launchmask then
+            mappings(mapfunc)
         end
     end
 end
