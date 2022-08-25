@@ -299,10 +299,10 @@ local servers = {
     rust_analyzer = {},
     -- Emmet snippets
     emmet_ls = {},
+    -- Java
+    jdtls = {}
 }
 if isUnix then
-    -- Java
-    servers.jdtls = {}
     -- Scala
     servers.metals = {}
 end
