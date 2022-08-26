@@ -71,6 +71,9 @@ return {
         -- Maps Ctrl-Backspace to do the thing
         map. ic ([[<C-BS>]], [[<C-w>]], { silent = false, noremap = false })
 
+        -- Toggle lazy redraw
+        map. n ([[<Leader>lr]], [[<Cmd>set lazyredraw! lazyredraw?<CR>]])
+
         -- Window resize
         map. n ([[+]],     [[<Cmd>exe v:count . 'wincmd +'<CR>]])
         map. n ([[-]],     [[<Cmd>exe v:count . 'wincmd -'<CR>]])
@@ -170,6 +173,9 @@ return {
         map. i ([[<Tab>]],   [[pumvisible() ? '<C-n>' : '<Tab>']], { expr = true })
         map. i ([[<S-Tab>]], [[pumvisible() ? '<C-p>' : '<Tab>']], { expr = true })
 
+        -- Toggle spell checking
+        map. n ([[<Leader>sp]], [[<Cmd>set spell! spell?<CR>]])
+
         -- Toggle whitespace visibility
         map. nx ([[<Leader><Leader>]], [[<Cmd>set list!<CR>]])
 
@@ -251,9 +257,6 @@ return {
         map. n ([[<Leader>w]], [[<Cmd>w<CR>]])
         map. n ([[<Leader>q]], [[<Cmd>q<CR>]])
         map. n ([[<Leader>Q]], [[<Cmd>qa!<CR>]])
-
-        -- Toggle lazy redraw
-        map. n ([[<Leader>lr]], [[<Cmd>set lazyredraw! lazyredraw?<CR>]])
 
         -- Run previous command with ! prefix
         map. n ([[<Leader>!]], [[:!<C-r>:<CR>]], { silent = false })
