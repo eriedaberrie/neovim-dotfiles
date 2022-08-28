@@ -549,7 +549,10 @@ funcs.settheme = function (theme)
     }
 end
 
--- Disable git-blame.nvim on big files
+-- image viewer
+require'image'.setup{}
+
+-- disable git-blame.nvim on big files
 api.nvim_create_autocmd('BufEnter', {
     group = initgroup,
     callback = function ()

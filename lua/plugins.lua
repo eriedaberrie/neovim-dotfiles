@@ -35,6 +35,9 @@ return require'packer'.startup {
         -- Indent line
         use 'lukas-reineke/indent-blankline.nvim'
 
+        -- Image viewer
+        use 'samodostal/image.nvim'
+
         -- Highlight word under cursor
         -- use 'yamatsum/nvim-cursorline'
 
