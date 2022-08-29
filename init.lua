@@ -350,7 +350,7 @@ require'toggleterm'.setup {
     shell = isUnix and opt.shell:get() or 'pwsh.exe',
     size = function (term)
         if term.direction == 'horizontal' then
-            return opt.lines:get() < 40 and opt.lines:get() * 0.5 or 20
+            return opt.lines:get() < 50 and opt.lines:get() * 0.4 or 20
         elseif term.direction == 'vertical' then
             return opt.columns:get() * 0.4
         end

@@ -195,11 +195,11 @@ return {
         map. n ([[<Leader>tr]], [[<Cmd>%s/\s\+$//<Bar>norm!``<CR><Cmd>noh<CR>]])
 
         -- Quick jump to buffer
-        map. n ([[<Leader>B]], [[<Cmd>ls<CR>:<C-u>b ]], { silent = false })
+        map. n ([[<Leader>b]], [[<Cmd>ls<CR>:<C-u>b ]], { silent = false })
 
         -- Delete buffer without closing the current window
-        map. n ([[<Leader>bd]], [[<Cmd>bp<Bar>bd#<CR>]])
-        map. n ([[<Leader>bD]], [[<Cmd>bp<Bar>bd!#<CR>]])
+        map. n ([[<M-d>]], [[<Cmd>bp<Bar>bd#<CR>]])
+        map. n ([[<Leader><M-d>]], [[<Cmd>bp<Bar>bd!#<CR>]])
 
         -- Change buffer easily
         map. nt ([[<M-n>]], [[<Cmd>exe v:count . 'bn'<CR>]], { nolazyredraw = true })
