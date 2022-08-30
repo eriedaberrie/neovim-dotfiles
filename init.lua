@@ -531,8 +531,13 @@ funcs.settheme = function (theme)
             globalstatus = true,
         },
         sections = {
-            lualine_a = { 'mode' },
-            lualine_b = { 'filename' },
+            lualine_a = {
+                { 'mode', separator = { right = '' } },
+                { function ()
+                    return funcs.capslockon and 'CAPS LOCK' or ''
+                end, color = 'QuickFixLine', separator = { right = '' } }
+            },
+            lualine_b = { { 'filename' }, },
             lualine_c = {{ gitblame.get_current_blame_text, cond = gitblame.is_blame_text_available }},
             lualine_x = { 'encoding', 'fileformat', 'filesize', 'filetype' },
             lualine_y = { 'progress' },

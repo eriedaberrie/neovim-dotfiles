@@ -209,5 +209,21 @@ M.del_autocmds = function ()
     api.nvim_clear_autocmds{}
 end
 
+M.capslockon = false
+M.capslock = function ()
+    for i = 65, 90 do
+        local letter = string.char(i)
+        local other = string.char(i + 32)
+        if M.capslockon then
+            api.nvim_del_keymap('!', letter)
+            api.nvim_del_keymap('!', other)
+        else
+            api.nvim_set_keymap('!', letter, other, { noremap = true })
+            api.nvim_set_keymap('!', other, letter, { noremap = true })
+        end
+    end
+    M.capslockon = not M.capslockon
+end
+
 
 return M

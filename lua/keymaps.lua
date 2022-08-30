@@ -298,5 +298,8 @@ return {
         -- Indentation text object
         map. O ([[ii]], function () vim.funcs.selectindent(false) end)
         map. O ([[ai]], function () vim.funcs.selectindent(true) end)
+
+        -- Caps lock
+        map. ic ([[<C-l>]], vim.funcs.capslock)
     end,
 }
