@@ -160,12 +160,9 @@ return {
         map. n ([[<Leader>ee]], [[<Cmd>Lspsaga show_line_diagnostics<CR>]])
         map. n ([[<Leader>el]], [[<Cmd>Lspsaga diagnostic_jump_next<CR>]])
         map. n ([[<Leader>eh]], [[<Cmd>Lspsaga diagnostic_jump_prev<CR>]])
+        map. n ([[<Leader>er]], [[<Cmd>Lspsaga rename<CR>]])
         map. n ([[<Leader>ej]], [[$<Cmd>Lspsaga diagnostic_jump_next<CR>]])
         map. n ([[<Leader>ek]], [[0<Cmd>Lspsaga diagnostic_jump_prev<CR>]])
-        map. n ([[<Leader>er]], [[<Cmd>Lspsaga rename<CR>]])
-        local lspsaga_action = require'lspsaga.action'
-        map. n ([[<C-f>]], function () lspsaga_action.smart_scroll_with_saga(1) end)
-        map. n ([[<C-b>]], function () lspsaga_action.smart_scroll_with_saga(-1) end)
 
         -- Coq_nvim + nvim-autopairs keymaps
         map. i ([[<Esc>]], [[pumvisible() ? '<C-e><Esc>' : '<Esc>']], { expr = true })
