@@ -123,30 +123,36 @@ dapui.setup()
 dap.listeners.after.event_initialized.dapui_config = dapui.open
 
 -- close neovim if the only other windows are dap-ui
-api.nvim_create_autocmd('WinClosed', {
+api.nvim_create_autocmd('QuitPre', {
     group = 'InitGroup',
     callback = function ()
+        local winnotdap = function (win)
+            local ft = api.nvim_buf_get_option(api.nvim_win_get_buf(win), 'ft')
+            return ft:sub(1, 6) ~= 'dapui_' and ft ~= 'dap-repl'
+        end
+
         local curwin = api.nvim_get_current_win()
+        -- return if triggered by closing a dapui window
+        if not winnotdap(curwin) then return end
+
         local tabpage = nil
         if #api.nvim_list_tabpages() > 1 then
             tabpage = api.nvim_get_current_tabpage()
         end
 
+        local wintable = {}
+
         for _, win in ipairs(api.nvim_list_wins()) do
             if tabpage and api.nvim_win_get_tabpage(win) ~= tabpage then goto continue end
             if win == curwin then goto continue end
 
-            local ft = api.nvim_buf_get_option(api.nvim_win_get_buf(win), 'ft')
-            if ft:sub(1, 6) ~= 'dapui_' and ft ~= 'dap-repl' then
-                return
-            end
+            if winnotdap(win) then return end
+            wintable[win] = true
             ::continue::
         end
 
-        if tabpage then
-            vim.cmd.tabclose { bang = true }
-        else
-            vim.cmd.quitall { bang = true }
+        for i, _ in pairs(wintable) do
+            api.nvim_win_close(i, true)
         end
     end
 })
