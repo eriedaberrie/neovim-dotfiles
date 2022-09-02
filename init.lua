@@ -147,7 +147,7 @@ require'nvim-treesitter.configs'.setup {
         'bash',
         'make', 'cmake', 'ninja',
         'fennel', 'scala',
-        'java', 'go', 'rust',
+        'java', 'go', 'rust', 'haskell',
     },
     highlight = {
         enable = true,
