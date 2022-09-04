@@ -496,13 +496,6 @@ vim.filetype.add {
     extension = { ['nasm'] = 'asm' }
 }
 
--- enable spellcheck, set foldmethod depending on filetype
-api.nvim_create_autocmd('FileType', {
-    group = initgroup,
-    pattern = 'markdown,norg,gitcommit',
-    command = [[setlocal spell foldtext=foldtext()]]
-})
-
 -- plugin management (packer)
 require'plugins'
 api.nvim_create_autocmd('BufWritePost', {
