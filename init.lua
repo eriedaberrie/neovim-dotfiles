@@ -182,7 +182,7 @@ api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
             local oldmethod = api.nvim_win_get_option(0, 'foldmethod')
             api.nvim_win_set_option(0, 'foldmethod', 'expr')
             if arg.event == 'BufEnter' or oldmethod == 'manual' then
-                cmd.normal{ 'zR', bang = true }
+                api.nvim_win_set_option(0, 'foldlevel', 99999)
             end
         end
     end,
