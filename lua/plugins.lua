@@ -136,7 +136,7 @@ return require'packer'.startup {
 
         -- Todo comments
         use {
-            'vinnyA3/todo-comments.nvim',
+            'folke/todo-comments.nvim',
             requires = 'nvim-lua/plenary.nvim',
         }
 

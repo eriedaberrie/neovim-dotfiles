@@ -303,8 +303,8 @@ local servers = {
     jdtls = {}
 }
 if isUnix then
-    -- Scala
-    servers.metals = {}
+    -- haskell
+    servers.hls = {}
 end
 
 -- actually setting up the LSP servers
