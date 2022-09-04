@@ -158,10 +158,10 @@ require'nvim-treesitter.configs'.setup {
         enable = true,
         disable = funcs.tsdisable,
         keymaps = {
-            init_selection    = '<Leader>ti',
-            node_incremental  = '<Leader>ti',
-            scope_incremental = '<Leader>tt',
-            node_decremental  = '<Leader>td',
+            init_selection    = '<M-t>',
+            node_incremental  = '<M-t>',
+            node_decremental  = '<M-s-t>',
+            scope_incremental = '<Leader><M-t>',
         }
     },
     -- nvim-ts-rainbow parentheses highlighting
@@ -363,8 +363,8 @@ require'nvim-tree'.setup {
     sync_root_with_cwd = true,
     on_attach = function (bufnr)
         local inject_node = require'nvim-tree.utils'.inject_node
-        local map = function (key, func)
-            api.nvim_buf_set_keymap(bufnr, 'n', key, '', { callback = inject_node(func), nowait = true, noremap = true })
+        local map = function (key, func, desc)
+            api.nvim_buf_set_keymap(bufnr, 'n', key, '', { callback = inject_node(func), nowait = true, noremap = true, desc = desc })
         end
 
         map('d', require'nvim-tree.actions.fs.trash'.fn)
@@ -464,9 +464,6 @@ if g.started_by_firenvim then
 end
 
 -- finally, for exclusively vanilla neovim
--- remove leader timeout
-opt.timeout = false
-
 -- automatically prepend lua
 funcs.autoprepend({ 'require', 'vim.' }, 'lua ')
 -- automatically prepend !
@@ -556,6 +553,26 @@ end
 
 -- image viewer
 require'image'.setup{}
+
+-- which-key
+opt.timeoutlen = 0
+local wk = require'which-key'
+wk.setup {
+    plugins = {
+        registers = false,
+        spelling = {
+            enabled = true,
+            suggestions = 36,
+        },
+    },
+    operators = {
+        gr = 'Replace with register',
+    }
+}
+wk.register {
+    gr = 'Replace with register',
+    grr = 'Replace current line with register',
+}
 
 -- disable git-blame.nvim on big files
 api.nvim_create_autocmd('BufEnter', {

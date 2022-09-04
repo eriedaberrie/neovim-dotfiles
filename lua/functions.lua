@@ -14,17 +14,24 @@ M.set_keymaps = function (maptable)
 
     local mapfunc = setmetatable({}, {
         __index = function (t, shortname)
-            t[shortname] = function (lhs, rhs, customopts)
+            t[shortname] = function (lhs, rhs, customopts, desc)
                 opts = { noremap = true, silent = true }
                 nolazyredraw = false
 
                 if customopts then
-                    if customopts.nolazyredraw then
-                        customopts.nolazyredraw = nil
-                        nolazyredraw = true
-                    end
+                    if type(customopts) == 'string' then
+                        opts.desc = customopts
+                    else
+                        if customopts.nolazyredraw then
+                            customopts.nolazyredraw = nil
+                            nolazyredraw = true
+                        end
 
-                    opts = vim.tbl_extend('force', opts, customopts)
+                        opts = vim.tbl_extend('force', opts, customopts)
+                    end
+                end
+                if desc then
+                    opts.desc = desc
                 end
 
                 if type(rhs) == 'function' then
@@ -67,9 +74,12 @@ M.set_keymaps = function (maptable)
         end,
     })
 
+    local p, wkreg = pcall(function () return require'which-key'.register end)
+    if not p then wkreg = function (...) end end
+
     for flags, mappings in pairs(maptable) do
         if flags % (launchmask + launchmask) >= launchmask then
-            mappings(mapfunc)
+            mappings(mapfunc, wkreg)
         end
     end
 end

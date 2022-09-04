@@ -7,54 +7,63 @@
 -- 0b0100 - VSCode plugin
 -- 0b1000 - Firenvim
 
+---@diagnostic disable: unused-local
 return {
     -- 0b0001
-    [1] = function (map)
+    [1] = function (map, wkreg)
         -- Open RPG maker game in debug mode
-        map. n ([[<Leader>pd]], [[&shell ==# 'cmd.exe' ? '<Cmd>!for /f "usebackq tokens=*" \%a in (`git rev-parse --show-toplevel`) do start /d "\%a" Game.exe debug<CR><CR>' : '<Cmd>!start -FilePath Game.exe -WorkingDirectory "$(git rev-parse --show-toplevel)" -ArgumentList "debug"<CR><CR>']], { expr = true })
+        map. n ([[<Leader>pd]], [[&shell ==# 'cmd.exe' ? '<Cmd>!for /f "usebackq tokens=*" \%a in (`git rev-parse --show-toplevel`) do start /d "\%a" Game.exe debug<CR><CR>' : '<Cmd>!start -FilePath Game.exe -WorkingDirectory "$(git rev-parse --show-toplevel)" -ArgumentList "debug"<CR><CR>']], { expr = true }, 'Play RPG maker game in debug mode')
 
         -- Don't accidentaly permanently suspend in Windows
         map. n ([[<C-z>]], [[<Nop>]])
     end,
 
     -- 0b0010
-    [2] = function (map)
+    [2] = function (map, wkreg)
     end,
 
     -- 0b0011
-    [3] = function (map)
+    [3] = function (map, wkreg)
         -- :PackerSync
+        wkreg{ ['<Leader>p'] = { name = 'Packer' } }
         map. n ([[<Leader>ps]], [[:PackerSync<CR>]], { silent = false })
 
         -- Reload impatient.nvim cache
         map. n ([[<Leader>I]], [[:LuaCacheClear<CR>]], { silent = false })
 
         -- Lazygit maps
-        map. n ([[<Leader>gg]], require'lazygit'.lazygit)
-        map. n ([[<Leader>fl]], require'telescope._extensions'.manager.lazygit.lazygit)
+        wkreg{ ['<Leader>g'] = { name = 'Lazygit and EasyAlign' } }
+        map. n ([[<Leader>gg]], require'lazygit'.lazygit, 'Toggle lazygit')
+        map. n ([[<Leader>fl]], require'telescope._extensions'.manager.lazygit.lazygit, 'Lazygit')
 
         -- Debugging
+        local dapregtable = {
+            ['<Leader>d'] = { name = 'DAP' },
+            ['<Leader>du'] = { name = 'Dap-ui' },
+        }
+        wkreg(dapregtable)
+        wkreg(dapregtable, { mode = 'x' })
         local dap = require'dap'
         local dapui = require'dapui'
-        map. n ([[<Leader>D]],  dap.continue)
-        map. n ([[<Leader>dr]], dap.repl.toggle)
-        map. n ([[<Leader>dd]], dap.toggle_breakpoint)
-        map. n ([[<Leader>ds]], dap.step_into)
-        map. n ([[<Leader>do]], dap.step_over)
-        map. n ([[<Leader>dg]], function () dap.goto_(vim.v.count ~= 0 and vim.v.count) end)
-        map. n ([[<Leader>dO]], dap.step_out)
-        map. n ([[<Leader>dB]], dap.step_back)
-        map. n ([[<Leader>dT]], dap.terminate)
-        map. n ([[<Leader>dD]], dap.disconnect)
-        map. n ([[<Leader>dC]], dap.close)
-        map. n ([[<Leader>dU]],  dapui.toggle)
-        map. n ([[<Leader>duu]], dapui.toggle)
-        map. n ([[<Leader>duf]], dapui.float_element)
-        map. nx ([[<Leader>due]], dapui.eval)
+        map. n ([[<Leader>D]],  dap.continue, 'DAP continue')
+        map. n ([[<Leader>dr]], dap.repl.toggle, 'Toggle REPL (use dap-ui instead)')
+        map. n ([[<Leader>dd]], dap.toggle_breakpoint, 'Toggle breakpoint')
+        map. n ([[<Leader>ds]], dap.step_into, 'Step into')
+        map. n ([[<Leader>do]], dap.step_over, 'Step over')
+        map. n ([[<Leader>dg]], function () dap.goto_(vim.v.count ~= 0 and vim.v.count) end, 'Goto')
+        map. n ([[<Leader>dO]], dap.step_out, 'Step out')
+        map. n ([[<Leader>dB]], dap.step_back, 'Step back')
+        map. n ([[<Leader>dT]], dap.terminate, 'Terminate')
+        map. n ([[<Leader>dD]], dap.disconnect, 'Disconnect')
+        map. n ([[<Leader>dC]], dap.close, 'Close (use terminate instead)')
+        map. n ([[<Leader>dU]],  dapui.toggle, 'Toggle dap-ui')
+        map. n ([[<Leader>duu]], dapui.toggle, 'Toggle')
+        map. n ([[<Leader>duf]], dapui.float_element, 'Float element')
+        map. nx ([[<Leader>due]], dapui.eval, 'Eval')
     end,
 
     -- 0b0100
-    [4] = function (map)
+    [4] = function (map, wkreg)
         -- Pressing "z=" opens the context menu
         map. n ([[z=]], [[<Cmd>call VSCodeNotify('keyboard-quickfix.openQuickFix')<CR>]])
 
@@ -63,11 +72,11 @@ return {
     end,
 
     -- 0b1000
-    [8] = function (map)
+    [8] = function (map, wkreg)
     end,
 
     -- 0b1011
-    [11] = function (map)
+    [11] = function (map, wkreg)
         -- Maps Ctrl-Backspace to do the thing
         map. ic ([[<C-BS>]], [[<C-w>]], { silent = false, noremap = false })
 
@@ -81,27 +90,31 @@ return {
         map. n ([[<M-.>]], [[<Cmd>exe v:count . 'wincmd >'<CR>]])
 
         -- Text resize maps
-        map. n ([[<Leader>0]], vim.funcs.resizetext)
-        map. n ([[<Leader>=]], function () vim.funcs.resizetext(vim.v.count1, 1) end)
-        map. n ([[<Leader>-]], function () vim.funcs.resizetext(vim.v.count1, -1) end)
+        map. n ([[<Leader>0]], vim.funcs.resizetext, 'Reset text size')
+        map. n ([[<Leader>=]], function () vim.funcs.resizetext(vim.v.count1, 1) end, 'Increase text size')
+        map. n ([[<Leader>-]], function () vim.funcs.resizetext(vim.v.count1, -1) end, 'Decrease text size')
 
         -- Easy enter terminal mode
+        wkreg{ ['<Leader>t'] = { name = 'ToggleTerm' } }
+        wkreg({ ['<Leader>t'] = { name = 'ToggleTerm' } }, { mode = 'x' })
+        wkreg{ ['<C-\\>'] = { name = 'ToggleTerm' } }
+        wkreg({ ['<C-\\>'] = { name = 'ToggleTerm' } }, { mode = 'x' })
         local toggleterm = require'toggleterm'
-        map. n ([[<Leader>to]], function () toggleterm.toggle(vim.v.count) end)
-        map. n ([[<Leader>th]], function () toggleterm.toggle(vim.v.count, nil, nil, 'horizontal') end)
-        map. n ([[<Leader>tv]], function () toggleterm.toggle(vim.v.count, nil, nil, 'vertical') end)
-        map. n ([[<Leader>ta]], toggleterm.toggle_all)
-        map. n ([[<C-\>h]], function () toggleterm.toggle(vim.v.count, nil, nil, 'horizontal') end)
-        map. n ([[<C-\>v]], function () toggleterm.toggle(vim.v.count, nil, nil, 'vertical') end)
-        map. n ([[<C-\>a]], toggleterm.toggle_all)
+        map. n ([[<Leader>tt]], function () toggleterm.toggle(vim.v.count) end, 'Toggle')
+        map. n ([[<Leader>th]], function () toggleterm.toggle(vim.v.count, nil, nil, 'horizontal') end, 'Horizontal')
+        map. n ([[<Leader>tv]], function () toggleterm.toggle(vim.v.count, nil, nil, 'vertical') end, 'Vertical')
+        map. n ([[<Leader>ta]], toggleterm.toggle_all, 'All')
+        map. n ([[<C-\>h]], function () toggleterm.toggle(vim.v.count, nil, nil, 'horizontal') end, 'Horizontal')
+        map. n ([[<C-\>v]], function () toggleterm.toggle(vim.v.count, nil, nil, 'vertical') end, 'Vertical')
+        map. n ([[<C-\>a]], toggleterm.toggle_all, 'All')
 
         -- More ToggleTerm maps
-        map. n ([[<Leader>ts]], function () toggleterm.send_lines_to_terminal('single_line', true, { args = vim.v.count }) end)
-        map. x ([[<Leader>ts]], function () toggleterm.send_lines_to_terminal('visual_lines', true, { args = vim.v.count }) end)
-        map. x ([[<Leader>tS]], function () toggleterm.send_lines_to_terminal('visual_selection', true, { args = vim.v.count }) end)
-        map. n ([[<C-\>s]], function () toggleterm.send_lines_to_terminal('single_line', true, { args = vim.v.count }) end)
-        map. x ([[<C-\>s]], function () toggleterm.send_lines_to_terminal('visual_lines', true, { args = vim.v.count }) end)
-        map. x ([[<C-\>S]], function () toggleterm.send_lines_to_terminal('visual_selection', true, { args = vim.v.count }) end)
+        map. n ([[<Leader>ts]], function () toggleterm.send_lines_to_terminal('single_line', true, { args = vim.v.count }) end, 'Send lines')
+        map. x ([[<Leader>ts]], function () toggleterm.send_lines_to_terminal('visual_lines', true, { args = vim.v.count }) end, 'Send lines')
+        map. x ([[<Leader>tS]], function () toggleterm.send_lines_to_terminal('visual_selection', true, { args = vim.v.count }) end, 'Send visual selection')
+        map. n ([[<C-\>s]], function () toggleterm.send_lines_to_terminal('single_line', true, { args = vim.v.count }) end, 'Send lines')
+        map. x ([[<C-\>s]], function () toggleterm.send_lines_to_terminal('visual_lines', true, { args = vim.v.count }) end, 'Send lines')
+        map. x ([[<C-\>S]], function () toggleterm.send_lines_to_terminal('visual_selection', true, { args = vim.v.count }) end, 'Send visual selection')
 
         -- Easy exit terminal mode
         map. t ([[<C-\><Esc>]],    [[<C-\><C-n>]], { nolazyredraw = true })
@@ -114,9 +127,14 @@ return {
         map. nt ([[<M-l>]], [[<Cmd>exe v:count . 'wincmd l'<CR>]], { nolazyredraw = true })
 
         -- Close help page easily
+        wkreg{ ['<Leader>h'] = { name = 'Help' } }
         map. n ([[<Leader>hc]], [[<Cmd>helpclose<CR>]])
 
-        -- Loclist and Quickfixlist toggles
+        -- Loclist and quickfixlist toggles
+        wkreg{ ['<Leader>c'] = { name = 'Quickfix list and cd'} }
+        wkreg({ ['<Leader>c'] = { name = 'Quickfix list'} }, { mode = 'x' })
+        wkreg{ ['<Leader>l'] = { name = 'Location list and lazyredraw'} }
+        wkreg({ ['<Leader>l'] = { name = 'Location list'} }, { mode = 'x' })
         map. n ([[<Leader>lo]], [[<Cmd>lopen<CR>]])
         map. n ([[<Leader>lc]], [[<Cmd>lclose<CR>]])
         map. n ([[<Leader>co]], [[<Cmd>copen<CR>]])
@@ -127,7 +145,7 @@ return {
         map. nx ([[<Leader>cp]], [[<Cmd>cprev<CR>]])
 
         -- LSP maps
-        map. n ([[<Leader>eE]], vim.diagnostic.setloclist)
+        map. n ([[<Leader>eE]], vim.diagnostic.setloclist, 'Set location list with diagnostics')
         -- map. n ([[<Leader>ee]], vim.diagnostic.open_float)
         -- map. n ([[<Leader>el]], vim.diagnostic.goto_next)
         -- map. n ([[<Leader>eh]], vim.diagnostic.goto_prev)
@@ -135,34 +153,36 @@ return {
         -- map. n ([[<Leader>ek]], [[0<Cmd>lua vim.diagnostic.goto_prev()<CR>]])
         map. n ([[<Leader>eI]], [[<Cmd>LspInfo<CR>]])
         -- map. n ([[<Leader>E]], vim.lsp.buf.hover)
-        map. n ([[<Leader>ed]], vim.lsp.buf.definition)
-        map. n ([[<Leader>eD]], vim.lsp.buf.declaration)
-        map. n ([[<Leader>ei]], vim.lsp.buf.implementation)
+        map. n ([[<Leader>ed]], vim.lsp.buf.definition, 'Jump to definition')
+        map. n ([[<Leader>eD]], vim.lsp.buf.declaration, 'Jump to declaration')
+        map. n ([[<Leader>ei]], vim.lsp.buf.implementation, 'Set location list with implementations')
         -- map. n ([[<Leader>er]], vim.lsp.buf.rename)
-        map. n ([[<Leader>eR]], vim.lsp.buf.references)
-        map. n ([[<Leader>et]], vim.lsp.buf.type_definition)
-        map. n ([[<Leader>eF]], vim.lsp.buf.format)
-        map. x ([[<Leader>eF]], vim.lsp.buf.range_formatting)
+        map. n ([[<Leader>eR]], vim.lsp.buf.references, 'References')
+        map. n ([[<Leader>et]], vim.lsp.buf.type_definition, 'Type definition')
+        map. n ([[<Leader>eF]], vim.lsp.buf.format, 'Format')
+        map. x ([[<Leader>eF]], vim.lsp.buf.range_formatting, 'Format')
         -- map. n ([[<Leader>ec]], vim.lsp.buf.code_action)
         -- map. x ([[<Leader>ec]], vim.lsp.buf.range_code_action)
         -- map. n ([[<Leader>es]], vim.lsp.buf.signature_help)
-        map. n ([[<Leader>ew]], vim.lsp.buf.add_workspace_folder)
-        map. n ([[<Leader>eW]], vim.lsp.buf.remove_workspace_folder)
-        map. n ([[<Leader>e<C-w>]], function () vim.pretty_print(vim.lsp.buf.list_workspace_folders()) end)
+        map. n ([[<Leader>ew]], vim.lsp.buf.add_workspace_folder, 'Add workspace folder')
+        map. n ([[<Leader>eW]], vim.lsp.buf.remove_workspace_folder, 'Remove workspace folder')
+        map. n ([[<Leader>e<C-w>]], function () vim.pretty_print(vim.lsp.buf.list_workspace_folders()) end, 'List workspace folders')
 
         -- Lspsaga maps
-        map. n ([[<Leader>E]],  [[<Cmd>Lspsaga hover_doc<CR>]])
-        map. n ([[<Leader>ef]], [[<Cmd>Lspsaga lsp_finder<CR>]])
-        map. n ([[<Leader>ec]], [[<Cmd>Lspsaga code_action<CR>]])
-        map. x ([[<Leader>ec]], [[<Cmd>Lspsaga code_range_action<CR>]])
-        map. n ([[<Leader>es]], [[<Cmd>Lspsaga signature_help<CR>]])
-        map. n ([[<Leader>ep]], [[<Cmd>Lspsaga preview_definition<CR>]])
-        map. n ([[<Leader>ee]], [[<Cmd>Lspsaga show_line_diagnostics<CR>]])
-        map. n ([[<Leader>el]], [[<Cmd>Lspsaga diagnostic_jump_next<CR>]])
-        map. n ([[<Leader>eh]], [[<Cmd>Lspsaga diagnostic_jump_prev<CR>]])
-        map. n ([[<Leader>er]], [[<Cmd>Lspsaga rename<CR>]])
-        map. n ([[<Leader>ej]], [[$<Cmd>Lspsaga diagnostic_jump_next<CR>]])
-        map. n ([[<Leader>ek]], [[0<Cmd>Lspsaga diagnostic_jump_prev<CR>]])
+        wkreg{ ['<Leader>e'] = { name = 'LSP'} }
+        wkreg({ ['<Leader>e'] = { name = 'LSP'} }, { mode = 'x' })
+        map. n ([[<Leader>E]],  [[<Cmd>Lspsaga hover_doc<CR>]], 'LSP hover')
+        map. n ([[<Leader>ef]], [[<Cmd>Lspsaga lsp_finder<CR>]], 'Lspsaga finder')
+        map. n ([[<Leader>ec]], [[<Cmd>Lspsaga code_action<CR>]], 'Code action')
+        map. x ([[<Leader>ec]], [[<Cmd>Lspsaga range_code_action<CR>]], 'Code action')
+        map. n ([[<Leader>es]], [[<Cmd>Lspsaga signature_help<CR>]], 'Signature')
+        map. n ([[<Leader>ep]], [[<Cmd>Lspsaga preview_definition<CR>]], 'Preview definition')
+        map. n ([[<Leader>ee]], [[<Cmd>Lspsaga show_line_diagnostics<CR>]], 'Line diagnostics')
+        map. n ([[<Leader>el]], [[<Cmd>Lspsaga diagnostic_jump_next<CR>]], 'Next diagnostic')
+        map. n ([[<Leader>eh]], [[<Cmd>Lspsaga diagnostic_jump_prev<CR>]], 'Previous diagnostic')
+        map. n ([[<Leader>er]], [[<Cmd>Lspsaga rename<CR>]], 'Rename')
+        map. n ([[<Leader>ej]], [[$<Cmd>Lspsaga diagnostic_jump_next<CR>]], 'Next line diagnostic')
+        map. n ([[<Leader>ek]], [[0<Cmd>Lspsaga diagnostic_jump_prev<CR>]], 'Previous line diagnostic')
 
         -- Coq_nvim + nvim-autopairs keymaps
         map. i ([[<Esc>]], [[pumvisible() ? '<C-e><Esc>' : '<Esc>']], { expr = true })
@@ -171,32 +191,33 @@ return {
         map. i ([[<S-Tab>]], [[pumvisible() ? '<C-p>' : '<Tab>']], { expr = true })
 
         -- Toggle spell checking
+        wkreg{ ['<Leader>s'] = { name = 'Spell' } }
         map. n ([[<Leader>sp]], [[<Cmd>set spell! spell?<CR>]])
 
         -- Toggle whitespace visibility
-        map. nx ([[<Leader><Leader>]], [[<Cmd>set list!<CR>]])
+        map. nx ([[<Leader><Leader>]], [[<Cmd>set list!<CR>]], 'Toggle showing whitespace')
 
         -- Toggles dark/light themes
-        map. nx ([[<Leader>tt]], function () vim.funcs.settheme(vim.o.background == 'dark' and 'light' or 'dark') end)
+        map. n ([[<Leader>T]], function () vim.funcs.settheme(vim.o.background == 'dark' and 'light' or 'dark') end, 'Toggle dark/light themes')
 
         -- Preserve q: and quickfix <CR> functionality
         map. n ([[<CR>]], [[!(index(['[Command Line]'], expand('%')) is -1) || (&filetype == 'qf') ? '<CR>' : '']], { silent = false, expr = true })
 
         -- Swap to visual linewise movement (for editing actual paragraphs)
-        map. n ([[<Leader>jk]], [[<Cmd>nnoremap j gj<CR><Cmd>nnoremap k gk<CR><Cmd>nnoremap 0 g0<CR><Cmd>nnoremap $ g$<CR>]])
+        map. n ([[<Leader>jk]], [[<Cmd>nnoremap j gj<CR><Cmd>nnoremap k gk<CR><Cmd>nnoremap 0 g0<CR><Cmd>nnoremap $ g$<CR>]], 'Make jk0$ visual')
 
         -- Set cwd to current file directory
-        map. n ([[<Leader>cd]], [[<Cmd>tcd %:h<CR>]])
+        map. n ([[<Leader>cd]], [[<Cmd>tcd %:h<CR>]], 'Tab cd to current file')
 
         -- Delete trailing spaces
-        map. n ([[<Leader>tr]], [[<Cmd>%s/\s\+$//<Bar>norm!``<CR><Cmd>noh<CR>]])
+        map. n ([[<Leader>S]], [[<Cmd>%s/\s\+$//<Bar>norm!``<CR><Cmd>noh<CR>]], 'Trim trailing spaces')
 
         -- Quick jump to buffer
-        map. n ([[<Leader>b]], [[<Cmd>ls<CR>:<C-u>b ]], { silent = false })
+        map. n ([[<Leader>b]], [[<Cmd>ls<CR>:<C-u>b ]], { silent = false }, 'Buffer jump')
 
         -- Delete buffer without closing the current window
-        map. n ([[<M-d>]], [[<Cmd>bp<Bar>bd#<CR>]])
-        map. n ([[<Leader><M-d>]], [[<Cmd>bp<Bar>bd!#<CR>]])
+        map. n ([[<M-d>]], [[<Cmd>bp<Bar>bd#<CR>]], 'Close current buffer')
+        map. n ([[<Leader><M-d>]], [[<Cmd>bp<Bar>bd!#<CR>]], 'Force-close current buffer')
 
         -- Change buffer easily
         map. nt ([[<M-n>]], [[<Cmd>exe v:count . 'bn'<CR>]], { nolazyredraw = true })
@@ -205,42 +226,42 @@ return {
         map. nt ([[<M-3>]], [[<Cmd>b#<CR>]], { nolazyredraw = true })
 
         -- Temporarily increase scrolloff
-        map. n ([[<Leader>zz]], [['<Cmd>set scrolloff=8<CR><Cmd>set scrolloff=' . &scrolloff . '<CR>']], { expr = true })
+        wkreg{ ['<Leader>z'] = { name = 'Scrolloff' } }
+        map. n ([[<Leader>zz]], [['<Cmd>set scrolloff=8<CR><Cmd>set scrolloff=' . &scrolloff . '<CR>']], { expr = true }, 'Temporarily set scrolloff to 8')
 
         -- Go to misspelled word in insert mode
         map. i ([[<C-z>]], [[<Esc>b[sviw<Esc>a]])
         map. i ([[<C-s>]], [[<Esc>]sviw<Esc>a]])
 
         -- Telescope maps
+        wkreg{ ['<Leader>f'] = { name = 'Telescope'} }
         local tele_builtin = require'telescope.builtin'
         local tele_ext = require'telescope._extensions'.manager
-        map. n ([[<Leader>fr]], tele_builtin.resume)
-        map. n ([[<Leader>ff]], tele_builtin.find_files)
-        map. n ([[<Leader>fg]], tele_builtin.live_grep)
-        map. n ([[<Leader>fb]], tele_builtin.buffers)
-        map. n ([[<Leader>fh]], tele_builtin.help_tags)
-        map. n ([[<Leader>fc]], tele_ext.neoclip.neoclip)
-        map. n ([[<Leader>fn]], tele_ext.notify.notify)
-        map. n ([[<Leader>fH]], tele_ext.howdoi.howdoi)
+        map. n ([[<Leader>fr]], tele_builtin.resume, 'Resume previous')
+        map. n ([[<Leader>ff]], tele_builtin.find_files, 'Files')
+        map. n ([[<Leader>fg]], tele_builtin.live_grep, 'Live grep')
+        map. n ([[<Leader>fb]], tele_builtin.buffers, 'Buffers')
+        map. n ([[<Leader>fh]], tele_builtin.help_tags, 'Help tags')
+        map. n ([[<Leader>fc]], tele_ext.neoclip.neoclip, 'Neoclip registers')
+        map. n ([[<Leader>fn]], tele_ext.notify.notify, 'Notify')
+        map. n ([[<Leader>fH]], tele_ext.howdoi.howdoi, 'Howdoi')
 
         -- Open nvim tree without accidentally closing the current tabpage
         map. n ([[<Leader>e.]], [[<Cmd>NvimTreeToggle<CR>]])
 
-        -- Folding in files too large for treesitter
-        map. n ([[z%]], [[V%o:fold<CR>]])
-
         -- Toggle indent-blankline plugin
-        map. n ([[<Leader>ib]], [[<Cmd>let g:indent_blankline_enabled = g:indent_blankline_enabled ? v:false : v:true<CR>]])
+        wkreg{ ['<Leader>i'] = { name = 'Indent-blankline' } }
+        map. n ([[<Leader>ii]], [[<Cmd>let g:indent_blankline_enabled = g:indent_blankline_enabled ? v:false : v:true<CR>]], 'Toggle')
     end,
 
     -- 0b1101
-    [13] = function (map)
+    [13] = function (map, wkreg)
         -- Toggle shell
         map. n ([[<Leader>ss]], vim.funcs.toggleshell)
     end,
 
     -- 0b1111
-    [15] = function (map)
+    [15] = function (map, wkreg)
         -- Indent without exiting visual mode
         map. x ([[<]], [[<gv]])
         map. x ([[>]], [[>gv]])
@@ -259,10 +280,10 @@ return {
         map. n ([[<Leader>Q]], [[<Cmd>qa!<CR>]])
 
         -- Run previous command with ! prefix
-        map. n ([[<Leader>!]], [[:!<C-r>:<CR>]], { silent = false })
+        map. n ([[<Leader>!]], [[:!<C-r>:<CR>]], { silent = false }, 'Previous command with ! prefix')
 
         -- Run previous command with lua prefix
-        map. n ([[<Leader>lu]], [[:lua <C-r>:<CR>]], { silent = false })
+        map. n ([[<Leader>L]], [[:lua <C-r>:<CR>]], { silent = false }, 'Run previous command with lua prefix')
 
         -- Move around in insert modes with alt
         map. ic ([[<M-h>]], [[<Left>]],  { noremap = false, silent = false })
@@ -271,30 +292,31 @@ return {
         map. ic ([[<M-l>]], [[<Right>]], { noremap = false, silent = false })
 
         -- EasyAlign
-        map. nx ([[<Leader>ga]], [[<Plug>(EasyAlign)]])
+        map. nx ([[<Leader>ga]], [[<Plug>(EasyAlign)]], 'Activate EasyAlign')
 
         -- Easy access to clipboard in normal, visual mode
         map. nx ([[<Leader>"]], [["+]])
 
         -- Swap case of letter
-        map. n ([[gl]], [[g~l]])
+        map. n ([[gl]], [[g~l]], 'Swap case of single letter')
 
         -- Copy to clipboard
-        map. n ([[<Leader>yy]], [[<Cmd>%y+<CR>]])
+        wkreg{['<Leader>y'] = { name = '+Yank' }}
+        map. n ([[<Leader>yy]], [[<Cmd>%y+<CR>]], 'Yank full buffer into system clipboard')
 
         -- Don't move the cursor with insert mode <C-o>
         map. i ([[<C-o>]], [[<C-\><C-o>]], { silent = false })
 
         -- Current line text object
-        map. O ([[il]], [[0o$h]])
-        map. O ([[al]], [[(line('.') ==# line('$')) ? 'V' : '0o$']], { expr = true })
+        map. O ([[il]], [[0o$h]], 'Current line')
+        map. O ([[al]], [[(line('.') ==# line('$')) ? 'V' : '0o$']], { expr = true }, 'Current line')
 
         -- Current buffer text object
-        map. O ([[i%]], [[V0Gogg]])
+        map. O ([[i%]], [[V0Gogg]], 'Current buffer')
 
         -- Indentation text object
-        map. O ([[ii]], function () vim.funcs.selectindent(false) end)
-        map. O ([[ai]], function () vim.funcs.selectindent(true) end)
+        map. O ([[ii]], function () vim.funcs.selectindent(false) end, 'Current indentation level')
+        map. O ([[ai]], function () vim.funcs.selectindent(true) end, 'Current indentation level with trailing empty lines')
 
         -- Caps lock
         map. ic ([[<C-l>]], vim.funcs.capslock)

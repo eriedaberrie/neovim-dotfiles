@@ -50,6 +50,9 @@ return require'packer'.startup {
         -- Notifications
         use 'rcarriga/nvim-notify'
 
+        -- Keymap popup
+        use 'folke/which-key.nvim'
+
         -- Commenting
         use 'numToStr/Comment.nvim'
 
