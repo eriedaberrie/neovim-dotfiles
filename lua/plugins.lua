@@ -105,6 +105,9 @@ return require'packer'.startup {
             'williamboman/mason.nvim',
             'williamboman/mason-lspconfig.nvim',
 
+            -- Language-specific LSP plugins
+            'mfussenegger/nvim-jdtls',
+
             -- General LSP usefulness
             'glepnir/lspsaga.nvim',
 
