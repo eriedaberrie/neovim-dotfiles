@@ -210,6 +210,9 @@ require'coq_3p' {
 
 -- lspsaga config
 require'lspsaga'.init_lsp_saga {
+    code_action_lightbulb = {
+        sign = false,
+    },
     code_action_keys = {
         quit = '<Esc>',
     },
