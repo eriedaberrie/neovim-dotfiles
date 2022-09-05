@@ -17,6 +17,7 @@ fn.sign_define('DapBreakpointCondition', { text = 'C',  texthl = 'SignColumn' })
 local compiling = {}
 local try_recompile_cxx = function (sourcename, exename)
     local compiler = fn.fnamemodify(sourcename, ':e') == 'c' and 'gcc' or 'g++'
+    if not isUnix then compiler = compiler .. '.exe' end
     if fn.executable(compiler) == 1 then
         local co = coroutine.running()
         vim.schedule(function ()
@@ -89,22 +90,32 @@ local dap_cxx_program = function ()
 end
 
 -- adapters
-dap.adapters.lldb = {
-    type = 'executable',
-    command = isUnix and '/usr/bin/lldb-vscode' or vim.env.USERPROFILE .. [[\scoop\apps\llvm\current\bin\lldb-vscode.exe]],
-    name = 'lldb',
+dap.adapters.codelldb = {
+    type = 'server',
+    port = '${port}',
+    executable = {
+        command = fn.stdpath('data') .. (isUnix and '/mason/bin/codelldb' or '\\mason\\bin\\codelldb.cmd'),
+        args = { '--port', '${port}' },
+        detached = isUnix,
+    },
 }
 
 -- custom configurations
 dap.configurations.c = {
     {
         name = 'Launch',
-        type = 'lldb',
+        type = 'codelldb',
         request = 'launch',
         program = dap_cxx_program,
         cwd = '${workspaceFolder}',
         stopOnEntry = false,
-        args = {},
+        args = vim.LLDB_CXX_ARGS,
+        stdio = function ()
+            local possible = fn.expand('%:r') .. '.in'
+            if fn.filereadable(possible) == 1 then
+                return possible
+            end
+        end,
     },
 }
 dap.configurations.cpp = dap.configurations.c
