@@ -261,6 +261,17 @@ require'lsp_signature'.setup {
     select_signature_key = '<M-n>',
 }
 
+-- mason.nvim LSP installer
+require'mason'.setup()
+require'mason-lspconfig'.setup {
+    automatic_installation = {
+        exclude = {
+            'clangd',
+        }
+    },
+    ensure_installed = { 'jdtls', 'rust_analyzer' }
+}
+
 -- LSP config base
 local lspconfig = require'lspconfig'
 -- vim.lsp.set_log_level'debug'
@@ -295,12 +306,8 @@ local servers = {
     -- tsserver = {},
     -- C stuff
     clangd = {},
-    -- Rust
-    rust_analyzer = {},
     -- Emmet snippets
     emmet_ls = {},
-    -- Java
-    jdtls = {}
 }
 if isUnix then
     -- haskell

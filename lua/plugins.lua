@@ -11,15 +11,6 @@ return require'packer'.startup {
         -- Fix the CursorHold event with LuaLine
         use 'antoinemadec/FixCursorHold.nvim'
 
-        -- Collection of configurations for the built-in LSP client
-        use 'neovim/nvim-lspconfig'
-
-        -- General LSP help
-        use 'glepnir/lspsaga.nvim'
-
-        -- LSP signature help
-        use 'ray-x/lsp_signature.nvim'
-
         -- Auto pairs
         use 'windwp/nvim-autopairs'
 
@@ -104,6 +95,21 @@ return require'packer'.startup {
         use {
             'nvim-telescope/telescope.nvim',
             requires = 'nvim-lua/plenary.nvim',
+        }
+
+        -- LSP
+        use {
+            'neovim/nvim-lspconfig',
+
+            -- Installer
+            'williamboman/mason.nvim',
+            'williamboman/mason-lspconfig.nvim',
+
+            -- General LSP usefulness
+            'glepnir/lspsaga.nvim',
+
+            -- LSP signature help
+            'ray-x/lsp_signature.nvim',
         }
 
         -- Debugger
