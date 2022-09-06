@@ -194,6 +194,7 @@ g.coq_settings = {
     keymap = {
         -- in order to use nvim-autopairs, see keymaps.lua and below
         recommended = false,
+        eval_snips = '<Leader>C',
     },
     display = {
         pum = {

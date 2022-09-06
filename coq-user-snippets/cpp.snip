@@ -1,0 +1,44 @@
+snippet boilerplate
+alias b
+alias i
+    #include <bits/stdc++.h>
+    using namespace std;
+    
+    typedef long long ll;
+
+    int main()
+    {
+        ios::sync_with_stdio(false);
+        cin.tie(NULL);
+
+        ${1}
+
+        return 0;
+    }
+
+snippet boilerplate_solve
+alias s
+alias B
+alias I
+    #include <bits/stdc++.h>
+    using namespace std;
+
+    typedef long long ll;
+
+    inline void solve()
+    {
+        ${1}
+    }
+    
+    int main()
+    {
+        ios::sync_with_stdio(false);
+        cin.tie(NULL);
+
+        int N;
+        cin >> N;
+        for (int i = 0; i < N; i++)
+            solve();
+
+        return 0;
+    }
