@@ -208,6 +208,25 @@ M.resizetext = function (intin, mode)
     o.guifont = table.concat(newguifont)
 end
 
+M.setlogpoint = function ()
+    local curbuf = api.nvim_get_current_buf()
+    local curline = api.nvim_win_get_cursor(0)[1]
+    local bps = require'dap.breakpoints'.get(curbuf)[curbuf]
+    local default
+    for _, bp in ipairs(bps) do
+        print(bp.line)
+        print(curline)
+        if bp.line == curline then
+            default = bp.logMessage
+            break
+        end
+    end
+    vim.ui.input({ prompt = 'Set log point text:', default = default }, function (input)
+        if input == nil then return end
+        require'dap'.set_breakpoint(nil, nil, input)
+    end)
+end
+
 M.del_autocmds = function ()
     local augroups = {}
     for _, au in ipairs(api.nvim_get_autocmds{}) do

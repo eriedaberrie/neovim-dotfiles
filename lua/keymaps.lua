@@ -48,6 +48,7 @@ return {
         map. n ([[<Leader>D]],  dap.continue, 'DAP continue')
         map. n ([[<Leader>dr]], dap.repl.toggle, 'Toggle REPL (use dap-ui instead)')
         map. n ([[<Leader>dd]], dap.toggle_breakpoint, 'Toggle breakpoint')
+        map. n ([[<Leader>dl]], vim.funcs.setlogpoint, 'Toggle log point')
         map. n ([[<Leader>ds]], dap.step_into, 'Step into')
         map. n ([[<Leader>do]], dap.step_over, 'Step over')
         map. n ([[<Leader>dg]], function () dap.goto_(vim.v.count ~= 0 and vim.v.count) end, 'Goto')
