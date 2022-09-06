@@ -570,11 +570,13 @@ wk.setup {
         },
     },
     operators = {
-        gr = 'Replace with register',
+        ['gr'] = 'Replace with register',
+        ['ys'] = 'Yank surround',
+        ['<Leader>ga'] = 'EasyAlign',
     }
 }
 wk.register {
-    gr = 'Replace with register',
+    gr = { name = 'Replace with register' },
     grr = 'Replace current line with register',
 }
 
