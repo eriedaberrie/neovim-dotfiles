@@ -164,6 +164,44 @@ require'nvim-treesitter.configs'.setup {
             scope_incremental = '<Leader><M-t>',
         }
     },
+    textobjects = {
+        select = {
+            enable = true,
+            disable = funcs.tsdisable,
+            lookahead = true,
+            keymaps = {
+                ['if'] = { query = '@function.inner',  desc = 'inner function' },
+                ['af'] = { query = '@function.outer',  desc = 'a function' },
+                ['ic'] = { query = '@class.inner',     desc = 'inner class' },
+                ['ac'] = { query = '@class.outer',     desc = 'a class' },
+                ['il'] = { query = '@loop.inner',      desc = 'inner loop' },
+                ['al'] = { query = '@loop.outer',      desc = 'a loop' },
+                ['ia'] = { query = '@parameter.inner', desc = 'inner argument' },
+                ['aa'] = { query = '@parameter.outer', desc = 'an argument' },
+            },
+            selection_modes = {
+                ['@class.inner'] = 'V',
+                ['@class.outer'] = 'V',
+                ['@loop.inner']  = 'V',
+                ['@loop.outer']  = 'V',
+            },
+        },
+        swap = {
+            enable = true,
+            disable = funcs.tsdisable,
+            swap_next = { ['<M-s>'] = '@parameter.inner' },
+            swap_previous = { ['<M-s-s>'] = '@parameter.inner' },
+        },
+        move = {
+            enable = true,
+            disable = funcs.tsdisable,
+            set_jumps = true,
+            goto_next_start     = { [']m'] = { query = '@function.outer', desc = 'Next function start' } },
+            goto_next_end       = { [']M'] = { query = '@function.outer', desc = 'Next function end' } },
+            goto_previous_start = { ['[m'] = { query = '@function.outer', desc = 'Previous function start' } },
+            goto_previous_end   = { ['[M'] = { query = '@function.outer', desc = 'Previous function end' } },
+        },
+    },
     -- nvim-ts-rainbow parentheses highlighting
     rainbow = {
         enable = true,

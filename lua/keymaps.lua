@@ -258,7 +258,7 @@ return {
     -- 0b1101
     [13] = function (map, wkreg)
         -- Toggle shell
-        map. n ([[<Leader>ss]], vim.funcs.toggleshell)
+        map. n ([[<Leader>S]], vim.funcs.toggleshell, 'Toggle shell between cmd.exe and pwsh.exe')
     end,
 
     -- 0b1111
@@ -307,10 +307,6 @@ return {
 
         -- Don't move the cursor with insert mode <C-o>
         map. i ([[<C-o>]], [[<C-\><C-o>]], { silent = false })
-
-        -- Current line text object
-        map. O ([[il]], [[0o$h]], 'Current line')
-        map. O ([[al]], [[(line('.') ==# line('$')) ? 'V' : '0o$']], { expr = true }, 'Current line')
 
         -- Current buffer text object
         map. O ([[i%]], [[V0Gogg]], 'Current buffer')

@@ -142,6 +142,8 @@ return require'packer'.startup {
             'nvim-treesitter/nvim-treesitter',
             'nvim-treesitter/playground',
 
+            -- Text objects
+            'nvim-treesitter/nvim-treesitter-textobjects',
             -- Rainbow parentheses
             'p00f/nvim-ts-rainbow',
         }
