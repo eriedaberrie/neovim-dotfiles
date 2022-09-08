@@ -1,16 +1,19 @@
 -- JDTLS setup
 
+if vim.g.vscode or vim.g.started_by_firenvim then return end
+
 if vim.fn.executable('jdtls') == 0 then
     vim.notify('`jdtls` is not executable', vim.log.levels.WARN)
     return
 end
 
 local ps = (not vim.isUnix and vim.opt.shellslash:get()) and '\\' or '/'
+local pjoin = function (...) return table.concat({...}, ps) end
 local datastd = vim.fn.stdpath('data')
-local jdtls_path = datastd .. ps .. 'mason' .. ps .. 'packages' .. ps .. 'jdtls' .. ps
-local configuration = jdtls_path .. (vim.isUnix and 'config_linux' or 'config_win')
+local jdtls_path = pjoin(datastd, 'mason', 'packages', 'jdtls')
+local configuration = pjoin(jdtls_path, vim.isUnix and 'config_linux' or 'config_win')
 
-local jar = vim.fn.glob(jdtls_path .. 'plugins' .. ps .. 'org.eclipse.equinox.launcher_*.jar')
+local jar = vim.fn.glob(pjoin(jdtls_path, 'plugins', 'org.eclipse.equinox.launcher_*.jar'))
 
 local root_patterns = {
     '.git', 'gradlew', 'gradlew.bat', 'mvnw', 'mvnw.cmd',
@@ -21,24 +24,26 @@ local root_dir = require'jdtls.setup'.find_root(root_patterns) or vim.fn.expand(
 
 local cache_dir
 if vim.env.XDG_CACHE_HOME then
-    cache_dir = vim.env.XDG_CACHE_HOME .. ps
+    cache_dir = vim.env.XDG_CACHE_HOME
 else
-    cache_dir = (vim.env.HOME or vim.env.USERPROFILE) .. ps .. '.cache' .. ps
+    cache_dir = pjoin(vim.env.HOME or vim.env.USERPROFILE, '.cache')
 end
-local data_root = cache_dir .. 'jdtls' .. ps .. 'workspace'
+local data_root = pjoin(cache_dir, 'jdtls', 'workspace')
 local data_dir
 
 if vim.isUnix then
-    data_dir = data_root .. root_dir
+    data_dir = pjoin(data_root, root_dir)
 else
-    data_dir = data_root .. ps .. root_dir:sub(1, 1) .. root_dir:sub(3)
+    data_dir = pjoin(data_root, root_dir:sub(1, 1) .. root_dir:sub(3))
 end
 
-local javadeb = datastd .. ps .. 'java-debug' .. ps
-local bundle = vim.fn.glob(javadeb .. 'com.microsoft.java.debug.plugin' .. ps .. 'target' .. ps .. 'com.microsoft.java.debug.plugin-*.jar')
+local bundles = {}
+
+local javadeb = pjoin(datastd, 'java-debug')
+local debbundle = vim.fn.glob(pjoin(javadeb, 'com.microsoft.java.debug.plugin', 'target', 'com.microsoft.java.debug.plugin-*.jar'))
 -- If can't find package, clone it and build it
-if #bundle == 0 then
-    bundle = nil
+if #debbundle == 0 then
+    debbundle = nil
     local job = require'plenary.job'
     job:new {
         command = 'git',
@@ -54,6 +59,7 @@ if #bundle == 0 then
         end
     }:start()
 end
+bundles[#bundles + 1] = debbundle
 
 local jdtls = require'jdtls'
 jdtls.start_or_attach {
@@ -84,9 +90,7 @@ jdtls.start_or_attach {
         },
     },
     init_options = {
-        bundles = {
-            bundle
-        },
+        bundles = bundles,
     },
     on_attach = function (_, buf)
         -- Register keymaps
@@ -107,7 +111,12 @@ jdtls.start_or_attach {
         }, { buffer = buf, prefix = '<Leader>eJ', mode = 'x' })
 
         -- Setup dap
-        jdtls.setup_dap{ hotcodereplace = 'auto' }
+        jdtls.setup_dap {
+            hotcodereplace = 'auto',
+            config_overrides = {
+                vmArgs = '-Djava.awt.headless=true --enable-preview',
+            }
+        }
         require'jdtls.setup'.add_commands()
     end,
 }
