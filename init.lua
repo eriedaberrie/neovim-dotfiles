@@ -74,6 +74,9 @@ if g.vscode then
     -- disable neovim syntax highlighting
     opt.syntax = 'off'
 
+    -- remove keymap timeout
+    opt.timeout = false
+
     -- disable git blame plugin
     g.gitblame_enabled = 0
 
@@ -503,6 +506,9 @@ if g.started_by_firenvim then
     -- decrease fontsize
     funcs.resizetext(11)
 
+    -- remove keymap timeout
+    opt.timeout = false
+
     -- disable git blame plugin
     g.gitblame_enabled = 0
 
@@ -598,6 +604,13 @@ require'image'.setup{}
 
 -- which-key
 opt.timeoutlen = 0
+api.nvim_create_autocmd('ModeChanged', {
+    group = initgroup,
+    callback = function ()
+        local mode = fn.mode()
+        opt.timeout = mode == 'n' or mode == 'v'
+    end,
+})
 local wk = require'which-key'
 wk.setup {
     plugins = {
@@ -703,7 +716,7 @@ g.lazygit_floating_window_use_plenary = 1
 
 -- committia.vim
 g.committia_hooks = {
-    edit_open = function (_)
+    edit_open = function ()
         -- auto insert mode on blank commit messages
         if fn.getline(1) == '' then cmd.startinsert() end
 
