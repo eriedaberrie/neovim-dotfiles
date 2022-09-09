@@ -61,6 +61,9 @@ return {
         map. n ([[<Leader>duu]], dapui.toggle, 'Toggle')
         map. n ([[<Leader>duf]], dapui.float_element, 'Float element')
         map. nx ([[<Leader>due]], dapui.eval, 'Eval')
+
+        -- Start neorg
+        map. n ([[<Leader>N]], [[<Cmd>NeorgStart<CR>]])
     end,
 
     -- 0b0100

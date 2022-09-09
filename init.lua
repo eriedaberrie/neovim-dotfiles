@@ -623,9 +623,9 @@ api.nvim_create_autocmd('BufEnter', {
     group = initgroup,
     callback = function ()
         if api.nvim_buf_line_count(0) > 5000 then
-            cmd.GitBlameDisable()
+            api.nvim_command [[GitBlameDisable]]
         else
-            cmd.GitBlameEnable()
+            api.nvim_command [[GitBlameEnable]]
         end
     end
 })
@@ -634,11 +634,51 @@ api.nvim_create_autocmd('BufEnter', {
 require'neorg'.setup {
     load = {
         ['core.defaults'] = {},
+        ['core.keybinds'] = {
+            config = {
+                hook = function (k)
+                    for _, lhs in ipairs({ 'gtu', 'gtp', 'gtd', 'gth', 'gtc', 'gtr', 'gti' }) do
+                        k.unmap('norg', 'n', lhs)
+                    end
+
+                    k.map_event('norg', 'n', '<Leader>ntu', 'core.norg.qol.todo_items.todo.task_undone',    { desc = 'Mark undone' })
+                    k.map_event('norg', 'n', '<Leader>ntp', 'core.norg.qol.todo_items.todo.task_pending',   { desc = 'Mark pending' })
+                    k.map_event('norg', 'n', '<Leader>ntd', 'core.norg.qol.todo_items.todo.task_done',      { desc = 'Mark done' })
+                    k.map_event('norg', 'n', '<Leader>nth', 'core.norg.qol.todo_items.todo.task_on_hold',   { desc = 'Mark on hold' })
+                    k.map_event('norg', 'n', '<Leader>ntc', 'core.norg.qol.todo_items.todo.task_cancelled', { desc = 'Mark cancelled' })
+                    k.map_event('norg', 'n', '<Leader>nti', 'core.norg.qol.todo_items.todo.task_important', { desc = 'Mark important' })
+                    k.map_event('norg', 'n', '<Leader>nti', 'core.norg.qol.todo_items.todo.task_important', { desc = 'Mark important' })
+                    k.map_event('norg', 'n', '<Leader>ntt', 'core.norg.qol.todo_items.todo.task_cycle',     { desc = 'Cycle' })
+                    k.map_event('norg', 'n', '<Leader>nT',  'core.norg.qol.todo_items.todo.task_cycle',     { desc = 'Task cycle' })
+
+                    k.map_event('norg', 'n', '<Leader>ngv', 'core.gtd.base.views',   { desc = 'Show view selection menu' })
+                    k.map_event('norg', 'n', '<Leader>ngc', 'core.gtd.base.capture', { desc = 'Capture task' })
+                    k.map_event('norg', 'n', '<Leader>nge', 'core.gtd.base.edit',    { desc = 'Edit task' })
+
+                    k.map_event('norg', 'n', '<Leader>nN', 'core.norg.dirman.new.note', { desc = 'New note' })
+                    k.map_event('norg', 'n', '<Leader>nx', 'core.norg.esupports.hop.hop-link', { desc = 'Follow link' })
+
+                    k.map('norg', 'n', '<Leader>nn', '<Cmd>Neorg mode traverse-heading<CR>', { desc = 'Traverse headings' })
+                    k.map('traverse-heading', 'n', '<Leader>nn', '<Cmd>Neorg mode norg<CR>', { desc = 'Return to normal mode' })
+
+                    wk.register {
+                        ['<Leader>n']  = { name = 'Neorg' },
+                        ['<Leader>nt'] = { name = 'Tasks' },
+                        ['<Leader>ng'] = { name = 'GTD' },
+                    }
+                end,
+            }
+        },
         ['core.norg.dirman'] = {
             config = {
                 workspaces = {
                     notes = '~/Notes',
                 }
+            }
+        },
+        ['core.gtd.base'] = {
+            config = {
+                workspace = 'notes',
             }
         },
         ['core.norg.concealer'] = {},
