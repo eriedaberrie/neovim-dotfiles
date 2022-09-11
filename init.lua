@@ -242,6 +242,9 @@ g.coq_settings = {
             fast_close = false,
         },
     },
+    limits = {
+        completion_manual_timeout = 1.33,
+    }
 }
 
 -- third party coq sources
