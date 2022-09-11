@@ -547,8 +547,11 @@ end
 
 -- filetype associations
 vim.filetype.add {
-    filename  = { ['.path']  = 'sh' },
-    extension = { ['nasm'] = 'asm' }
+    filename = { ['.path']  = 'sh' },
+    extension = {
+        nasm = 'asm',
+        class = 'class',
+    },
 }
 
 -- plugin management (packer)
