@@ -113,6 +113,9 @@ return require'packer'.startup {
 
             -- LSP signature help
             'ray-x/lsp_signature.nvim',
+
+            -- LSP diagnostics prettier
+            'Maan2003/lsp_lines.nvim',
         }
 
         -- Debugger

@@ -306,6 +306,11 @@ require'lsp_signature'.setup {
     select_signature_key = '<M-n>',
 }
 
+-- lsp_lines.nvim setup
+require'lsp_lines'.setup()
+-- use lsp_lines plugin or <Leader>ee/E for text
+vim.diagnostic.config { virtual_text = false }
+
 -- mason.nvim LSP installer
 require'mason'.setup()
 require'mason-lspconfig'.setup {
@@ -391,9 +396,6 @@ api.nvim_set_keymap('i', '<BS>', '', { noremap = true, expr = true, callback = f
         return npairs.autopairs_bs(api.nvim_get_current_buf())
     end
 end })
-
--- use <Leader>ee/E for text
--- vim.diagnostic.config { virtual_text = false }
 
 -- toggleterm setup
 require'toggleterm'.setup {

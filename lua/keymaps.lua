@@ -188,6 +188,9 @@ return {
         map. n ([[<Leader>ej]], [[$<Cmd>Lspsaga diagnostic_jump_next<CR>]], 'Next line diagnostic')
         map. n ([[<Leader>ek]], [[0<Cmd>Lspsaga diagnostic_jump_prev<CR>]], 'Previous line diagnostic')
 
+        -- lsp_lines.nvim toggle
+        map. n ([[<Leader>e<C-e>]], require'lsp_lines'.toggle, 'Toggle diagnostic lines')
+
         -- Coq_nvim + nvim-autopairs keymaps
         map. i ([[<Esc>]], [[pumvisible() ? '<C-e><Esc>' : '<Esc>']], { expr = true })
         map. i ([[<C-c>]], [[pumvisible() ? '<C-e><C-c>' : '<C-c>']], { expr = true })
