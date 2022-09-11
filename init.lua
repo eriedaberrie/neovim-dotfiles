@@ -746,7 +746,14 @@ g.committia_hooks = {
         api.nvim_buf_set_keymap(0, 'i', [[<C-u>]], [[<Plug>(committia-scroll-diff-up-half)]],   { noremap = false })
         api.nvim_buf_set_keymap(0, 'i', [[<C-e>]], [[<Plug>(committia-scroll-diff-down)]], { noremap = false })
         api.nvim_buf_set_keymap(0, 'i', [[<C-y>]], [[<Plug>(committia-scroll-diff-up)]],   { noremap = false })
-    end
+    end,
+    status_open = function ()
+        api.nvim_win_set_option(0, 'relativenumber', false)
+    end,
+    diff_open = function ()
+        api.nvim_win_set_option(0, 'number', true)
+        api.nvim_win_set_option(0, 'relativenumber', false)
+    end,
 }
 
 -- Neovide (GUI) options
