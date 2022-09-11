@@ -496,9 +496,17 @@ if g.started_by_firenvim then
     }
 
     -- Gruvbox Theme plugin with light theme (insanely roundabout way for some reason)
+    -- also starts insert mode if on empty buffer
     api.nvim_create_autocmd('BufReadPre', {
         group = initgroup,
-        callback = function () funcs.settheme'light' end,
+        callback = function ()
+            funcs.settheme'light'
+            vim.schedule(function ()
+                if fn.line('$') == 1 and fn.getline(1) == '' then
+                    api.nvim_command [[startinsert]]
+                end
+            end)
+        end,
         once = true,
     })
 
@@ -507,6 +515,9 @@ if g.started_by_firenvim then
 
     -- decrease fontsize
     funcs.resizetext(11)
+
+    -- set spell always
+    opt.spell = true
 
     -- remove keymap timeout
     opt.timeout = false
@@ -723,7 +734,7 @@ g.lazygit_floating_window_use_plenary = 1
 g.committia_hooks = {
     edit_open = function ()
         -- auto insert mode on blank commit messages
-        if fn.getline(1) == '' then cmd.startinsert() end
+        if fn.getline(1) == '' then api.nvim_command [[startinsert]] end
 
         -- scrolling keymaps
         api.nvim_buf_set_keymap(0, 'i', [[<C-f>]], [[<Plug>(committia-scroll-diff-down-page)]], { noremap = false })
