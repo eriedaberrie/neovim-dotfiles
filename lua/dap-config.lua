@@ -137,32 +137,38 @@ dap.listeners.after.event_initialized.dapui_config = dapui.open
 api.nvim_create_autocmd('QuitPre', {
     group = 'InitGroup',
     callback = function ()
-        local winnotdap = function (win)
-            local ft = api.nvim_buf_get_option(api.nvim_win_get_buf(win), 'ft')
-            return ft:sub(1, 6) ~= 'dapui_' and ft ~= 'dap-repl'
+        local daptable = {}
+
+        local winisfile = function (win)
+            local buf = api.nvim_win_get_buf(win)
+            local ft = api.nvim_buf_get_option(buf, 'ft')
+            if ft:sub(1, 6) == 'dapui_' or ft == 'dap-repl' then
+                daptable[win] = true
+                return false
+            end
+            -- Floating wins don't count
+            return api.nvim_win_get_config(win).relative == '' and api.nvim_buf_get_option(buf, 'bt') == ''
         end
 
         local curwin = api.nvim_get_current_win()
-        -- return if triggered by closing a dapui window
-        if not winnotdap(curwin) then return end
 
         local tabpage = nil
         if #api.nvim_list_tabpages() > 1 then
             tabpage = api.nvim_get_current_tabpage()
         end
 
-        local wintable = {}
-
         for _, win in ipairs(api.nvim_list_wins()) do
             if tabpage and api.nvim_win_get_tabpage(win) ~= tabpage then goto continue end
             if win == curwin then goto continue end
 
-            if winnotdap(win) then return end
-            wintable[win] = true
+            if winisfile(win) then
+                -- print(api.nvim_buf_get_option(api.nvim_win_get_buf(win), 'ft'))
+                return
+            end
             ::continue::
         end
 
-        for i, _ in pairs(wintable) do
+        for i, _ in pairs(daptable) do
             api.nvim_win_close(i, true)
         end
     end
