@@ -107,6 +107,7 @@ return require'packer'.startup {
 
             -- Language-specific LSP plugins
             'mfussenegger/nvim-jdtls',
+            'simrat39/rust-tools.nvim',
 
             -- General LSP usefulness
             'glepnir/lspsaga.nvim',
