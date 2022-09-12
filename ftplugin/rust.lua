@@ -9,10 +9,13 @@ if vim.fn.executable('rust-analyzer') == 0 then
     return
 end
 
-local codelldb = vim.fn.stdpath('data') .. '/mason/packages/codelldb/extension/'
-local codelldb_exe = codelldb .. 'adapter/codelldb'
+local ps = (vim.isUnix or vim.opt.shellslash:get()) and '/' or '\\'
+local pjoin = function (...) return table.concat({...}, ps) end
+
+local codelldb = pjoin(vim.fn.stdpath('data'), 'mason', 'packages', 'codelldb', 'extension')
+local codelldb_exe = pjoin(codelldb, 'adapter', 'codelldb')
 if not vim.isUnix then codelldb_exe = codelldb_exe .. '.exe' end
-local liblldb = codelldb .. (vim.isUnix and 'lldb/lib/liblldb.so' or 'lldb/bin/liblldb.dll')
+local liblldb = vim.isUnix and pjoin(codelldb, 'lldb', 'lib', 'liblldb.so') or pjoin(codelldb, 'lldb', 'bin', 'liblldb.dll')
 
 local rt = require'rust-tools'
 

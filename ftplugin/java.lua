@@ -7,7 +7,7 @@ if vim.fn.executable('jdtls') == 0 then
     return
 end
 
-local ps = (not vim.isUnix and vim.opt.shellslash:get()) and '\\' or '/'
+local ps = (vim.isUnix or vim.opt.shellslash:get()) and '/' or '\\'
 local pjoin = function (...) return table.concat({...}, ps) end
 local datastd = vim.fn.stdpath('data')
 local jdtls_path = pjoin(datastd, 'mason', 'packages', 'jdtls')
