@@ -10,13 +10,14 @@ local cmd = vim.cmd
 
 M.set_keymaps = function (maptable)
     local launchmask = g.started_by_firenvim and 8 or (g.vscode and 4 or (vim.isUnix and 2 or 1))
-    local opts, nolazyredraw
+    local opts, nolazyredraw, virte
 
     local mapfunc = setmetatable({}, {
         __index = function (t, shortname)
             t[shortname] = function (lhs, rhs, customopts, desc)
                 opts = { noremap = true, silent = true }
                 nolazyredraw = false
+                virte = false
 
                 if customopts then
                     if type(customopts) == 'string' then
@@ -25,6 +26,10 @@ M.set_keymaps = function (maptable)
                         if customopts.nolazyredraw then
                             customopts.nolazyredraw = nil
                             nolazyredraw = true
+                        end
+                        if customopts.virte then
+                            customopts.virte = nil
+                            virte = true
                         end
 
                         opts = vim.tbl_extend('force', opts, customopts)
@@ -35,25 +40,45 @@ M.set_keymaps = function (maptable)
                 end
 
                 if type(rhs) == 'function' then
+                    opts.callback = rhs
                     if nolazyredraw then
+                        local old = opts.callback
                         opts.callback = function ()
                             local prevlr = o.lazyredraw
                             o.lazyredraw = false
-                            rhs()
+                            old()
                             o.lazyredraw = prevlr
                         end
-                    else
-                        opts.callback = rhs
+                    end
+                    if virte then
+                        local old = opts.callback
+                        opts.callback = function ()
+                            local prevve = o.virtualedit
+                            o.virtualedit = 'onemore'
+                            old()
+                            o.virtualedit = prevve
+                        end
                     end
 
                     rhs = ''
-                elseif nolazyredraw then
-                    if opts.expr then
-                        rhs = [['<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>' . ]] ..
-                                rhs .. [[ . '<Cmd>let &lazyredraw=g:oldlazyredraw<CR>']]
-                    else
-                        rhs = [[<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>]] ..
-                                rhs .. [[<Cmd>let &lazyredraw=g:oldlazyredraw<CR>]]
+                else
+                    if nolazyredraw then
+                        if opts.expr then
+                            rhs = [['<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>' . ]] ..
+                                    rhs .. [[ . '<Cmd>let &lazyredraw=g:oldlazyredraw<CR>']]
+                        else
+                            rhs = [[<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>]] ..
+                                    rhs .. [[<Cmd>let &lazyredraw=g:oldlazyredraw<CR>]]
+                        end
+                    end
+                    if virte then
+                        if opts.expr then
+                            rhs = [['<Cmd>let g:oldvirtualedit=&virtualedit<Bar>set virtualedit=onemore<CR>' . ]] ..
+                                    rhs .. [[ . '<Cmd>let &virtualedit=g:oldvirtualedit<CR>']]
+                        else
+                            rhs = [[<Cmd>let g:oldvirtualedit=&virtualedit<Bar>set virtualedit=onemore<CR>]] ..
+                                    rhs .. [[<Cmd>let &virtualedit=g:oldvirtualedit<CR>]]
+                        end
                     end
                 end
 
