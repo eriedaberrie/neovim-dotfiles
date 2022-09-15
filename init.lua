@@ -27,6 +27,7 @@ opt.smartcase  = true
 
 -- if spell is ever turend on
 opt.spelllang = 'en_us'
+opt.spelloptions:append('camel')
 
 -- disable K being "man" which is just not useful even on Unix
 opt.keywordprg = ':help'
