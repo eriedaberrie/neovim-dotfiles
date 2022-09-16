@@ -96,7 +96,7 @@ opt.tabstop        = 4
 -- tab options (use sleuth.vim)
 opt.expandtab      = true
 opt.shiftwidth     = 0
-opt.completeopt    = 'menu,menuone,noselect'
+opt.completeopt    = { 'menu', 'menuone', 'noselect' }
 -- guifont (mainly for Neovide)
 opt.guifont        = 'FiraCode NF:h10'
 -- linebreak
@@ -156,7 +156,7 @@ require'nvim-treesitter.configs'.setup {
     highlight = {
         enable = true,
         disable = funcs.tsdisable,
-        additional_vim_regex_highlighting = true,
+        additional_vim_regex_highlighting = { 'vim' },
     },
     incremental_selection = {
         enable = true,
