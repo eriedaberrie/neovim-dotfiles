@@ -646,7 +646,14 @@ require'lualine'.setup {
             end, color = 'QuickFixLine', separator = { right = '' } }
         },
         lualine_b = {{ 'filename' }},
-        lualine_c = {{ gitblame.get_current_blame_text, cond = gitblame.is_blame_text_available }},
+        lualine_c = {{
+            function ()
+                if api.nvim_buf_get_option(0, 'buftype') == '' then
+                    return gitblame.get_current_blame_text()
+                end
+                return ''
+            end, cond = gitblame.is_blame_text_available
+        }},
         lualine_x = { 'encoding', 'fileformat', 'filesize', 'filetype' },
         lualine_y = { 'progress' },
         lualine_z = { 'location' }
