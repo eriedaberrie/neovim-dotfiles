@@ -338,18 +338,18 @@ api.nvim_create_autocmd('ColorScheme', {
             teal   = '#1abc9c',
         }
         local changes = {
-            [colors.fg]     = 'ModeMsg',
-            [colors.red]    = 'Exception',
-            [colors.orange] = 'Special',
-            [colors.yellow] = 'ModeMsg',
-            [colors.green]  = 'Title',
-            [colors.cyan]   = 'Macro',
-            [colors.blue]   = 'Identifier',
-            [colors.violet] = 'Constant',
-            [colors.teal]   = 'Macro',
+            [colors.fg]     = { link = 'ModeMsg' },
+            [colors.red]    = { fg = g.terminal_color_1 },
+            [colors.orange] = { fg = g.terminal_color_11 },
+            [colors.yellow] = { fg = g.terminal_color_3 },
+            [colors.green]  = { fg = g.terminal_color_2 },
+            [colors.cyan]   = { fg = g.terminal_color_6 },
+            [colors.blue]   = { fg = g.terminal_color_4 },
+            [colors.violet] = { fg = g.terminal_color_5 },
+            [colors.teal]   = { fg = g.terminal_color_14 },
         }
         for _, kind in pairs(require'lspsaga.lspkind') do
-            api.nvim_set_hl(0, 'LspSagaWinbar' .. kind[1], { link = changes[kind[3]] })
+            api.nvim_set_hl(0, 'LspSagaWinbar' .. kind[1], changes[kind[3]])
         end
         api.nvim_set_hl(0, 'LspSagaWinbarSep', { link = 'Comment' })
     end
