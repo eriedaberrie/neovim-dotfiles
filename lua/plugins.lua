@@ -14,11 +14,8 @@ return require'packer'.startup {
         -- Auto pairs
         use 'windwp/nvim-autopairs'
 
-        -- Gruvbox Neovim theme
-        use 'ellisonleao/gruvbox.nvim'
-
-        -- GitHub Neovim Theme
-        -- use 'projekt0n/github-nvim-theme'
+        -- Remember last colorscheme
+        use 'raddari/last-color.nvim'
 
         -- Smoother scrolling animation
         use 'karb94/neoscroll.nvim'
@@ -64,6 +61,17 @@ return require'packer'.startup {
 
         -- Just require plenary at all times no matter what
         use 'nvim-lua/plenary.nvim'
+
+        -- Colorschemes
+        use {
+            'ellisonleao/gruvbox.nvim',
+            'navarasu/onedark.nvim',
+            'projekt0n/github-nvim-theme',
+            {
+                'catppuccin/nvim',
+                as = 'catppuccin',
+            },
+        }
 
         -- Neorg
         use {

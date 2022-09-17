@@ -34,7 +34,7 @@ return {
         -- Lazygit maps
         wkreg{ ['<Leader>g'] = { name = 'Lazygit and EasyAlign' } }
         map. n ([[<Leader>gg]], require'lazygit'.lazygit, 'Toggle lazygit')
-        map. n ([[<Leader>fl]], require'telescope._extensions'.manager.lazygit.lazygit, 'Lazygit')
+        map. n ([[<Leader>fl]], [[<Cmd>Telescope lazygit<CR>]], 'Lazygit')
 
         -- Debugging
         local dapregtable = {
@@ -57,7 +57,6 @@ return {
         map. n ([[<Leader>dT]], dap.terminate, 'Terminate')
         map. n ([[<Leader>dD]], dap.disconnect, 'Disconnect')
         map. n ([[<Leader>dC]], dap.close, 'Close (use terminate instead)')
-        map. n ([[<Leader>dU]],  dapui.toggle, 'Toggle dap-ui')
         map. n ([[<Leader>duu]], dapui.toggle, 'Toggle')
         map. n ([[<Leader>duf]], dapui.float_element, 'Float element')
         map. nx ([[<Leader>due]], dapui.eval, 'Eval')
@@ -204,8 +203,8 @@ return {
         -- Toggle whitespace visibility
         map. nx ([[<Leader><Leader>]], [[<Cmd>set list!<CR>]], 'Toggle showing whitespace')
 
-        -- Toggles dark/light themes
-        map. n ([[<Leader>T]], function () vim.funcs.settheme(vim.o.background == 'dark' and 'light' or 'dark') end, 'Toggle dark/light themes')
+        -- Toggles themes
+        map. n ([[<Leader>T]], vim.funcs.toggledark, 'Toggle dark/light themes')
 
         -- Preserve q: and quickfix <CR> functionality
         map. n ([[<CR>]], [[!(index(['[Command Line]'], expand('%')) is -1) || (&filetype == 'qf') ? '<CR>' : '']], { silent = false, expr = true })
@@ -243,15 +242,15 @@ return {
         -- Telescope maps
         wkreg{ ['<Leader>f'] = { name = 'Telescope'} }
         local tele_builtin = require'telescope.builtin'
-        local tele_ext = require'telescope._extensions'.manager
-        map. n ([[<Leader>fr]], tele_builtin.resume, 'Resume previous')
-        map. n ([[<Leader>ff]], tele_builtin.find_files, 'Files')
-        map. n ([[<Leader>fg]], tele_builtin.live_grep, 'Live grep')
-        map. n ([[<Leader>fb]], tele_builtin.buffers, 'Buffers')
-        map. n ([[<Leader>fh]], tele_builtin.help_tags, 'Help tags')
-        map. n ([[<Leader>fc]], tele_ext.neoclip.neoclip, 'Neoclip registers')
-        map. n ([[<Leader>fn]], tele_ext.notify.notify, 'Notify')
-        map. n ([[<Leader>fH]], tele_ext.howdoi.howdoi, 'Howdoi')
+        map. n ([[<Leader>fr]], tele_builtin.resume,      'Resume previous')
+        map. n ([[<Leader>ff]], tele_builtin.find_files,  'Files')
+        map. n ([[<Leader>fg]], tele_builtin.live_grep,   'Live grep')
+        map. n ([[<Leader>fb]], tele_builtin.buffers,     'Buffers')
+        map. n ([[<Leader>fh]], tele_builtin.help_tags,   'Help tags')
+        map. n ([[<Leader>fc]], tele_builtin.colorscheme, 'Colorschemes')
+        map. n ([[<Leader>fR]], [[<Cmd>Telescope neoclip<CR>]], 'Neoclip registers')
+        map. n ([[<Leader>fn]], [[<Cmd>Telescope notify<CR>]],  'Notify')
+        map. n ([[<Leader>fH]], [[<Cmd>Telescope howdoi<CR>]],  'Howdoi')
 
         -- Open nvim tree without accidentally closing the current tabpage
         map. n ([[<Leader>e.]], [[<Cmd>NvimTreeToggle<CR>]])

@@ -126,8 +126,62 @@ api.nvim_create_autocmd('TextYankPost', {
 })
 
 ---------- plugins ----------
--- fuck it italics suck in general
-require'gruvbox'.setup { italic = false }
+-- theme setups
+require'gruvbox'.setup {
+    italic = false,
+}
+
+require'onedark'.setup {
+    style = 'warmer',
+    ending_tildes = true,
+    code_style = {
+        comments  = 'none',
+        functions = 'bold',
+    },
+}
+
+require'catppuccin'.setup {
+    term_colors = true,
+    styles = {
+        comments     = {},
+        conditionals = {},
+        functions    = { 'bold' },
+    },
+    integrations = {
+        ts_rainbow = true,
+        which_key  = true,
+        native_lsp = {
+            virtual_text = {
+                errors      = { 'bold' },
+                hints       = { 'bold' },
+                warnings    = { 'bold' },
+                information = { 'bold' },
+            },
+        },
+    },
+    -- remove italics in a really roundabout way
+    -- "customizability" my ass
+    custom_highlights      = {
+        ErrorMsg = { style = { 'bold' } },
+        ['@namespace']     = { style = {} },
+        ['@type.builtin']  = { style = {} },
+        ['@parameter']     = { style = {} },
+        ['@tag.attribute'] = { style = {} },
+        ['@text.literal']  = { style = {} },
+        ['@text.emphasis'] = { style = { 'bold' } },
+        ['@text.uri']      = { style = { 'underline' } },
+        NotifyERRORTitle = { style = { 'bold' } },
+        NotifyWARNTitle  = { style = { 'bold' } },
+        NotifyINFOTitle  = { style = { 'bold' } },
+        NotifyDEBUGTitle = { style = { 'bold' } },
+        NotifyTRACETitle = { style = { 'bold' } },
+    },
+}
+
+g.github_comment_style      = 'NONE'
+g.github_keyword_style      = 'NONE'
+g.github_function_style     = 'bold'
+g.github_dark_float         = true
 
 -- colorizor setup
 opt.termguicolors = true -- needs to be explicitly set before setting up
@@ -269,37 +323,37 @@ require'lspsaga'.init_lsp_saga {
 }
 
 -- make lspsaga winbar use theme
-local _pre_lspsaga_settheme = funcs.settheme
----@diagnostic disable-next-line: duplicate-set-field
-funcs.settheme = function (theme)
-    _pre_lspsaga_settheme(theme)
-    local colors = {
-        fg     = '#bbc2cf',
-        red    = '#e95678',
-        orange = '#FF8700',
-        yellow = '#f7bb3b',
-        green  = '#afd700',
-        cyan   = '#36d0e0',
-        blue   = '#61afef',
-        violet = '#CBA6F7',
-        teal   = '#1abc9c',
-    }
-    local changes = {
-        [colors.fg]     = 'ModeMsg',
-        [colors.red]    = 'Exception',
-        [colors.orange] = 'Special',
-        [colors.yellow] = 'ModeMsg',
-        [colors.green]  = 'Title',
-        [colors.cyan]   = 'Macro',
-        [colors.blue]   = 'Identifier',
-        [colors.violet] = 'Constant',
-        [colors.teal]   = 'Macro',
-    }
-    for _, kind in pairs(require'lspsaga.lspkind') do
-        api.nvim_set_hl(0, 'LspSagaWinbar' .. kind[1], { link = changes[kind[3]] })
+api.nvim_create_autocmd('ColorScheme', {
+    group = initgroup,
+    callback = function ()
+        local colors = {
+            fg     = '#bbc2cf',
+            red    = '#e95678',
+            orange = '#FF8700',
+            yellow = '#f7bb3b',
+            green  = '#afd700',
+            cyan   = '#36d0e0',
+            blue   = '#61afef',
+            violet = '#CBA6F7',
+            teal   = '#1abc9c',
+        }
+        local changes = {
+            [colors.fg]     = 'ModeMsg',
+            [colors.red]    = 'Exception',
+            [colors.orange] = 'Special',
+            [colors.yellow] = 'ModeMsg',
+            [colors.green]  = 'Title',
+            [colors.cyan]   = 'Macro',
+            [colors.blue]   = 'Identifier',
+            [colors.violet] = 'Constant',
+            [colors.teal]   = 'Macro',
+        }
+        for _, kind in pairs(require'lspsaga.lspkind') do
+            api.nvim_set_hl(0, 'LspSagaWinbar' .. kind[1], { link = changes[kind[3]] })
+        end
+        api.nvim_set_hl(0, 'LspSagaWinbarSep', { link = 'Comment' })
     end
-    api.nvim_set_hl(0, 'LspSagaWinbarSep', { link = 'Comment' })
-end
+})
 
 -- lsp_signature setup
 require'lsp_signature'.setup {
@@ -311,19 +365,15 @@ require'lsp_signature'.setup {
 }
 
 -- lsp_lines.nvim setup
-require'lsp_lines'.setup()
+require'lsp_lines'.setup{}
 -- use lsp_lines plugin or <Leader>ee/E for text
 vim.diagnostic.config { virtual_text = false }
 
 -- mason.nvim LSP installer
-require'mason'.setup()
+require'mason'.setup{}
 require'mason-lspconfig'.setup {
-    automatic_installation = {
-        exclude = {
-            'clangd',
-        }
-    },
-    ensure_installed = { 'jdtls', 'rust_analyzer' }
+    automatic_installation = { exclude = { 'clangd', 'hls' } },
+    ensure_installed = { 'jdtls', 'rust_analyzer' },
 }
 
 -- LSP config base
@@ -443,7 +493,6 @@ require'nvim-tree'.setup {
             enable = true,
         },
     },
-    api.nvim_set_hl(0, 'NvimTreeOpenedFile', { link = 'GruvboxBlueBold' })
 }
 
 -- telescope
@@ -499,12 +548,13 @@ if g.started_by_firenvim then
         },
     }
 
-    -- Gruvbox Theme plugin with light theme (insanely roundabout way for some reason)
+    -- Light theme (insanely roundabout way for some reason)
     -- also starts insert mode if on empty buffer
     api.nvim_create_autocmd('BufReadPre', {
         group = initgroup,
         callback = function ()
-            funcs.settheme'light'
+            funcs.toggledark(false)
+            cmd.colorscheme('onedark')
             vim.schedule(function ()
                 if fn.line('$') == 1 and fn.getline(1) == '' then
                     api.nvim_command [[startinsert]]
@@ -580,43 +630,36 @@ api.nvim_create_autocmd('BufWritePost', {
 })
 
 ---------- more plugins ----------
--- GitHub Theme
--- only set up once so running :so% doesn't ruin the tabline (not anymore)
-local _pre_lualine_settheme = funcs.settheme
--- add lualine to the theme (do it after so that it updates)
+-- add lualine to the theme
 local gitblame = require'gitblame'
 g.gitblame_display_virtual_text = 0
----@diagnostic disable-next-line: duplicate-set-field
-funcs.settheme = function (theme)
-    _pre_lualine_settheme(theme)
-    require'lualine'.setup {
-        options = {
-            theme = 'gruvbox',
-            globalstatus = true,
+
+require'lualine'.setup {
+    options = {
+        globalstatus = true,
+    },
+    sections = {
+        lualine_a = {
+            { 'mode', separator = { right = '' } },
+            { function ()
+                return funcs.capslockon and 'CAPS LOCK' or ''
+            end, color = 'QuickFixLine', separator = { right = '' } }
         },
-        sections = {
-            lualine_a = {
-                { 'mode', separator = { right = '' } },
-                { function ()
-                    return funcs.capslockon and 'CAPS LOCK' or ''
-                end, color = 'QuickFixLine', separator = { right = '' } }
-            },
-            lualine_b = { { 'filename' }, },
-            lualine_c = {{ gitblame.get_current_blame_text, cond = gitblame.is_blame_text_available }},
-            lualine_x = { 'encoding', 'fileformat', 'filesize', 'filetype' },
-            lualine_y = { 'progress' },
-            lualine_z = { 'location' }
-        },
-        tabline = {
-            lualine_a = { 'buffers' },
-            lualine_b = { 'branch', 'diff', { 'diagnostics', update_in_insert = true } },
-            lualine_c = {},
-            lualine_x = {},
-            lualine_y = {},
-            lualine_z = { 'tabs' },
-        },
-    }
-end
+        lualine_b = {{ 'filename' }},
+        lualine_c = {{ gitblame.get_current_blame_text, cond = gitblame.is_blame_text_available }},
+        lualine_x = { 'encoding', 'fileformat', 'filesize', 'filetype' },
+        lualine_y = { 'progress' },
+        lualine_z = { 'location' }
+    },
+    tabline = {
+        lualine_a = { 'buffers' },
+        lualine_b = { 'branch', 'diff', { 'diagnostics', update_in_insert = true } },
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = { 'tabs' },
+    },
+}
 
 -- image viewer
 require'image'.setup{}
@@ -817,4 +860,6 @@ else
 end
 
 -- set theme after deciding on italics
-funcs.settheme(env.NVIM_LIGHTMODE and 'light' or (env.NVIM_DARKMODE and 'dark' or nil))
+-- set colorscheme before deciding on lightness because of github theme
+cmd.colorscheme(require'last-color'.recall() or 'gruvbox')
+funcs.toggledark(env.NVIM_DARKMODE or not env.NVIM_LIGHTMODE)

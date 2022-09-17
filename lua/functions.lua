@@ -172,11 +172,20 @@ M.autsdisable = function (lang, buf)
     return M.tsdisable(lang, buf) or not vim.treesitter.require_language(lang, nil, true)
 end
 
-M.settheme = function (theme)
-    if theme then
-        o.background = theme
+M.toggledark = function (dark)
+    dark = dark or dark == nil and o.background == 'light'
+    local cat = dark and 'frappe' or 'latte'
+    local cname = g.colors_name
+
+    -- Catppuccin and github are *sPeCiAl*
+    if cname == 'catppuccin' then
+        cmd.Catppuccin(cat)
+    elseif cname and cname:sub(1, 7) == 'github_' then
+        cmd.colorscheme(dark and 'github_dark' or 'github_light')
+    else
+        o.background = dark and 'dark' or 'light'
+        g.catppuccin_flavour = cat
     end
-    cmd.colorscheme('gruvbox')
 end
 
 M.toggleshell = function (newshell)
@@ -239,8 +248,6 @@ M.setlogpoint = function ()
     local bps = require'dap.breakpoints'.get(curbuf)[curbuf]
     local default
     for _, bp in ipairs(bps) do
-        print(bp.line)
-        print(curline)
         if bp.line == curline then
             default = bp.logMessage
             break
