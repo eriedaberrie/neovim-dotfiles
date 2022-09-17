@@ -508,7 +508,7 @@ telescope.setup {
     },
     extensions = {
         howdoi = {
-            command_executor = { 'cmd.exe', '/c' },
+            command_executor = isUnix and { 'bash', '-c' } or { 'cmd.exe', '/c' },
         },
     },
 }
