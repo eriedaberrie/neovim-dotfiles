@@ -585,7 +585,6 @@ api.nvim_create_autocmd('BufWritePost', {
 local _pre_lualine_settheme = funcs.settheme
 -- add lualine to the theme (do it after so that it updates)
 local gitblame = require'gitblame'
-g.gitblame_ignored_filetypes = { 'NvimTree' }
 g.gitblame_display_virtual_text = 0
 ---@diagnostic disable-next-line: duplicate-set-field
 funcs.settheme = function (theme)
