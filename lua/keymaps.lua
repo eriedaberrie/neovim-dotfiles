@@ -176,8 +176,6 @@ return {
         wkreg({ ['<Leader>e'] = { name = 'LSP'} }, { mode = 'x' })
         map. n ([[<Leader>E]],  [[<Cmd>Lspsaga hover_doc<CR>]], 'LSP hover')
         map. n ([[<Leader>ef]], [[<Cmd>Lspsaga lsp_finder<CR>]], 'Lspsaga finder')
-        map. n ([[<Leader>ec]], [[<Cmd>Lspsaga code_action<CR>]], 'Code action')
-        map. x ([[<Leader>ec]], [[<Cmd>Lspsaga range_code_action<CR>]], 'Code action')
         map. n ([[<Leader>es]], [[<Cmd>Lspsaga signature_help<CR>]], 'Signature')
         map. n ([[<Leader>ep]], [[<Cmd>Lspsaga preview_definition<CR>]], 'Preview definition')
         map. n ([[<Leader>ee]], [[<Cmd>Lspsaga show_line_diagnostics<CR>]], 'Line diagnostics')
@@ -186,6 +184,7 @@ return {
         map. n ([[<Leader>er]], [[<Cmd>Lspsaga rename<CR>]], 'Rename')
         map. n ([[<Leader>ej]], [[$<Cmd>Lspsaga diagnostic_jump_next<CR>]], 'Next line diagnostic')
         map. n ([[<Leader>ek]], [[0<Cmd>Lspsaga diagnostic_jump_prev<CR>]], 'Previous line diagnostic')
+        map. nx ([[<Leader>ec]], [[<Cmd>Lspsaga code_action<CR>]], 'Code action')
 
         -- lsp_lines.nvim toggle
         map. n ([[<Leader>e<C-e>]], require'lsp_lines'.toggle, 'Toggle diagnostic lines')
