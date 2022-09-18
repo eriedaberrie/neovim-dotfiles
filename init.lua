@@ -287,126 +287,6 @@ api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
     end,
 })
 
--- lspsaga config
-require'lspsaga'.init_lsp_saga {
-    code_action_lightbulb = {
-        sign = false,
-    },
-    code_action_keys = {
-        quit = '<Esc>',
-    },
-    symbol_in_winbar = {
-        enable = true,
-        separator = '  '
-    },
-}
-
--- make lspsaga winbar use theme
-api.nvim_create_autocmd('ColorScheme', {
-    group = initgroup,
-    callback = function ()
-        local colors = {
-            fg     = '#bbc2cf',
-            red    = '#e95678',
-            orange = '#FF8700',
-            yellow = '#f7bb3b',
-            green  = '#afd700',
-            cyan   = '#36d0e0',
-            blue   = '#61afef',
-            violet = '#CBA6F7',
-            teal   = '#1abc9c',
-        }
-        local changes = {
-            [colors.fg]     = { link = 'ModeMsg' },
-            [colors.red]    = { fg = g.terminal_color_1 },
-            [colors.orange] = { fg = g.terminal_color_11 },
-            [colors.yellow] = { fg = g.terminal_color_3 },
-            [colors.green]  = { fg = g.terminal_color_2 },
-            [colors.cyan]   = { fg = g.terminal_color_6 },
-            [colors.blue]   = { fg = g.terminal_color_4 },
-            [colors.violet] = { fg = g.terminal_color_5 },
-            [colors.teal]   = { fg = g.terminal_color_14 },
-        }
-        for _, kind in pairs(require'lspsaga.lspkind') do
-            api.nvim_set_hl(0, 'LspSagaWinbar' .. kind[1], changes[kind[3]])
-        end
-        api.nvim_set_hl(0, 'LspSagaWinbarSep', { link = 'Comment' })
-    end
-})
-
--- lsp_signature setup
-require'lsp_signature'.setup {
-    always_trigger = true,
-    -- this is ctrl+slash
-    toggle_key = '<C-_>',
-    move_cursor_key = '<M-/>',
-    select_signature_key = '<M-n>',
-}
-
--- lsp_lines.nvim setup
-require'lsp_lines'.setup{}
--- use lsp_lines plugin or <Leader>ee/E for text
-vim.diagnostic.config { virtual_text = false }
-
--- mason.nvim LSP installer
-require'mason'.setup{}
-require'mason-lspconfig'.setup {
-    automatic_installation = { exclude = { 'clangd', 'hls' } },
-    ensure_installed = { 'jdtls', 'rust_analyzer' },
-}
-
--- LSP config base
-local lspconfig = require'lspconfig'
--- vim.lsp.set_log_level'debug'
-
-local on_attach = function (_, buf)
-    api.nvim_buf_set_option(buf, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-end
-
--- LSP servers
-local servers = {
-    -- python
-    pyright = {},
-    -- ruby
-    solargraph = {},
-    -- lua
-    sumneko_lua = {
-        Lua = {
-            runtime = {
-                version = 'LuaJIT',
-            },
-            diagnostics = {
-                globals = { 'vim' }
-            },
-            telemetry = {
-                enable = false,
-            },
-        }
-    },
-    -- eslint
-    eslint = {},
-    -- typescript - takes too much memory for ps :(
-    -- tsserver = {},
-    -- C stuff
-    clangd = {},
-    -- Emmet snippets
-    emmet_ls = {},
-}
-if isUnix then
-    -- haskell
-    servers.hls = {}
-end
-
--- actually setting up the LSP servers
-local capabilities = require'cmp_nvim_lsp'.update_capabilities(vim.lsp.protocol.make_client_capabilities())
-for server, settings in pairs(servers) do
-    lspconfig[server].setup {
-        on_attach = on_attach,
-        settings  = settings,
-        capabilities = capabilities,
-    }
-end
-
 -- set up the complicated nvim-autopairs keymaps
 -- local npairs = require'nvim-autopairs'
 -- npairs.setup { map_bs = false, map_cr = false, map_c_w = true }
@@ -630,6 +510,130 @@ require'lualine'.setup {
         lualine_z = { 'tabs' },
     },
 }
+
+-- lspsaga config
+require'lspsaga'.init_lsp_saga {
+    code_action_lightbulb = {
+        sign = false,
+    },
+    code_action_keys = {
+        quit = '<Esc>',
+    },
+    symbol_in_winbar = {
+        enable = true,
+        separator = '  '
+    },
+}
+
+-- make lspsaga winbar use theme
+api.nvim_create_autocmd('ColorScheme', {
+    group = initgroup,
+    callback = function ()
+        local colors = {
+            fg     = '#bbc2cf',
+            red    = '#e95678',
+            orange = '#FF8700',
+            yellow = '#f7bb3b',
+            green  = '#afd700',
+            cyan   = '#36d0e0',
+            blue   = '#61afef',
+            violet = '#CBA6F7',
+            teal   = '#1abc9c',
+        }
+        local changes = {
+            [colors.fg]     = { link = 'ModeMsg' },
+            [colors.red]    = { fg = g.terminal_color_1 },
+            [colors.orange] = { fg = g.terminal_color_11 },
+            [colors.yellow] = { fg = g.terminal_color_3 },
+            [colors.green]  = { fg = g.terminal_color_2 },
+            [colors.cyan]   = { fg = g.terminal_color_6 },
+            [colors.blue]   = { fg = g.terminal_color_4 },
+            [colors.violet] = { fg = g.terminal_color_5 },
+            [colors.teal]   = { fg = g.terminal_color_14 },
+        }
+        for _, kind in pairs(require'lspsaga.lspkind') do
+            api.nvim_set_hl(0, 'LspSagaWinbar' .. kind[1], changes[kind[3]])
+        end
+        api.nvim_set_hl(0, 'LspSagaWinbarSep', { link = 'Comment' })
+    end
+})
+
+-- lsp_signature setup
+require'lsp_signature'.setup {
+    always_trigger = true,
+    hint_enable = false,
+    handler_opts = {
+        border = 'none',
+    },
+    -- this is ctrl+slash
+    toggle_key = '<C-_>',
+    move_cursor_key = '<M-/>',
+    select_signature_key = '<M-n>',
+}
+
+-- lsp_lines.nvim setup
+require'lsp_lines'.setup{}
+-- use lsp_lines plugin or <Leader>ee/E for text
+vim.diagnostic.config { virtual_text = false }
+
+-- mason.nvim LSP installer
+require'mason'.setup{}
+require'mason-lspconfig'.setup {
+    automatic_installation = { exclude = { 'clangd', 'hls' } },
+    ensure_installed = { 'jdtls', 'rust_analyzer' },
+}
+
+-- LSP config base
+local lspconfig = require'lspconfig'
+-- vim.lsp.set_log_level'debug'
+
+local on_attach = function (_, buf)
+    api.nvim_buf_set_option(buf, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+end
+
+-- LSP servers
+local servers = {
+    -- python
+    pyright = {},
+    -- ruby
+    solargraph = {},
+    -- lua
+    sumneko_lua = {
+        Lua = {
+            runtime = {
+                version = 'LuaJIT',
+            },
+            diagnostics = {
+                globals = { 'vim' }
+            },
+            telemetry = {
+                enable = false,
+            },
+        }
+    },
+    -- eslint
+    eslint = {},
+    -- typescript - takes too much memory for ps :(
+    -- tsserver = {},
+    -- C stuff
+    clangd = {},
+    -- Emmet snippets
+    emmet_ls = {},
+}
+if isUnix then
+    -- haskell
+    servers.hls = {}
+end
+
+-- actually setting up the LSP servers
+local capabilities = require'cmp_nvim_lsp'.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+for server, settings in pairs(servers) do
+    lspconfig[server].setup {
+        on_attach = on_attach,
+        settings  = settings,
+        capabilities = capabilities,
+    }
+end
 
 -- image viewer
 require'image'.setup{}
