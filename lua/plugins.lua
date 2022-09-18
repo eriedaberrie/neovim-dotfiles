@@ -139,14 +139,22 @@ return require'packer'.startup {
             'mfussenegger/nvim-dap-python',
         }
 
-        -- Code completion (supposedly quite speedy as well)
+        -- Autocompletion
         use {
-            {
-                'ms-jpq/coq_nvim',
-                run = vim.isUnix and ':COQdeps' or nil,
-            },
-            'ms-jpq/coq.artifacts',
-            'ms-jpq/coq.thirdparty',
+            'hrsh7th/nvim-cmp',
+
+            -- Sources
+            'hrsh7th/cmp-path',
+            'hrsh7th/cmp-buffer',
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-calc',
+            'f3fora/cmp-spell',
+            'dmitmel/cmp-digraphs',
+
+            -- Snippets
+            'dcampos/nvim-snippy',
+            'dcampos/cmp-snippy',
+            'honza/vim-snippets',
         }
 
         -- Treesitter

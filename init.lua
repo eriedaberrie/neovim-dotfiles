@@ -126,6 +126,9 @@ api.nvim_create_autocmd('TextYankPost', {
 })
 
 ---------- plugins ----------
+-- load cmp config
+require'cmp-config'
+
 -- theme setups
 require'gruvbox'.setup {
     italic = false,
@@ -284,30 +287,6 @@ api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
     end,
 })
 
--- coq_nvim settings
-g.coq_settings = {
-    auto_start = 'shut-up',
-    keymap = {
-        -- in order to use nvim-autopairs, see keymaps.lua and below
-        recommended = false,
-        eval_snips = '<Leader>C',
-    },
-    display = {
-        pum = {
-            fast_close = false,
-        },
-    },
-    limits = {
-        completion_manual_timeout = 1.33,
-    }
-}
-
--- third party coq sources
-require'coq_3p' {
-    { src = "nvimlua", short_name = "nLUA", conf_only = true },
-    { src = 'bc', short_name = 'MATH', precision = 6 },
-}
-
 -- lspsaga config
 require'lspsaga'.init_lsp_saga {
     code_action_lightbulb = {
@@ -419,37 +398,18 @@ if isUnix then
 end
 
 -- actually setting up the LSP servers
-local coq = require'coq'
+local capabilities = require'cmp_nvim_lsp'.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 for server, settings in pairs(servers) do
-    lspconfig[server].setup(coq.lsp_ensure_capabilities {
+    lspconfig[server].setup {
         on_attach = on_attach,
         settings  = settings,
-    })
+        capabilities = capabilities,
+    }
 end
 
 -- set up the complicated nvim-autopairs keymaps
-local npairs = require'nvim-autopairs'
-npairs.setup { map_bs = false, map_cr = false, map_c_w = true }
-
-api.nvim_set_keymap('i', '<CR>', '', { noremap = true, expr = true, callback = function ()
-    if fn.pumvisible() ~= 0 then
-        if fn.complete_info{ 'selected' }.selected ~= -1 then
-            return npairs.esc('<C-y>')
-        else
-            return npairs.esc('<C-e>') .. npairs.autopairs_cr(api.nvim_get_current_buf())
-        end
-    else
-        return npairs.autopairs_cr(api.nvim_get_current_buf())
-    end
-end })
-
-api.nvim_set_keymap('i', '<BS>', '', { noremap = true, expr = true, callback = function ()
-    if fn.pumvisible() ~= 0 and fn.complete_info{ 'mode' }.mode == 'eval' then
-        return npairs.esc('<C-e>') .. npairs.autopairs_bs(api.nvim_get_current_buf())
-    else
-        return npairs.autopairs_bs(api.nvim_get_current_buf())
-    end
-end })
+-- local npairs = require'nvim-autopairs'
+-- npairs.setup { map_bs = false, map_cr = false, map_c_w = true }
 
 -- toggleterm setup
 require'toggleterm'.setup {
@@ -630,6 +590,9 @@ api.nvim_create_autocmd('BufWritePost', {
 })
 
 ---------- more plugins ----------
+-- nvim-dap configuration file
+require'dap-config'
+
 -- add lualine to the theme
 local gitblame = require'gitblame'
 g.gitblame_display_virtual_text = 0
@@ -769,9 +732,6 @@ require'neorg'.setup {
 
 -- indent_blankline configuration
 g.indentLine_fileTypeExclude = { '', 'text', 'norg', 'lspinfo', 'packer', 'checkhealth', 'help', 'man' }
-
--- nvim-dap configuration file
-require'dap-config'
 
 -- telescope lazygit (not in firenvim)
 telescope.load_extension'lazygit'

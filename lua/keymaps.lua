@@ -190,12 +190,6 @@ return {
         -- lsp_lines.nvim toggle
         map. n ([[<Leader>e<C-e>]], require'lsp_lines'.toggle, 'Toggle diagnostic lines')
 
-        -- Coq_nvim + nvim-autopairs keymaps
-        map. i ([[<Esc>]], [[pumvisible() ? '<C-e><Esc>' : '<Esc>']], { expr = true })
-        map. i ([[<C-c>]], [[pumvisible() ? '<C-e><C-c>' : '<C-c>']], { expr = true })
-        map. i ([[<Tab>]],   [[pumvisible() ? '<C-n>' : '<Tab>']], { expr = true })
-        map. i ([[<S-Tab>]], [[pumvisible() ? '<C-p>' : '<Tab>']], { expr = true })
-
         -- Toggle spell checking
         wkreg{ ['<Leader>s'] = { name = 'Spell' } }
         map. n ([[<Leader>sp]], [[<Cmd>set spell! spell?<CR>]])
@@ -203,8 +197,8 @@ return {
         -- Toggle whitespace visibility
         map. nx ([[<Leader><Leader>]], [[<Cmd>set list!<CR>]], 'Toggle showing whitespace')
 
-        -- Toggles themes
-        map. n ([[<Leader>T]], vim.funcs.toggledark, 'Toggle dark/light themes')
+        -- Toggles light/dark mode
+        map. n ([[<Leader>C]], vim.funcs.toggledark, 'Toggle dark/light colorschemes')
 
         -- Preserve q: and quickfix <CR> functionality
         map. n ([[<CR>]], [[!(index(['[Command Line]'], expand('%')) is -1) || (&filetype == 'qf') ? '<CR>' : '']], { silent = false, expr = true })
