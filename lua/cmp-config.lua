@@ -54,3 +54,6 @@ snippy.setup {
         },
     },
 }
+
+-- Automatically add parentheses at the end of a method
+cmp.event:on('confirm_done',  require'nvim-autopairs.completion.cmp'.on_confirm_done())

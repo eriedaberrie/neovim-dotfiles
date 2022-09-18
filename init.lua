@@ -287,9 +287,8 @@ api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
     end,
 })
 
--- set up the complicated nvim-autopairs keymaps
--- local npairs = require'nvim-autopairs'
--- npairs.setup { map_bs = false, map_cr = false, map_c_w = true }
+-- set up nvim-autopairs
+require'nvim-autopairs'.setup { map_cr = true, map_c_w = true }
 
 -- toggleterm setup
 require'toggleterm'.setup {
