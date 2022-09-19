@@ -1,4 +1,4 @@
-if exists("b:did_ftplugin") || exists('g:vscode') || exists('g:started_')
+if exists("b:did_ftplugin") || exists('g:vscode') || exists('g:started_by_firenvim')
     finish
 endif
 let b:did_ftplugin = 1
