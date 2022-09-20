@@ -383,7 +383,7 @@ if g.started_by_firenvim then
     opt.laststatus = 1
 
     -- decrease fontsize
-    funcs.resizetext(11)
+    funcs.resizetext(9)
 
     -- set spell always
     opt.spell = true

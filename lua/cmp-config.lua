@@ -1,4 +1,5 @@
 -- nvim-cmp config
+
 local cmp = require'cmp'
 local snippy = require'snippy'
 
@@ -24,8 +25,8 @@ cmp.setup {
         { name = 'neorg' },
         { name = 'nvim_lsp' },
         { name = 'calc' },
-        { name = 'buffer', keyword_length = 3 },
-        { name = 'spell',  keyword_length = 3 },
+        { name = 'buffer', keyword_length = 2 },
+        { name = 'spell',  keyword_length = 2 },
         -- requires manual completion
         { name = 'digraphs', keyword_length = 3 },
     },
