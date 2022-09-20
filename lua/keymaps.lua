@@ -2,14 +2,13 @@
 -- Nonrecursive and silent is assumed unless otherwise specified
 
 -- Flags:
--- 0b0001 - default
--- 0b0010 - Unix
--- 0b0100 - VSCode plugin
--- 0b1000 - Firenvim
+-- 0b001 - default
+-- 0b010 - Unix
+-- 0b100 - Firenvim
 
 ---@diagnostic disable: unused-local
 return {
-    -- 0b0001
+    -- 0b001
     [1] = function (map, wkreg)
         -- Open RPG maker game in debug mode
         map. n ([[<Leader>pd]], [[&shell ==# 'cmd.exe' ? '<Cmd>!for /f "usebackq tokens=*" \%a in (`git rev-parse --show-toplevel`) do start /d "\%a" Game.exe debug<CR><CR>' : '<Cmd>!start -FilePath Game.exe -WorkingDirectory "$(git rev-parse --show-toplevel)" -ArgumentList "debug"<CR><CR>']], { expr = true }, 'Play RPG maker game in debug mode')
@@ -18,11 +17,11 @@ return {
         map. n ([[<C-z>]], [[<Nop>]])
     end,
 
-    -- 0b0010
+    -- 0b010
     [2] = function (map, wkreg)
     end,
 
-    -- 0b0011
+    -- 0b011
     [3] = function (map, wkreg)
         -- :PackerSync
         wkreg{ ['<Leader>p'] = { name = 'Packer' } }
@@ -65,26 +64,54 @@ return {
         map. n ([[<Leader>N]], [[<Cmd>NeorgStart<CR>]])
     end,
 
-    -- 0b0100
+    -- 0b100
     [4] = function (map, wkreg)
-        -- Pressing "z=" opens the context menu
-        map. n ([[z=]], [[<Cmd>call VSCodeNotify('keyboard-quickfix.openQuickFix')<CR>]])
-
-        -- Do not preserve q: <CR> functionality
-        map. n ([[<CR>]], [[<Nop>]])
     end,
 
-    -- 0b1000
-    [8] = function (map, wkreg)
+    -- 0b101
+    [5] = function (map, wkreg)
+        -- Toggle shell
+        map. n ([[<Leader>S]], vim.funcs.toggleshell, 'Toggle shell between cmd.exe and pwsh.exe')
     end,
 
-    -- 0b1011
-    [11] = function (map, wkreg)
+    -- 0b111
+    [7] = function (map, wkreg)
+        -- Unmap Backspace, Enter, Space
+        map. nx ([[<Bs>]], [[<Nop>]])
+        map. nx ([[<Space>]], [[<Nop>]])
+        map. x ([[<CR>]], [[<Nop>]])
+
+        -- Make cw make sense
+        map. n ([[cw]], [[dwi]], { virte = true }, 'Next word')
+        map. n ([[cW]], [[dWi]], { virte = true }, 'Next Word')
+
+        -- Indent without exiting visual mode
+        map. x ([[<]], [[<gv]])
+        map. x ([[>]], [[>gv]])
+
+        -- Pressing Escape cancels search highlights
+        map. n ([[<Esc>]], [[<Cmd>noh<CR>]])
+
+        -- Save and close easily
+        map. n ([[<Leader>w]], [[<Cmd>w<CR>]])
+        map. n ([[<Leader>q]], [[<Cmd>q<CR>]])
+        map. n ([[<Leader>Q]], [[<Cmd>qa!<CR>]])
+
+        -- Run previous command with ! prefix
+        map. n ([[<Leader>!]], [[:!<C-r>:<CR>]], { silent = false }, 'Previous command with ! prefix')
+
+        -- Run previous command with lua prefix
+        map. n ([[<Leader>L]], [[:lua <C-r>:<CR>]], { silent = false }, 'Run previous command with lua prefix')
+
         -- Maps Ctrl-Backspace to do the thing
         map. ic ([[<C-BS>]], [[<C-w>]], { silent = false, noremap = false })
 
         -- Toggle lazy redraw
         map. n ([[<Leader>lr]], [[<Cmd>set lazyredraw! lazyredraw?<CR>]])
+
+        -- Toggle spell checking
+        wkreg{ ['<Leader>s'] = { name = 'Spell' } }
+        map. n ([[<Leader>sp]], [[<Cmd>set spell! spell?<CR>]])
 
         -- Window resize
         map. n ([[+]],     [[<Cmd>exe v:count . 'wincmd +'<CR>]])
@@ -96,6 +123,56 @@ return {
         map. n ([[<Leader>0]], vim.funcs.resizetext, 'Reset text size')
         map. n ([[<Leader>=]], function () vim.funcs.resizetext(vim.v.count1, 1) end, 'Increase text size')
         map. n ([[<Leader>-]], function () vim.funcs.resizetext(vim.v.count1, -1) end, 'Decrease text size')
+
+        -- Move around in insert modes with alt
+        map. ic ([[<M-h>]], [[<Left>]],  { noremap = false, silent = false })
+        map. ic ([[<M-j>]], [[<Down>]],  { noremap = false, silent = false })
+        map. ic ([[<M-k>]], [[<Up>]],    { noremap = false, silent = false })
+        map. ic ([[<M-l>]], [[<Right>]], { noremap = false, silent = false })
+
+        -- EasyAlign
+        map. nx ([[<Leader>ga]], [[<Plug>(EasyAlign)]], 'Activate EasyAlign')
+
+        -- Easy access to clipboard in normal, visual mode
+        map. nx ([[<Leader>"]], [["+]])
+
+        -- Swap case of letter
+        map. n ([[gl]], [[g~l]], 'Swap case of single letter')
+
+        -- Copy to clipboard
+        wkreg{['<Leader>y'] = { name = '+Yank' }}
+        map. n ([[<Leader>yy]], [[<Cmd>%y+<CR>]], 'Yank full buffer into system clipboard')
+
+        -- Don't move the cursor with insert mode <C-o>
+        map. i ([[<C-o>]], [[<C-\><C-o>]], { silent = false })
+
+        -- Current buffer text object
+        map. O ([[i%]], [[V0Gogg]], 'Current buffer')
+
+        -- Indentation text object
+        map. O ([[ii]], function () vim.funcs.selectindent(false) end, 'Current indentation level')
+        map. O ([[ai]], function () vim.funcs.selectindent(true) end, 'Current indentation level with trailing empty lines')
+
+        -- Caps lock
+        map. ic ([[<C-l>]], vim.funcs.capslock)
+
+        -- Close help page easily
+        wkreg{ ['<Leader>h'] = { name = 'Help' } }
+        map. n ([[<Leader>hc]], [[<Cmd>helpclose<CR>]])
+
+        -- Loclist and quickfixlist toggles
+        wkreg{ ['<Leader>c'] = { name = 'Quickfix list and cd'} }
+        wkreg({ ['<Leader>c'] = { name = 'Quickfix list'} }, { mode = 'x' })
+        wkreg{ ['<Leader>l'] = { name = 'Location list and lazyredraw'} }
+        wkreg({ ['<Leader>l'] = { name = 'Location list'} }, { mode = 'x' })
+        map. n ([[<Leader>lo]], [[<Cmd>lopen<CR>]])
+        map. n ([[<Leader>lc]], [[<Cmd>lclose<CR>]])
+        map. n ([[<Leader>co]], [[<Cmd>copen<CR>]])
+        map. n ([[<Leader>cc]], [[<Cmd>cclose<CR>]])
+        map. nx ([[<Leader>ln]], [[<Cmd>lnext<CR>]])
+        map. nx ([[<Leader>lp]], [[<Cmd>lprev<CR>]])
+        map. nx ([[<Leader>cn]], [[<Cmd>cnext<CR>]])
+        map. nx ([[<Leader>cp]], [[<Cmd>cprev<CR>]])
 
         -- Easy enter terminal mode
         wkreg{ ['<Leader>t'] = { name = 'ToggleTerm' } }
@@ -128,24 +205,6 @@ return {
         map. nt ([[<M-j>]], [[<Cmd>exe v:count . 'wincmd j'<CR>]], { nolazyredraw = true })
         map. nt ([[<M-k>]], [[<Cmd>exe v:count . 'wincmd k'<CR>]], { nolazyredraw = true })
         map. nt ([[<M-l>]], [[<Cmd>exe v:count . 'wincmd l'<CR>]], { nolazyredraw = true })
-
-        -- Close help page easily
-        wkreg{ ['<Leader>h'] = { name = 'Help' } }
-        map. n ([[<Leader>hc]], [[<Cmd>helpclose<CR>]])
-
-        -- Loclist and quickfixlist toggles
-        wkreg{ ['<Leader>c'] = { name = 'Quickfix list and cd'} }
-        wkreg({ ['<Leader>c'] = { name = 'Quickfix list'} }, { mode = 'x' })
-        wkreg{ ['<Leader>l'] = { name = 'Location list and lazyredraw'} }
-        wkreg({ ['<Leader>l'] = { name = 'Location list'} }, { mode = 'x' })
-        map. n ([[<Leader>lo]], [[<Cmd>lopen<CR>]])
-        map. n ([[<Leader>lc]], [[<Cmd>lclose<CR>]])
-        map. n ([[<Leader>co]], [[<Cmd>copen<CR>]])
-        map. n ([[<Leader>cc]], [[<Cmd>cclose<CR>]])
-        map. nx ([[<Leader>ln]], [[<Cmd>lnext<CR>]])
-        map. nx ([[<Leader>lp]], [[<Cmd>lprev<CR>]])
-        map. nx ([[<Leader>cn]], [[<Cmd>cnext<CR>]])
-        map. nx ([[<Leader>cp]], [[<Cmd>cprev<CR>]])
 
         -- LSP maps
         map. n ([[<Leader>eE]], vim.diagnostic.setloclist, 'Set location list with diagnostics')
@@ -188,10 +247,6 @@ return {
 
         -- lsp_lines.nvim toggle
         map. n ([[<Leader>e<C-e>]], require'lsp_lines'.toggle, 'Toggle diagnostic lines')
-
-        -- Toggle spell checking
-        wkreg{ ['<Leader>s'] = { name = 'Spell' } }
-        map. n ([[<Leader>sp]], [[<Cmd>set spell! spell?<CR>]])
 
         -- Toggle whitespace visibility
         map. nx ([[<Leader><Leader>]], [[<Cmd>set list!<CR>]], 'Toggle showing whitespace')
@@ -251,73 +306,5 @@ return {
         -- Toggle indent-blankline plugin
         wkreg{ ['<Leader>i'] = { name = 'Indent-blankline' } }
         map. n ([[<Leader>ii]], [[<Cmd>let g:indent_blankline_enabled = g:indent_blankline_enabled ? v:false : v:true<CR>]], 'Toggle')
-    end,
-
-    -- 0b1101
-    [13] = function (map, wkreg)
-        -- Toggle shell
-        map. n ([[<Leader>S]], vim.funcs.toggleshell, 'Toggle shell between cmd.exe and pwsh.exe')
-    end,
-
-    -- 0b1111
-    [15] = function (map, wkreg)
-        -- Make cw make sense
-        map. n ([[cw]], [[dwi]], { virte = true }, 'Next word')
-        map. n ([[cW]], [[dWi]], { virte = true }, 'Next Word')
-
-        -- Indent without exiting visual mode
-        map. x ([[<]], [[<gv]])
-        map. x ([[>]], [[>gv]])
-
-        -- Unmap Backspace, Enter, Space
-        map. nx ([[<Bs>]], [[<Nop>]])
-        map. nx ([[<Space>]], [[<Nop>]])
-        map. x ([[<CR>]], [[<Nop>]])
-
-        -- Pressing Escape cancels search highlights
-        map. n ([[<Esc>]], [[<Cmd>noh<CR>]])
-
-        -- Save and close easily
-        map. n ([[<Leader>w]], [[<Cmd>w<CR>]])
-        map. n ([[<Leader>q]], [[<Cmd>q<CR>]])
-        map. n ([[<Leader>Q]], [[<Cmd>qa!<CR>]])
-
-        -- Run previous command with ! prefix
-        map. n ([[<Leader>!]], [[:!<C-r>:<CR>]], { silent = false }, 'Previous command with ! prefix')
-
-        -- Run previous command with lua prefix
-        map. n ([[<Leader>L]], [[:lua <C-r>:<CR>]], { silent = false }, 'Run previous command with lua prefix')
-
-        -- Move around in insert modes with alt
-        map. ic ([[<M-h>]], [[<Left>]],  { noremap = false, silent = false })
-        map. ic ([[<M-j>]], [[<Down>]],  { noremap = false, silent = false })
-        map. ic ([[<M-k>]], [[<Up>]],    { noremap = false, silent = false })
-        map. ic ([[<M-l>]], [[<Right>]], { noremap = false, silent = false })
-
-        -- EasyAlign
-        map. nx ([[<Leader>ga]], [[<Plug>(EasyAlign)]], 'Activate EasyAlign')
-
-        -- Easy access to clipboard in normal, visual mode
-        map. nx ([[<Leader>"]], [["+]])
-
-        -- Swap case of letter
-        map. n ([[gl]], [[g~l]], 'Swap case of single letter')
-
-        -- Copy to clipboard
-        wkreg{['<Leader>y'] = { name = '+Yank' }}
-        map. n ([[<Leader>yy]], [[<Cmd>%y+<CR>]], 'Yank full buffer into system clipboard')
-
-        -- Don't move the cursor with insert mode <C-o>
-        map. i ([[<C-o>]], [[<C-\><C-o>]], { silent = false })
-
-        -- Current buffer text object
-        map. O ([[i%]], [[V0Gogg]], 'Current buffer')
-
-        -- Indentation text object
-        map. O ([[ii]], function () vim.funcs.selectindent(false) end, 'Current indentation level')
-        map. O ([[ai]], function () vim.funcs.selectindent(true) end, 'Current indentation level with trailing empty lines')
-
-        -- Caps lock
-        map. ic ([[<C-l>]], vim.funcs.capslock)
     end,
 }

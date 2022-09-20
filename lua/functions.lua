@@ -9,7 +9,7 @@ local fn  = vim.fn
 local cmd = vim.cmd
 
 M.set_keymaps = function (maptable)
-    local launchmask = g.started_by_firenvim and 8 or (g.vscode and 4 or (vim.isUnix and 2 or 1))
+    local launchmask = g.started_by_firenvim and 4 or vim.isUnix and 2 or 1
     local opts, nolazyredraw, virte
 
     local mapfunc = setmetatable({}, {

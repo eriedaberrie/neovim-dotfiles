@@ -21,87 +21,26 @@ vim.funcs = funcs
 g.mapleader = ' '
 funcs.set_keymaps(require'keymaps')
 
--- search options - relevant everywhere
-opt.ignorecase = true
-opt.smartcase  = true
-
--- if spell is ever turend on
-opt.spelllang = 'en_us'
-opt.spelloptions:append('camel')
-
--- disable K being "man" which is just not useful even on Unix
-opt.keywordprg = ':help'
-
--- turn on lazy redraw - reenablable through keymaps
-opt.lazyredraw = true
-
--- disable mouse by default on non-gui im not sure why nightly added this
-opt.mouse = ''
-
--- easier to exit
-api.nvim_create_user_command('W',  'w',  {})
-api.nvim_create_user_command('Wq', 'wq', {})
-api.nvim_create_user_command('WQ', 'wq', {})
-api.nvim_create_user_command('Q',  'q',  {})
-
 -- set up init autogroup
 local initgroup = api.nvim_create_augroup('InitGroup', { clear = true })
 
----------- global plugins ----------
--- comment config
-require'Comment'.setup{}
-
--- CursorHold config
-g.cursorhold_updatetime = 50
-
-local sconfig = require'nvim-surround.config'
--- nvim-surround config
-require'nvim-surround'.setup {
-    surrounds = {
-        F = {
-            add = function ()
-                local result = sconfig.get_input('Arguments: ')
-                if result then
-                    return { { 'function (' .. result .. ') ' }, { ' end' } }
-                end
-            end
-        },
-    },
-}
-api.nvim_set_hl(0, 'NvimSurroundHighlight', { link = 'IncSearch' })
-
--- VSCode Neovim stuff
-if g.vscode then
-    -- disable neovim syntax highlighting
-    opt.syntax = 'off'
-
-    -- remove keymap timeout
-    opt.timeout = false
-
-    -- disable git blame plugin
-    g.gitblame_enabled = 0
-
-    -- disable indent blankline plugin
-    g.indent_blankline_enabled = false
-
-    return
-end
-
--- for stuff that doesn't apply to VSCode extension
+-- search options
+opt.ignorecase = true
+opt.smartcase  = true
 -- general options
 opt.number         = true
 opt.relativenumber = true
 opt.cursorline     = true
 opt.tabstop        = 4
 -- tab options (use sleuth.vim)
-opt.expandtab      = true
-opt.shiftwidth     = 0
-opt.completeopt    = { 'menu', 'menuone', 'noselect' }
+opt.expandtab   = true
+opt.shiftwidth  = 0
+opt.completeopt = { 'menu', 'menuone', 'noselect' }
 -- guifont (mainly for Neovide)
-opt.guifont        = 'FiraCode NF:h10'
+opt.guifont = 'FiraCode NF:h10'
 -- linebreak
-opt.linebreak      = true
-opt.breakindent    = true
+opt.linebreak   = true
+opt.breakindent = true
 opt.breakindentopt:append('shift:8')
 -- <Leader><Leader> to show this
 opt.listchars = {
@@ -113,11 +52,26 @@ opt.listchars = {
     space    = '·',
     nbsp     = 'x',
 }
+opt.fillchars:append('fold: ')
+-- if spell is ever turend on
+opt.spelllang = 'en_us'
+opt.spelloptions:append('camel')
+-- disable K being "man" which is just not useful even on Unix
+opt.keywordprg = ':help'
+-- turn on lazy redraw - reenablable through keymaps
+opt.lazyredraw = true
+-- disable mouse by default on non-gui im not sure why nightly added this
+opt.mouse = ''
 -- https://www.reddit.com/r/neovim/comments/psl8rq/sexy_folds/
 opt.foldexpr = 'nvim_treesitter#foldexpr()'
 opt.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend))]]
         .. [[ . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
-opt.fillchars:append('fold: ')
+
+-- easier to exit
+api.nvim_create_user_command('W',  'w',  {})
+api.nvim_create_user_command('Wq', 'wq', {})
+api.nvim_create_user_command('WQ', 'wq', {})
+api.nvim_create_user_command('Q',  'q',  {})
 
 -- highlight yanked text
 api.nvim_create_autocmd('TextYankPost', {
@@ -128,6 +82,9 @@ api.nvim_create_autocmd('TextYankPost', {
 ---------- plugins ----------
 -- load cmp config
 require'cmp-config'
+
+-- CursorHold config
+g.cursorhold_updatetime = 50
 
 -- theme setups
 require'gruvbox'.setup {
@@ -286,6 +243,25 @@ api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
         end
     end,
 })
+
+-- comment config
+require'Comment'.setup{}
+
+-- nvim-surround config
+local sconfig = require'nvim-surround.config'
+require'nvim-surround'.setup {
+    surrounds = {
+        F = {
+            add = function ()
+                local result = sconfig.get_input('Arguments: ')
+                if result then
+                    return { { 'function (' .. result .. ') ' }, { ' end' } }
+                end
+            end
+        },
+    },
+}
+api.nvim_set_hl(0, 'NvimSurroundHighlight', { link = 'IncSearch' })
 
 -- set up nvim-autopairs
 require'nvim-autopairs'.setup { map_cr = true, map_c_w = true }

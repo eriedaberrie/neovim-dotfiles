@@ -1,6 +1,7 @@
 -- rust-tools.nvim setup
 
-if vim.g.vscode or vim.g.started_by_firenvim then return end
+if vim.g.started_by_firenvim then return end
+
 if vim.g.sourced_rust_tools then return end
 vim.g.sourced_rust_tools = true
 

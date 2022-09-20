@@ -1,6 +1,6 @@
 -- JDTLS setup
 
-if vim.g.vscode or vim.g.started_by_firenvim then return end
+if vim.g.started_by_firenvim then return end
 
 if vim.fn.executable('jdtls') == 0 then
     vim.notify('`jdtls` is not executable', vim.log.levels.WARN)
