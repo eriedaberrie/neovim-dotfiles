@@ -155,6 +155,9 @@ return require'packer'.startup {
             'dcampos/nvim-snippy',
             'dcampos/cmp-snippy',
             'honza/vim-snippets',
+
+            -- Custom icons
+            'onsails/lspkind.nvim',
         }
 
         -- Treesitter

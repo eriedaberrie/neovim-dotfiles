@@ -543,7 +543,7 @@ require'lsp_signature'.setup {
     -- this is ctrl+slash
     toggle_key = '<C-_>',
     move_cursor_key = '<M-/>',
-    select_signature_key = '<M-n>',
+    select_signature_key = '<M-s>',
 }
 
 -- lsp_lines.nvim setup

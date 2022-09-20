@@ -27,9 +27,15 @@ cmp.setup {
         { name = 'calc' },
         { name = 'buffer', keyword_length = 2 },
         { name = 'spell',  keyword_length = 2 },
-        -- requires manual completion
+        -- Requires manual completion
         { name = 'digraphs', keyword_length = 3 },
     },
+    formatting = {
+        -- Use fancier icons
+        format = require'lspkind'.cmp_format {
+            mode = 'symbol',
+        }
+    }
 }
 
 for _, c in ipairs({ '/', '?' }) do
@@ -40,6 +46,7 @@ for _, c in ipairs({ '/', '?' }) do
         }
     })
 end
+
 -- Restore tab completion for regular : cmdline
 cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
@@ -51,8 +58,8 @@ snippy.setup {
     hl_group = '@text.strong',
     mappings = {
         is = {
-            ['<C-h>'] = 'expand_or_advance',
-            ['<M-h>'] = 'previous',
+            ['<M-n>'] = 'expand_or_advance',
+            ['<M-p>'] = 'previous',
         },
     },
 }
