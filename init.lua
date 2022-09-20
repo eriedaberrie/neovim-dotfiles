@@ -706,6 +706,12 @@ require'neorg'.setup {
             }
         },
         ['core.norg.concealer'] = {},
+        ['core.norg.completion'] = {
+            config = {
+                engine = 'nvim-cmp',
+            }
+        },
+        ['core.integrations.nvim-cmp'] = {},
     }
 }
 
