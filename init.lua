@@ -562,10 +562,6 @@ require'mason-lspconfig'.setup {
 local lspconfig = require'lspconfig'
 -- vim.lsp.set_log_level'debug'
 
-local on_attach = function (_, buf)
-    api.nvim_buf_set_option(buf, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-end
-
 -- LSP servers
 local servers = {
     -- python
@@ -604,8 +600,7 @@ end
 local capabilities = require'cmp_nvim_lsp'.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 for server, settings in pairs(servers) do
     lspconfig[server].setup {
-        on_attach = on_attach,
-        settings  = settings,
+        settings = settings,
         capabilities = capabilities,
     }
 end
