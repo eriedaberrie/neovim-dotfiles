@@ -391,9 +391,6 @@ if g.started_by_firenvim then
     -- remove keymap timeout
     opt.timeout = false
 
-    -- disable git blame plugin
-    g.gitblame_enabled = 0
-
     -- disable indent blankline plugin
     g.indent_blankline_enabled = false
 
@@ -449,9 +446,6 @@ api.nvim_create_autocmd('BufWritePost', {
 require'dap-config'
 
 -- add lualine to the theme
-local gitblame = require'gitblame'
-g.gitblame_display_virtual_text = 0
-
 require'lualine'.setup {
     options = {
         globalstatus = true,
@@ -464,14 +458,7 @@ require'lualine'.setup {
             end, color = 'QuickFixLine', separator = { right = '' } }
         },
         lualine_b = {{ 'filename' }},
-        lualine_c = {{
-            function ()
-                if api.nvim_buf_get_option(0, 'buftype') == '' then
-                    return gitblame.get_current_blame_text()
-                end
-                return ''
-            end, cond = gitblame.is_blame_text_available
-        }},
+        lualine_c = {},
         lualine_x = { 'encoding', 'fileformat', 'filesize', 'filetype' },
         lualine_y = { 'progress' },
         lualine_z = { 'location' }
@@ -636,18 +623,6 @@ wk.register {
     gr = { name = 'Replace with register' },
     grr = 'Replace current line with register',
 }
-
--- disable git-blame.nvim on big files
-api.nvim_create_autocmd('BufEnter', {
-    group = initgroup,
-    callback = function ()
-        if api.nvim_buf_line_count(0) > 5000 then
-            api.nvim_command [[GitBlameDisable]]
-        else
-            api.nvim_command [[GitBlameEnable]]
-        end
-    end
-})
 
 -- neorg
 require'neorg'.setup {
