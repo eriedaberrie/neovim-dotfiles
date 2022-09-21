@@ -23,9 +23,11 @@ return {
 
     -- 0b011
     [3] = function (map, wkreg)
-        -- :PackerSync
+        -- Packer
         wkreg{ ['<Leader>p'] = { name = 'Packer' } }
-        map. n ([[<Leader>ps]], [[:PackerSync<CR>]], { silent = false })
+        map. n ([[<Leader>ps]], [[:PackerSync<CR>]],    { silent = false })
+        map. n ([[<Leader>pi]], [[:PackerInstall<CR>]], { silent = false })
+        map. n ([[<Leader>pc]], [[:PackerClean<CR>]],   { silent = false })
 
         -- Reload impatient.nvim cache
         map. n ([[<Leader>I]], [[:LuaCacheClear<CR>]], { silent = false })
