@@ -22,8 +22,9 @@ cmp.setup {
     },
     sources = cmp.config.sources {
         { name = 'snippy' },
-        { name = 'neorg' },
+        { name = 'nvim_lua' },
         { name = 'nvim_lsp' },
+        { name = 'neorg' },
         { name = 'calc' },
         { name = 'buffer', keyword_length = 2 },
         { name = 'spell',  keyword_length = 2 },
