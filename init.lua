@@ -66,6 +66,8 @@ opt.mouse = ''
 opt.foldexpr = 'nvim_treesitter#foldexpr()'
 opt.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend))]]
         .. [[ . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
+-- update CursorHold events
+opt.updatetime = 1500
 
 -- easier to exit
 api.nvim_create_user_command('W',  'w',  {})
@@ -82,9 +84,6 @@ api.nvim_create_autocmd('TextYankPost', {
 ---------- plugins ----------
 -- load cmp config
 require'cmp-config'
-
--- CursorHold config
-g.cursorhold_updatetime = 50
 
 -- theme setups
 require'gruvbox'.setup {
