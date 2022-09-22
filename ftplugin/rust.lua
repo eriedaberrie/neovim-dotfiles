@@ -22,7 +22,7 @@ local rt = require'rust-tools'
 
 rt.setup {
     server = {
-        on_attach = function (_, buf)
+        on_attach = function (client, buf)
             local wk = require'which-key'
             require'jdtls.setup'.add_commands()
             wk.register({
@@ -45,6 +45,8 @@ rt.setup {
                     rt.debuggables.debuggables()
                 end
             end, desc = 'Rust DAP continue' })
+
+            require'aerial'.on_attach(client, buf)
         end,
         capabilities = require'cmp_nvim_lsp'.update_capabilities(vim.lsp.protocol.make_client_capabilities()),
     },

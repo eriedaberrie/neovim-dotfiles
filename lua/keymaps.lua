@@ -62,6 +62,61 @@ return {
         map. n ([[<Leader>duf]], dapui.float_element, 'Float element')
         map. nx ([[<Leader>due]], dapui.eval, 'Eval')
 
+        -- LSP maps
+        map. n ([[<Leader>eE]], vim.diagnostic.setloclist, 'Set location list with diagnostics')
+        -- map. n ([[<Leader>ee]], vim.diagnostic.open_float)
+        -- map. n ([[<Leader>el]], vim.diagnostic.goto_next)
+        -- map. n ([[<Leader>eh]], vim.diagnostic.goto_prev)
+        -- map. n ([[<Leader>ej]], [[$<Cmd>lua vim.diagnostic.goto_next()<CR>]])
+        -- map. n ([[<Leader>ek]], [[0<Cmd>lua vim.diagnostic.goto_prev()<CR>]])
+        map. n ([[<Leader>eI]], [[<Cmd>LspInfo<CR>]])
+        -- map. n ([[<Leader>E]], vim.lsp.buf.hover)
+        map. n ([[<Leader>ed]], vim.lsp.buf.definition, 'Jump to definition')
+        map. n ([[<Leader>eD]], vim.lsp.buf.declaration, 'Jump to declaration')
+        map. n ([[<Leader>ei]], vim.lsp.buf.implementation, 'Set location list with implementations')
+        -- map. n ([[<Leader>er]], vim.lsp.buf.rename)
+        map. n ([[<Leader>eR]], vim.lsp.buf.references, 'References')
+        map. n ([[<Leader>et]], vim.lsp.buf.type_definition, 'Type definition')
+        map. n ([[<Leader>eF]], vim.lsp.buf.format, 'Format')
+        map. x ([[<Leader>eF]], vim.lsp.buf.range_formatting, 'Format')
+        -- map. n ([[<Leader>ec]], vim.lsp.buf.code_action)
+        -- map. x ([[<Leader>ec]], vim.lsp.buf.range_code_action)
+        -- map. n ([[<Leader>es]], vim.lsp.buf.signature_help)
+        map. n ([[<Leader>ew]], vim.lsp.buf.add_workspace_folder, 'Add workspace folder')
+        map. n ([[<Leader>eW]], vim.lsp.buf.remove_workspace_folder, 'Remove workspace folder')
+        map. n ([[<Leader>e<C-w>]], function () vim.pretty_print(vim.lsp.buf.list_workspace_folders()) end, 'List workspace folders')
+
+        -- Lspsaga maps
+        wkreg{ ['<Leader>e'] = { name = 'LSP'} }
+        wkreg({ ['<Leader>e'] = { name = 'LSP'} }, { mode = 'x' })
+        map. n ([[<Leader>E]],  [[<Cmd>Lspsaga hover_doc<CR>]], 'LSP hover')
+        map. n ([[<Leader>ef]], [[<Cmd>Lspsaga lsp_finder<CR>]], 'Lspsaga finder')
+        map. n ([[<Leader>es]], [[<Cmd>Lspsaga signature_help<CR>]], 'Signature')
+        map. n ([[<Leader>ep]], [[<Cmd>Lspsaga preview_definition<CR>]], 'Preview definition')
+        map. n ([[<Leader>ee]], [[<Cmd>Lspsaga show_line_diagnostics<CR>]], 'Line diagnostics')
+        map. n ([[<Leader>el]], [[<Cmd>Lspsaga diagnostic_jump_next<CR>]], 'Next diagnostic')
+        map. n ([[<Leader>eh]], [[<Cmd>Lspsaga diagnostic_jump_prev<CR>]], 'Previous diagnostic')
+        map. n ([[<Leader>er]], [[<Cmd>Lspsaga rename<CR>]], 'Rename')
+        map. n ([[<Leader>ej]], [[$<Cmd>Lspsaga diagnostic_jump_next<CR>]], 'Next line diagnostic')
+        map. n ([[<Leader>ek]], [[0<Cmd>Lspsaga diagnostic_jump_prev<CR>]], 'Previous line diagnostic')
+        map. nx ([[<Leader>ec]], [[<Cmd>Lspsaga code_action<CR>]], 'Code action')
+
+        -- lsp_lines.nvim toggle
+        map. n ([[<Leader>e<C-e>]], require'lsp_lines'.toggle, 'Toggle diagnostic lines')
+
+        -- Aerial
+        wkreg{ ['<Leader>a'] = { name = 'Aerial' } }
+        map. n ([[<Leader>A]],  [[<Cmd>AerialToggle!<CR>]])
+        map. n ([[<Leader>aa]], [[<Cmd>AerialToggle<CR>]], 'Toggle')
+        map. n ([[<Leader>ai]], [[<Cmd>AerialInfo<CR>]], 'Info')
+        map. n ([[<Leader>an]], [[<Cmd>exe 'AerialNext ' . v:count1<CR>]], 'Next')
+        map. n ([[<Leader>ap]], [[<Cmd>exe 'AerialPrev ' . v:count1<CR>]], 'Prev')
+        map. n ([[<Leader>at]], [[<Cmd>AerialTreeToggle<CR>]], 'Toggle tree')
+        map. n ([[<Leader>aj]], [[<Cmd>exe 'AerialNextUp ' . v:count1<CR>]], 'Next up')
+        map. n ([[<Leader>ak]], [[<Cmd>exe 'AerialPrevUp ' . v:count1<CR>]], 'Prev up')
+        map. n ([[<Leader>aT]], [[<Cmd>AerialTreeSyncFolds<CR>]], 'Sync folds')
+        map. n ([[<Leader>fa]], [[<Cmd>Telescope aerial<CR>]], 'Aerial symbols')
+
         -- Start neorg
         map. n ([[<Leader>N]], [[<Cmd>NeorgStart<CR>]])
     end,
@@ -207,48 +262,6 @@ return {
         map. nt ([[<M-j>]], [[<Cmd>exe v:count . 'wincmd j'<CR>]], { nolazyredraw = true })
         map. nt ([[<M-k>]], [[<Cmd>exe v:count . 'wincmd k'<CR>]], { nolazyredraw = true })
         map. nt ([[<M-l>]], [[<Cmd>exe v:count . 'wincmd l'<CR>]], { nolazyredraw = true })
-
-        -- LSP maps
-        map. n ([[<Leader>eE]], vim.diagnostic.setloclist, 'Set location list with diagnostics')
-        -- map. n ([[<Leader>ee]], vim.diagnostic.open_float)
-        -- map. n ([[<Leader>el]], vim.diagnostic.goto_next)
-        -- map. n ([[<Leader>eh]], vim.diagnostic.goto_prev)
-        -- map. n ([[<Leader>ej]], [[$<Cmd>lua vim.diagnostic.goto_next()<CR>]])
-        -- map. n ([[<Leader>ek]], [[0<Cmd>lua vim.diagnostic.goto_prev()<CR>]])
-        map. n ([[<Leader>eI]], [[<Cmd>LspInfo<CR>]])
-        -- map. n ([[<Leader>E]], vim.lsp.buf.hover)
-        map. n ([[<Leader>ed]], vim.lsp.buf.definition, 'Jump to definition')
-        map. n ([[<Leader>eD]], vim.lsp.buf.declaration, 'Jump to declaration')
-        map. n ([[<Leader>ei]], vim.lsp.buf.implementation, 'Set location list with implementations')
-        -- map. n ([[<Leader>er]], vim.lsp.buf.rename)
-        map. n ([[<Leader>eR]], vim.lsp.buf.references, 'References')
-        map. n ([[<Leader>et]], vim.lsp.buf.type_definition, 'Type definition')
-        map. n ([[<Leader>eF]], vim.lsp.buf.format, 'Format')
-        map. x ([[<Leader>eF]], vim.lsp.buf.range_formatting, 'Format')
-        -- map. n ([[<Leader>ec]], vim.lsp.buf.code_action)
-        -- map. x ([[<Leader>ec]], vim.lsp.buf.range_code_action)
-        -- map. n ([[<Leader>es]], vim.lsp.buf.signature_help)
-        map. n ([[<Leader>ew]], vim.lsp.buf.add_workspace_folder, 'Add workspace folder')
-        map. n ([[<Leader>eW]], vim.lsp.buf.remove_workspace_folder, 'Remove workspace folder')
-        map. n ([[<Leader>e<C-w>]], function () vim.pretty_print(vim.lsp.buf.list_workspace_folders()) end, 'List workspace folders')
-
-        -- Lspsaga maps
-        wkreg{ ['<Leader>e'] = { name = 'LSP'} }
-        wkreg({ ['<Leader>e'] = { name = 'LSP'} }, { mode = 'x' })
-        map. n ([[<Leader>E]],  [[<Cmd>Lspsaga hover_doc<CR>]], 'LSP hover')
-        map. n ([[<Leader>ef]], [[<Cmd>Lspsaga lsp_finder<CR>]], 'Lspsaga finder')
-        map. n ([[<Leader>es]], [[<Cmd>Lspsaga signature_help<CR>]], 'Signature')
-        map. n ([[<Leader>ep]], [[<Cmd>Lspsaga preview_definition<CR>]], 'Preview definition')
-        map. n ([[<Leader>ee]], [[<Cmd>Lspsaga show_line_diagnostics<CR>]], 'Line diagnostics')
-        map. n ([[<Leader>el]], [[<Cmd>Lspsaga diagnostic_jump_next<CR>]], 'Next diagnostic')
-        map. n ([[<Leader>eh]], [[<Cmd>Lspsaga diagnostic_jump_prev<CR>]], 'Previous diagnostic')
-        map. n ([[<Leader>er]], [[<Cmd>Lspsaga rename<CR>]], 'Rename')
-        map. n ([[<Leader>ej]], [[$<Cmd>Lspsaga diagnostic_jump_next<CR>]], 'Next line diagnostic')
-        map. n ([[<Leader>ek]], [[0<Cmd>Lspsaga diagnostic_jump_prev<CR>]], 'Previous line diagnostic')
-        map. nx ([[<Leader>ec]], [[<Cmd>Lspsaga code_action<CR>]], 'Code action')
-
-        -- lsp_lines.nvim toggle
-        map. n ([[<Leader>e<C-e>]], require'lsp_lines'.toggle, 'Toggle diagnostic lines')
 
         -- Toggle whitespace visibility
         map. nx ([[<Leader><Leader>]], [[<Cmd>set list!<CR>]], 'Toggle showing whitespace')

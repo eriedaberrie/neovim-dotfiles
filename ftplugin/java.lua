@@ -92,7 +92,7 @@ jdtls.start_or_attach {
     init_options = {
         bundles = bundles,
     },
-    on_attach = function (_, buf)
+    on_attach = function (client, buf)
         -- Register keymaps
         local wk = require'which-key'
         wk.register({
@@ -118,6 +118,9 @@ jdtls.start_or_attach {
             }
         }
         require'jdtls.setup'.add_commands()
+
+        -- Attach aerial.nvim
+        require'aerial'.on_attach(client, buf)
     end,
     capabilities = require'cmp_nvim_lsp'.update_capabilities(vim.lsp.protocol.make_client_capabilities()),
 }

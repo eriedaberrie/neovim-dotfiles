@@ -164,6 +164,8 @@ return require'packer'.startup {
             'nvim-treesitter/nvim-treesitter-textobjects',
             -- Rainbow parentheses
             'p00f/nvim-ts-rainbow',
+            -- Symbol navigator
+            'stevearc/aerial.nvim',
         }
 
         -- Todo comments

@@ -472,6 +472,40 @@ require'lualine'.setup {
     },
 }
 
+-- which-key
+opt.timeoutlen = 0
+api.nvim_create_autocmd('ModeChanged', {
+    group = initgroup,
+    callback = function ()
+        local mode = fn.mode()
+        opt.timeout = mode == 'n' or mode == 'v'
+    end,
+})
+local wk = require'which-key'
+wk.setup {
+    plugins = {
+        registers = false,
+        spelling = {
+            enabled = true,
+            suggestions = 36,
+        },
+    },
+    operators = {
+        ['gr'] = 'Replace with register',
+        ['ys'] = 'Yank surround',
+        ['<Leader>ga'] = 'EasyAlign',
+    }
+}
+wk.register {
+    gr = { name = 'Replace with register' },
+    grr = 'Replace current line with register',
+}
+
+-- set up aerial.nvim
+local aerial = require'aerial'
+aerial.setup{}
+telescope.load_extension'aerial'
+
 -- lspsaga config
 require'lspsaga'.init_lsp_saga {
     code_action_lightbulb = {
@@ -588,40 +622,12 @@ for server, settings in pairs(servers) do
     lspconfig[server].setup {
         settings = settings,
         capabilities = capabilities,
+        on_attach = aerial.on_attach,
     }
 end
 
 -- image viewer
 require'image'.setup{}
-
--- which-key
-opt.timeoutlen = 0
-api.nvim_create_autocmd('ModeChanged', {
-    group = initgroup,
-    callback = function ()
-        local mode = fn.mode()
-        opt.timeout = mode == 'n' or mode == 'v'
-    end,
-})
-local wk = require'which-key'
-wk.setup {
-    plugins = {
-        registers = false,
-        spelling = {
-            enabled = true,
-            suggestions = 36,
-        },
-    },
-    operators = {
-        ['gr'] = 'Replace with register',
-        ['ys'] = 'Yank surround',
-        ['<Leader>ga'] = 'EasyAlign',
-    }
-}
-wk.register {
-    gr = { name = 'Replace with register' },
-    grr = 'Replace current line with register',
-}
 
 -- neorg
 require'neorg'.setup {
