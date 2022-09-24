@@ -39,7 +39,37 @@ M.set_keymaps = function (maptable)
                     opts.desc = desc
                 end
 
-                if type(rhs) == 'function' then
+                if type(rhs) == 'string' and (nolazyredraw or virte) then
+                    local oldrhs = rhs
+                    rhs = function ()
+                        local v = vim.v.count
+                        if v ~= 0 then
+                        else
+
+                        fn.feedkeys(vim.v.count .. oldrhs, 'r')
+                    end
+                end
+
+                if nolazyredraw and type(rhs) == 'string' then
+                    if opts.expr then
+                        rhs = [['<Cmd>set nolazyredraw<CR>' . ]] .. rhs ..
+                                [[ . '<Cmd>let &lazyredraw=' . &lazyredraw . '<CR>']]
+                    else
+                        rhs = [[<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>]] ..
+                                rhs .. [[<Cmd>let &lazyredraw=g:oldlazyredraw<CR>]]
+                    end
+                end
+                if virte and type(rhs) == 'string' then
+                    if opts.expr then
+                        rhs = [['<Cmd>set virtualedit=onemore<CR>' . ]] .. rhs ..
+                                [[ . '<Cmd>let &virtualedit=' . &virtualedit . '<CR>']]
+                    else
+                        rhs = [[<Cmd>let g:oldvirtualedit=&virtualedit<Bar>set virtualedit=onemore<CR>]] ..
+                                rhs .. [[<Cmd>let &virtualedit=g:oldvirtualedit<CR>]]
+                    end
+                end
+
+                if type(rhs) ~= 'string' then
                     opts.callback = rhs
                     if nolazyredraw then
                         local old = opts.callback
@@ -61,27 +91,7 @@ M.set_keymaps = function (maptable)
                     end
 
                     rhs = ''
-                else
-                    if nolazyredraw then
-                        if opts.expr then
-                            rhs = [['<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>' . ]] ..
-                                    rhs .. [[ . '<Cmd>let &lazyredraw=g:oldlazyredraw<CR>']]
-                        else
-                            rhs = [[<Cmd>let g:oldlazyredraw=&lazyredraw<Bar>set nolazyredraw<CR>]] ..
-                                    rhs .. [[<Cmd>let &lazyredraw=g:oldlazyredraw<CR>]]
-                        end
-                    end
-                    if virte then
-                        if opts.expr then
-                            rhs = [['<Cmd>let g:oldvirtualedit=&virtualedit<Bar>set virtualedit=onemore<CR>' . ]] ..
-                                    rhs .. [[ . '<Cmd>let &virtualedit=g:oldvirtualedit<CR>']]
-                        else
-                            rhs = [[<Cmd>let g:oldvirtualedit=&virtualedit<Bar>set virtualedit=onemore<CR>]] ..
-                                    rhs .. [[<Cmd>let &virtualedit=g:oldvirtualedit<CR>]]
-                        end
-                    end
                 end
-
                 for c in shortname:gmatch'.' do
                     if c == 'O' then
                         -- text object mapping
