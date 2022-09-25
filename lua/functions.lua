@@ -216,13 +216,13 @@ M.resizetext = function (intin, mode)
 
     local newsize
     if modenum then
-        newsize = 10 + (intin or vim.v.count1) * mode
+        newsize = vim.defaultfontsize + (intin or vim.v.count1) * mode
     else
-        newsize = intin or vim.v.count ~= 0 and vim.v.count or 10
+        newsize = intin or vim.v.count ~= 0 and vim.v.count or vim.defaultfontsize
     end
 
     if o.guifont == '' or o.guifont == nil then
-        o.guifont = 'FiraCode NF:h' .. tostring(newsize)
+        o.guifont = vim.defaultfont .. ':h' .. tostring(newsize)
         return
     end
 
@@ -234,7 +234,7 @@ M.resizetext = function (intin, mode)
         elseif modenum then
             local cursize = tonumber(item:sub(3))
             if cursize then
-                newsize = newsize - 10 + cursize
+                newsize = newsize - vim.defaultfontsize + cursize
             end
         end
     end

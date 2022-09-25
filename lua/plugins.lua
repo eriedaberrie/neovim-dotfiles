@@ -182,7 +182,7 @@ return require'packer'.startup {
         }
 
         -- firenvim (browser extension)
-        if vim.isUnix == false then
+        if vim.fn.has('wsl') == 0 then
             use {
                 'glacambre/firenvim',
                 run = function () vim.fn['firenvim#install'](0) end

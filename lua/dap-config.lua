@@ -12,7 +12,7 @@ fn.sign_define('DapStopped',             { text = '', texthl = 'Visual', linehl 
 fn.sign_define('DapBreakpoint',          { text = '🔴', texthl = 'SignColumn' })
 fn.sign_define('DapLogPoint',            { text = '',  texthl = 'SignColumn' })
 fn.sign_define('DapBreakpointRejected',  { text = 'R', texthl = 'SignColumn' })
-fn.sign_define('DapBreakpointCondition', { text = 'C',  texthl = 'SignColumn' })
+fn.sign_define('DapBreakpointCondition', { text = 'C', texthl = 'SignColumn' })
 
 local compiling = {}
 local try_recompile_cxx = function (sourcename, exename)

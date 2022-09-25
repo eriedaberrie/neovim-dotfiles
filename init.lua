@@ -11,7 +11,9 @@ require'impatient'
 
 -- whether or not it's running Unix-like
 local isUnix = fn.has('Unix') == 1
+local isRealUnix = isUnix and fn.has('win32') ~= 1
 vim.isUnix = isUnix
+vim.isRealUnix = isRealUnix
 
 -- my functions
 local funcs = require'functions'
@@ -23,6 +25,10 @@ funcs.set_keymaps(require'keymaps')
 
 -- set up init autogroup
 local initgroup = api.nvim_create_augroup('InitGroup', { clear = true })
+
+-- font variables
+vim.defaultfont = 'FiraCode Nerd Font,FiraCode NF'
+vim.defaultfontsize = 7
 
 -- search options
 opt.ignorecase = true
@@ -37,7 +43,7 @@ opt.expandtab   = true
 opt.shiftwidth  = 0
 opt.completeopt = { 'menu', 'menuone', 'noselect' }
 -- guifont (mainly for Neovide)
-opt.guifont = 'FiraCode NF:h10'
+opt.guifont = vim.defaultfont .. ':h' .. tostring(vim.defaultfontsize)
 -- linebreak
 opt.linebreak   = true
 opt.breakindent = true
@@ -560,8 +566,8 @@ require'lsp_signature'.setup {
     handler_opts = {
         border = 'none',
     },
-    -- this is ctrl+slash
-    toggle_key = '<C-_>',
+    -- different depending on OS for some reason
+    toggle_key = isRealUnix and '<C-/>' or '<C-_>',
     move_cursor_key = '<M-/>',
     select_signature_key = '<M-s>',
 }
@@ -729,7 +735,7 @@ g.committia_hooks = {
 -- Neovide (GUI) options
 if g.neovide then
     -- g.neovide_fullscreen                     = true
-    g.neovide_remember_window_size           = true
+    g.neovide_remember_window_size           = not isRealUnix
     g.neovide_refresh_rate                   = 45
     g.neovide_cursor_animation_length        = 0.05
     g.neovide_cursor_trail_length            = 0.8
