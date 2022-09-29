@@ -117,8 +117,8 @@ return {
         map. n ([[<Leader>aT]], [[<Cmd>AerialTreeSyncFolds<CR>]], 'Sync folds')
         map. n ([[<Leader>fa]], [[<Cmd>Telescope aerial<CR>]], 'Aerial symbols')
 
-        -- Start neorg
-        map. n ([[<Leader>N]], [[<Cmd>NeorgStart<CR>]])
+        -- Enter neorg notes workspace
+        map. n ([[<Leader>N]], [[<Cmd>Neorg workspace notes<CR>]])
     end,
 
     -- 0b100
