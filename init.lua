@@ -15,6 +15,9 @@ local isRealUnix = isUnix and fn.has('win32') ~= 1
 vim.isUnix = isUnix
 vim.isRealUnix = isRealUnix
 
+-- whether or not it's running in TTY
+local hasgui = not (isRealUnix and env.DISPLAY == nil)
+
 -- my functions
 local funcs = require'functions'
 vim.funcs = funcs
@@ -149,12 +152,14 @@ g.github_function_style     = 'bold'
 g.github_dark_float         = true
 
 -- colorizor setup
-opt.termguicolors = true -- needs to be explicitly set before setting up
-require'colorizer'.setup ({
-    '*',
-    html  = { names = true },
-    css   = { names = true },
-}, { names = false })
+if hasgui then
+    opt.termguicolors = true -- needs to be explicitly set before setting up
+    require'colorizer'.setup ({
+        '*',
+        html  = { names = true },
+        css   = { names = true },
+    }, { names = false })
+end
 
 -- treesitter config
 require'nvim-treesitter.configs'.setup {
@@ -334,7 +339,6 @@ telescope.setup {
 }
 telescope.load_extension'neoclip'
 telescope.load_extension'notify'
-telescope.load_extension'howdoi'
 
 -- set dressing as default input and select
 require'dressing'.setup{}
@@ -794,5 +798,5 @@ end
 
 -- set theme after deciding on italics
 -- set colorscheme before deciding on lightness because of github theme
-cmd.colorscheme(require'last-color'.recall() or 'gruvbox')
+if hasgui then cmd.colorscheme(require'last-color'.recall() or 'gruvbox') end
 funcs.toggledark(env.NVIM_DARKMODE or not env.NVIM_LIGHTMODE)

@@ -313,7 +313,6 @@ return {
         map. n ([[<Leader>fc]], tele_builtin.colorscheme, 'Colorschemes')
         map. n ([[<Leader>fR]], [[<Cmd>Telescope neoclip<CR>]], 'Neoclip registers')
         map. n ([[<Leader>fn]], [[<Cmd>Telescope notify<CR>]],  'Notify')
-        map. n ([[<Leader>fH]], [[<Cmd>Telescope howdoi<CR>]],  'Howdoi')
 
         -- Open nvim tree without accidentally closing the current tabpage
         map. n ([[<Leader>e.]], [[<Cmd>NvimTreeToggle<CR>]])

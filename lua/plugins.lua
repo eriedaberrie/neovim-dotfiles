@@ -87,12 +87,6 @@ return require'packer'.startup {
             requires = 'nvim-telescope/telescope.nvim',
         }
 
-        -- Howdoi Telescope integration
-        use {
-            'zane-/howdoi.nvim',
-            requires = 'nvim-telescope/telescope.nvim',
-        }
-
         -- Telescope
         use {
             'nvim-telescope/telescope.nvim',
