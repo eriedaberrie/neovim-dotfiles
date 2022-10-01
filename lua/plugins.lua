@@ -41,6 +41,9 @@ return require'packer'.startup {
         -- Commenting
         use 'numToStr/Comment.nvim'
 
+        -- Popup for if you hit enter before hitting tab
+        use 'mong8se/actually.nvim'
+
         -- Surround but in lua
         use 'kylechui/nvim-surround'
 
@@ -205,6 +208,7 @@ return require'packer'.startup {
 
         ---------- minesweeper ----------
         use 'seandewar/nvimesweeper'
+        use 'seandewar/killersheep.nvim'
     end,
     config = {
         git = {
