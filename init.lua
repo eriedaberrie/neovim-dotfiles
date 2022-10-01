@@ -584,7 +584,7 @@ vim.diagnostic.config { virtual_text = false }
 -- mason.nvim LSP installer
 require'mason'.setup{}
 require'mason-lspconfig'.setup {
-    automatic_installation = { exclude = { 'clangd', 'hls' } },
+    automatic_installation = { exclude = { 'clangd' } },
     ensure_installed = { 'jdtls', 'rust_analyzer' },
 }
 
@@ -621,10 +621,6 @@ local servers = {
     -- Emmet snippets
     emmet_ls = {},
 }
-if isUnix then
-    -- haskell
-    servers.hls = {}
-end
 
 -- actually setting up the LSP servers
 local capabilities = require'cmp_nvim_lsp'.update_capabilities(vim.lsp.protocol.make_client_capabilities())
