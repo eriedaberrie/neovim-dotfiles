@@ -34,8 +34,9 @@ vim.defaultfont = 'FiraCode Nerd Font,FiraCode NF'
 vim.defaultfontsize = 7
 
 -- search options
-opt.ignorecase = true
-opt.smartcase  = true
+opt.ignorecase     = true
+opt.smartcase      = true
+opt.wildignorecase = true
 -- general options
 opt.number         = true
 opt.relativenumber = true
