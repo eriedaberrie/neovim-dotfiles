@@ -50,6 +50,9 @@ return require'packer'.startup {
         -- Line diagnostics
         -- use 'Mofiqul/trld.nvim'
 
+        -- Auto list
+        use 'gaoDean/autolist.nvim'
+
         -- Lazygit
         use 'kdheepak/lazygit.nvim'
 
