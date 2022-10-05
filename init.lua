@@ -636,9 +636,6 @@ for server, settings in pairs(servers) do
     }
 end
 
--- image viewer
-require'image'.setup{}
-
 -- neorg
 require'neorg'.setup {
     load = {
