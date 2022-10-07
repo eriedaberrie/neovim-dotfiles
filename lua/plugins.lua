@@ -14,14 +14,8 @@ return require'packer'.startup {
         -- Remember last colorscheme
         use 'raddari/last-color.nvim'
 
-        -- Smoother scrolling animation
-        use 'karb94/neoscroll.nvim'
-
         -- Indent line
         use 'lukas-reineke/indent-blankline.nvim'
-
-        -- Highlight word under cursor
-        -- use 'yamatsum/nvim-cursorline'
 
         -- Color hex codes
         use 'norcalli/nvim-colorizer.lua'
@@ -43,9 +37,6 @@ return require'packer'.startup {
 
         -- Surround but in lua
         use 'kylechui/nvim-surround'
-
-        -- Line diagnostics
-        -- use 'Mofiqul/trld.nvim'
 
         -- Auto list
         use 'gaoDean/autolist.nvim'

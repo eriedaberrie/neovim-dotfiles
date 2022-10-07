@@ -747,9 +747,6 @@ if g.neovide then
 
 -- terminal neovim
 else
-    -- smooth scrolling
-    -- require'neoscroll'.setup{}
-
     -- Windows Terminal cursor fix
     if env.WT_SESSION then
         local lastmatchid = -1
