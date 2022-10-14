@@ -77,13 +77,12 @@ return {
         -- map. n ([[<Leader>er]], vim.lsp.buf.rename)
         map. n ([[<Leader>eR]], vim.lsp.buf.references, 'References')
         map. n ([[<Leader>et]], vim.lsp.buf.type_definition, 'Type definition')
-        map. n ([[<Leader>eF]], vim.lsp.buf.format, 'Format')
-        map. x ([[<Leader>eF]], vim.lsp.buf.range_formatting, 'Format')
         -- map. n ([[<Leader>ec]], vim.lsp.buf.code_action)
         -- map. x ([[<Leader>ec]], vim.lsp.buf.range_code_action)
         -- map. n ([[<Leader>es]], vim.lsp.buf.signature_help)
         map. n ([[<Leader>ew]], vim.lsp.buf.add_workspace_folder, 'Add workspace folder')
         map. n ([[<Leader>eW]], vim.lsp.buf.remove_workspace_folder, 'Remove workspace folder')
+        map. nx ([[<Leader>eF]], vim.lsp.buf.format, 'Format')
         map. n ([[<Leader>e<C-w>]], function () vim.pretty_print(vim.lsp.buf.list_workspace_folders()) end, 'List workspace folders')
 
         -- Lspsaga maps
@@ -150,9 +149,10 @@ return {
         map. n ([[<Esc>]], [[<Cmd>noh<CR>]])
 
         -- Save and close easily
-        map. n ([[<Leader>w]], [[<Cmd>w<CR>]])
-        map. n ([[<Leader>q]], [[<Cmd>q<CR>]])
-        map. n ([[<Leader>Q]], [[<Cmd>qa!<CR>]])
+        wkreg{ ['<Leader>q'] = { name = 'Quit' } }
+        map. n ([[<Leader>qq]], [[<Cmd>q<CR>]])
+        map. n ([[<Leader>qQ]], [[<Cmd>qa!<CR>]])
+        map. n ([[<Leader>fs]], [[<Cmd>w<CR>]])
 
         -- Run previous command with ! prefix
         map. n ([[<Leader>!]], [[:!<C-r>:<CR>]], { silent = false }, 'Previous command with ! prefix')
