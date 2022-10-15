@@ -104,7 +104,7 @@ M.set_keymaps = function (maptable)
 
     for flags, mappings in pairs(maptable) do
         if flags % (launchmask + launchmask) >= launchmask then
-            mappings(mapfunc, wkreg)
+            mappings(mapfunc, g.started_by_firenvim and function (...) end or wkreg)
         end
     end
 end
