@@ -68,8 +68,6 @@ opt.spelllang = 'en_us'
 opt.spelloptions:append('camel')
 -- disable K being "man" which is just not useful even on Unix
 opt.keywordprg = ':help'
--- turn on lazy redraw - reenablable through keymaps
-opt.lazyredraw = true
 -- disable mouse by default on non-gui im not sure why nightly added this
 opt.mouse = ''
 -- https://www.reddit.com/r/neovim/comments/psl8rq/sexy_folds/
@@ -147,10 +145,10 @@ require'catppuccin'.setup {
     },
 }
 
-g.github_comment_style      = 'NONE'
-g.github_keyword_style      = 'NONE'
-g.github_function_style     = 'bold'
-g.github_dark_float         = true
+g.github_comment_style  = 'NONE'
+g.github_keyword_style  = 'NONE'
+g.github_function_style = 'bold'
+g.github_dark_float     = true
 
 -- colorizor setup
 if hasgui then
@@ -458,6 +456,72 @@ api.nvim_create_autocmd('BufWritePost', {
 -- nvim-dap configuration file
 require'dap-config'
 
+-- noice
+local noice = require'noice'
+noice.setup {
+    routes = {
+        {
+            view = 'cmdline',
+            filter = {
+                event = 'cmdline',
+                -- use cmdline for searches
+                find = '^%s*[/?]',
+            },
+        },
+        {
+            view = 'notify',
+            filter = {
+                event = 'msg_showmode',
+                -- macro recording
+                find = 'recording @',
+            },
+        },
+        {
+            view = 'cmdline',
+            filter = {
+                event = 'msg_show',
+                -- which-key.nvim
+                find = ' go up one level',
+            },
+        },
+        {
+            view = 'mini',
+            filter = {
+                event = 'msg_show',
+                any = {
+                    -- write messages
+                    { find = '^".*" %d+L, %d+B written$' },
+                    { find = '^".*" %[New%] %d+L, %d+B written$' },
+                    { find = '^[<>]$' },
+                    -- undo messages
+                    { find = '^Already at %l+est change$' },
+                    { find = '; %l+ #%d+' },
+                },
+            }
+        },
+    },
+    views = {
+        cmdline_popup = {
+            border = {
+                style = 'none',
+                padding = { 1, 2 },
+            },
+            win_options = {
+                winhighlight = {
+                    NormalFloat = 'NormalFloat',
+                    FloatBorder = 'NormalFloat',
+                },
+            },
+        }
+    },
+    popupmenu = {
+        backend = 'cmp',
+    },
+    hacks = {
+        skip_duplicate_messages = true,
+    },
+}
+
 -- add lualine to the theme
 require'lualine'.setup {
     options = {
@@ -514,6 +578,8 @@ wk.register {
     gr = { name = 'Replace with register' },
     grr = 'Replace current line with register',
 }
+-- stop the annoying visual mode messages in which-key
+api.nvim_set_keymap('n', 'v', 'v', { noremap = true })
 
 -- set up aerial.nvim
 local aerial = require'aerial'
