@@ -684,13 +684,15 @@ local servers = {
     },
     -- eslint
     eslint = {},
-    -- typescript - takes too much memory for ps :(
-    -- tsserver = {},
     -- C stuff
     clangd = {},
     -- Emmet snippets
     emmet_ls = {},
 }
+if vim.isUnix then
+    -- typescript - takes too much memory for ps on windows :(
+    servers.tsserver = {}
+end
 
 -- actually setting up the LSP servers
 local capabilities = require'cmp_nvim_lsp'.default_capabilities()
