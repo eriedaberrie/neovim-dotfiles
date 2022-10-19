@@ -101,6 +101,7 @@ return {
         map. nx ([[<Leader>ec]], [[<Cmd>Lspsaga code_action<CR>]], 'Code action')
 
         -- lsp_lines.nvim toggle
+        map. n ([[<Leader>eE]], function () vim.diagnostic.config { virtual_text = not vim.diagnostic.config().virtual_text } end, 'Toggle diagnostic text')
         map. n ([[<Leader>e<C-e>]], require'lsp_lines'.toggle, 'Toggle diagnostic lines')
 
         -- Aerial

@@ -649,7 +649,7 @@ require'lsp_signature'.setup {
 -- lsp_lines.nvim setup
 require'lsp_lines'.setup{}
 -- use lsp_lines plugin or <Leader>ee/E for text
-vim.diagnostic.config { virtual_text = false }
+vim.diagnostic.config { virtual_lines = false }
 
 -- mason.nvim LSP installer
 require'mason'.setup{}
