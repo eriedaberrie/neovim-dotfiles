@@ -295,10 +295,6 @@ return {
         map. nt ([[<M-p>]], [[<Cmd>exe v:count . 'bp'<CR>]], { nolazyredraw = true })
         map. nt ([[<M-3>]], [[<Cmd>b#<CR>]], { nolazyredraw = true })
 
-        -- Temporarily increase scrolloff
-        wkreg{ ['<Leader>z'] = { name = 'Scrolloff' } }
-        map. n ([[<Leader>zz]], [['<Cmd>set scrolloff=8<CR><Cmd>set scrolloff=' . &scrolloff . '<CR>']], { expr = true }, 'Temporarily set scrolloff to 8')
-
         -- Go to misspelled word in insert mode
         map. i ([[<C-z>]], [[<Esc>b[sviw<Esc>a]])
         map. i ([[<C-s>]], [[<Esc>]sviw<Esc>a]])

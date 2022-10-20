@@ -46,6 +46,7 @@ opt.tabstop        = 4
 opt.expandtab   = true
 opt.shiftwidth  = 0
 opt.completeopt = { 'menu', 'menuone', 'noselect' }
+opt.scrolloff   = 3
 -- guifont (mainly for Neovide)
 opt.guifont = vim.defaultfont .. ':h' .. tostring(vim.defaultfontsize)
 -- linebreak
