@@ -442,6 +442,7 @@ vim.filetype.add {
     extension = {
         nasm = 'asm',
         class = 'class',
+        yuck = 'lisp',
     },
 }
 
@@ -767,7 +768,11 @@ require'neorg'.setup {
 }
 
 -- indent_blankline configuration
-g.indentLine_fileTypeExclude = { '', 'text', 'norg', 'lspinfo', 'packer', 'checkhealth', 'help', 'man' }
+g.indentLine_fileTypeExclude = {
+    '', 'text', 'norg', 'help', 'man',
+    'checkhealth', 'lspinfo', 'packer',
+    'lisp', 'fennel', 'clojure',
+}
 
 -- telescope lazygit (not in firenvim)
 telescope.load_extension'lazygit'
