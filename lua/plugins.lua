@@ -38,6 +38,9 @@ return require'packer'.startup {
         -- Surround but in lua
         use 'kylechui/nvim-surround'
 
+        -- Above, but for lisps
+        use 'gpanders/nvim-parinfer'
+
         -- Auto list
         use 'gaoDean/autolist.nvim'
 

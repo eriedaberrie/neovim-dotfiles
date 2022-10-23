@@ -174,7 +174,7 @@ require'nvim-treesitter.configs'.setup {
         'markdown', 'rst', 'latex',
         'bash',
         'make', 'cmake', 'ninja',
-        'fennel', 'scala',
+        'commonlisp', 'fennel', 'clojure', 'scheme',
         'java', 'go', 'rust', 'haskell',
     },
     highlight = {
@@ -277,7 +277,11 @@ require'nvim-surround'.setup {
 api.nvim_set_hl(0, 'NvimSurroundHighlight', { link = 'IncSearch' })
 
 -- set up nvim-autopairs
-require'nvim-autopairs'.setup { map_cr = true, map_c_w = true }
+require'nvim-autopairs'.setup {
+    disable_filetype = { 'TelescopePrompt', 'lisp', 'fennel', 'clojure', 'scheme' },
+    map_cr = true,
+    map_c_w = true,
+}
 
 -- toggleterm setup
 require'toggleterm'.setup {
@@ -771,7 +775,7 @@ require'neorg'.setup {
 g.indentLine_fileTypeExclude = {
     '', 'text', 'norg', 'help', 'man',
     'checkhealth', 'lspinfo', 'packer',
-    'lisp', 'fennel', 'clojure',
+    'lisp', 'fennel', 'clojure', 'scheme',
 }
 
 -- telescope lazygit (not in firenvim)
