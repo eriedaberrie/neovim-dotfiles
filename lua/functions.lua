@@ -174,7 +174,7 @@ end
 
 M.toggledark = function (dark)
     dark = dark or dark == nil and o.background == 'light'
-    local cat = dark and 'frappe' or 'latte'
+    local cat = dark and 'macchiato' or 'latte'
     local cname = g.colors_name
 
     -- Catppuccin and github are *sPeCiAl*
