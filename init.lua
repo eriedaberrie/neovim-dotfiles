@@ -172,7 +172,7 @@ require'nvim-treesitter.configs'.setup {
         'json', 'json5', 'jsonc', 'yaml',
         'jsdoc',
         'markdown', 'rst', 'latex',
-        'bash',
+        'bash', 'regex',
         'make', 'cmake', 'ninja',
         'commonlisp', 'fennel', 'clojure', 'scheme',
         'java', 'go', 'rust', 'haskell',
