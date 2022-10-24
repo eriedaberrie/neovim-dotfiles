@@ -194,9 +194,6 @@ return {
         -- Easy access to clipboard in normal, visual mode
         map. nx ([[<Leader>"]], [["+]])
 
-        -- Swap case of letter
-        map. n ([[gl]], [[g~l]], 'Swap case of single letter')
-
         -- Copy to clipboard
         wkreg{['<Leader>y'] = { name = '+Yank' }}
         map. n ([[<Leader>yy]], [[<Cmd>%y+<CR>]], 'Yank full buffer into system clipboard')
