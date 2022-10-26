@@ -257,9 +257,6 @@ api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
 -- comment config
 require'Comment'.setup{}
 
--- autolist config
-require'autolist'.setup{}
-
 -- nvim-surround config
 local sconfig = require'nvim-surround.config'
 require'nvim-surround'.setup {

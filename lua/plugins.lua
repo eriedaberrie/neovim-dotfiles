@@ -41,9 +41,6 @@ return require'packer'.startup {
         -- Above, but for lisps
         use 'gpanders/nvim-parinfer'
 
-        -- Auto list
-        use 'gaoDean/autolist.nvim'
-
         -- Lazygit
         use 'kdheepak/lazygit.nvim'
 
