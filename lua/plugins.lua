@@ -199,6 +199,9 @@ return require'packer'.startup {
         -- Better git commit editing
         use 'rhysd/committia.vim'
 
+        -- Hyprland configuration syntax
+        use 'theRealCarneiro/hyprland-vim-syntax'
+
         -- fzf finder
         use {
             'junegunn/fzf.vim',
