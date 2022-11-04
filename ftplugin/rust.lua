@@ -45,8 +45,6 @@ rt.setup {
                     rt.debuggables.debuggables()
                 end
             end, desc = 'Rust DAP continue' })
-
-            require'aerial'.on_attach(client, buf)
         end,
         capabilities = require'cmp_nvim_lsp'.default_capabilities(vim.lsp.protocol.make_client_capabilities()),
     },

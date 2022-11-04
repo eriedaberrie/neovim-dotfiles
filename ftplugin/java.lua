@@ -118,9 +118,6 @@ jdtls.start_or_attach {
             }
         }
         require'jdtls.setup'.add_commands()
-
-        -- Attach aerial.nvim
-        require'aerial'.on_attach(client, buf)
     end,
     capabilities = require'cmp_nvim_lsp'.default_capabilities(vim.lsp.protocol.make_client_capabilities()),
 }

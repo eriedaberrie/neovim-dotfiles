@@ -703,7 +703,6 @@ for server, settings in pairs(servers) do
     lspconfig[server].setup {
         settings = settings,
         capabilities = capabilities,
-        on_attach = aerial.on_attach,
     }
 end
 
@@ -812,6 +811,7 @@ g.committia_hooks = {
 if g.neovide then
     -- g.neovide_fullscreen                     = true
     g.neovide_remember_window_size           = not isRealUnix
+    g.neovide_remember_window_position       = not isRealUnix
     g.neovide_refresh_rate                   = 45
     g.neovide_cursor_animation_length        = 0.05
     g.neovide_cursor_trail_length            = 0.8
