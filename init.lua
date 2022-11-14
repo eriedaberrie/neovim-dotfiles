@@ -95,15 +95,10 @@ api.nvim_create_autocmd('TextYankPost', {
 require'cmp-config'
 
 -- theme setups
-require'gruvbox'.setup {
-    italic = false,
-}
-
 require'onedark'.setup {
     style = 'warmer',
     ending_tildes = true,
     code_style = {
-        comments  = 'none',
         functions = 'bold',
     },
 }
@@ -111,38 +106,11 @@ require'onedark'.setup {
 require'catppuccin'.setup {
     term_colors = true,
     styles = {
-        comments     = {},
-        conditionals = {},
-        functions    = { 'bold' },
+        functions = { 'bold' },
     },
     integrations = {
         ts_rainbow = true,
         which_key  = true,
-        native_lsp = {
-            virtual_text = {
-                errors      = { 'bold' },
-                hints       = { 'bold' },
-                warnings    = { 'bold' },
-                information = { 'bold' },
-            },
-        },
-    },
-    -- remove italics in a really roundabout way
-    -- "customizability" my ass
-    custom_highlights      = {
-        ErrorMsg = { style = { 'bold' } },
-        ['@namespace']     = { style = {} },
-        ['@type.builtin']  = { style = {} },
-        ['@parameter']     = { style = {} },
-        ['@tag.attribute'] = { style = {} },
-        ['@text.literal']  = { style = {} },
-        ['@text.emphasis'] = { style = { 'bold' } },
-        ['@text.uri']      = { style = { 'underline' } },
-        NotifyERRORTitle = { style = { 'bold' } },
-        NotifyWARNTitle  = { style = { 'bold' } },
-        NotifyINFOTitle  = { style = { 'bold' } },
-        NotifyDEBUGTitle = { style = { 'bold' } },
-        NotifyTRACETitle = { style = { 'bold' } },
     },
 }
 
@@ -799,7 +767,6 @@ else
     end
 end
 
--- set theme after deciding on italics
 -- set colorscheme before deciding on lightness because of github theme
 if hasgui then cmd.colorscheme(require'last-color'.recall() or 'gruvbox') end
 funcs.toggledark(env.NVIM_DARKMODE or not env.NVIM_LIGHTMODE)
