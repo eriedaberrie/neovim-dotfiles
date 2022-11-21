@@ -30,7 +30,7 @@ funcs.set_keymaps(require'keymaps')
 local initgroup = api.nvim_create_augroup('InitGroup', { clear = true })
 
 -- font variables
-vim.defaultfont = 'FiraCode Nerd Font,FiraCode NF'
+vim.defaultfont = 'JetbrainsMono Nerd Font'
 vim.defaultfontsize = 7
 
 -- search options
