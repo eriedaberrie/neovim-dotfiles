@@ -152,7 +152,7 @@ return {
         -- Save and close easily
         wkreg{ ['<Leader>q'] = { name = 'Quit' } }
         map. n ([[<Leader>qq]], [[<Cmd>q<CR>]])
-        map. n ([[<Leader>qQ]], [[<Cmd>qa!<CR>]])
+        map. n ([[<Leader>qk]], [[<Cmd>qa!<CR>]])
         map. n ([[<Leader>fs]], [[<Cmd>w<CR>]])
 
         -- Run previous command with ! prefix
