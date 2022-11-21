@@ -61,12 +61,6 @@ return require'packer'.startup {
             },
         }
 
-        -- Neorg
-        use {
-            'nvim-neorg/neorg',
-            requires = 'nvim-lua/plenary.nvim',
-        }
-
         -- nvim-tree.lua
         use {
             'kyazdani42/nvim-tree.lua',
