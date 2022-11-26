@@ -69,8 +69,6 @@ opt.spelllang = 'en_us'
 opt.spelloptions:append('camel')
 -- disable K being "man" which is just not useful even on Unix
 opt.keywordprg = ':help'
--- disable mouse by default on non-gui im not sure why nightly added this
-opt.mouse = ''
 -- https://www.reddit.com/r/neovim/comments/psl8rq/sexy_folds/
 opt.foldexpr = 'nvim_treesitter#foldexpr()'
 opt.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend))]]
@@ -657,8 +655,6 @@ if g.neovide then
     g.neovide_cursor_trail_length            = 0.8
     g.neovide_cursor_unfocused_outline_width = 0.075
     g.neovide_cursor_vfx_mode                = 'railgun'
-
-    opt.mouse = 'a'
 
 -- terminal neovim
 else
