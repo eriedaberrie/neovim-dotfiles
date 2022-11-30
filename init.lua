@@ -702,5 +702,7 @@ else
 end
 
 -- set colorscheme before deciding on lightness because of github theme
-if hasgui then cmd.colorscheme(require'last-color'.recall() or 'gruvbox') end
-funcs.toggledark(env.NVIM_DARKMODE or not env.NVIM_LIGHTMODE)
+if hasgui then
+    require'colorscheme-file'.setup{ fallback = 'catppuccin-macchiato' }
+    funcs.toggledark(env.NVIM_DARKMODE or not env.NVIM_LIGHTMODE)
+end

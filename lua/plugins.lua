@@ -11,8 +11,8 @@ return require'packer'.startup {
         -- Auto pairs
         use 'windwp/nvim-autopairs'
 
-        -- Remember last colorscheme
-        use 'raddari/last-color.nvim'
+        -- File for colorscheme
+        use 'eriedaberrie/colorscheme-file.nvim'
 
         -- Indent line
         use 'lukas-reineke/indent-blankline.nvim'
