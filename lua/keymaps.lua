@@ -309,7 +309,7 @@ return {
         map. n ([[<Leader>fn]], [[<Cmd>Telescope notify<CR>]],  'Notify')
 
         -- Open nvim tree without accidentally closing the current tabpage
-        map. n ([[<Leader>e.]], [[<Cmd>NvimTreeToggle<CR>]])
+        map. n ([[<Leader>ft]], [[<Cmd>NvimTreeToggle<CR>]])
 
         -- Toggle indent-blankline plugin
         wkreg{ ['<Leader>i'] = { name = 'Indent-blankline' } }
