@@ -68,7 +68,9 @@ opt.fillchars:append('fold: ')
 opt.spelllang = 'en_us'
 opt.spelloptions:append('camel')
 -- disable K being "man" which is just not useful even on Unix
-opt.keywordprg = ':help'
+if not isRealUnix then
+    opt.keywordprg = ':help'
+end
 -- https://www.reddit.com/r/neovim/comments/psl8rq/sexy_folds/
 opt.foldexpr = 'nvim_treesitter#foldexpr()'
 opt.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend))]]
