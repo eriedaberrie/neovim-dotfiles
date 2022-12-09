@@ -138,10 +138,6 @@ return {
         map. nx ([[<Space>]], [[<Nop>]])
         map. x ([[<CR>]], [[<Nop>]])
 
-        -- Make cw make sense
-        map. n ([[cw]], [[dwi]], { virte = true }, 'Next word')
-        map. n ([[cW]], [[dWi]], { virte = true }, 'Next Word')
-
         -- Indent without exiting visual mode
         map. x ([[<]], [[<gv]])
         map. x ([[>]], [[>gv]])
