@@ -657,6 +657,7 @@ if g.neovide then
     g.neovide_cursor_trail_length            = 0.8
     g.neovide_cursor_unfocused_outline_width = 0.075
     g.neovide_cursor_vfx_mode                = 'railgun'
+    g.neovide_transparency                   = 0.88
 
 -- terminal neovim
 else
