@@ -2,8 +2,10 @@
 
 return require'packer'.startup {
     function (use)
-        -- Packer can manage itself
-        use 'wbthomason/packer.nvim'
+        -- Packer can manage itself, but so can NixOS
+        if not vim.isNixOS then
+            use 'wbthomason/packer.nvim'
+        end
 
         -- Impatient.nvim (decrease startup time)
         use 'lewis6991/impatient.nvim'
@@ -85,10 +87,6 @@ return require'packer'.startup {
         use {
             'neovim/nvim-lspconfig',
 
-            -- Installer
-            'williamboman/mason.nvim',
-            'williamboman/mason-lspconfig.nvim',
-
             -- Language-specific LSP plugins
             'mfussenegger/nvim-jdtls',
             'simrat39/rust-tools.nvim',
@@ -102,6 +100,12 @@ return require'packer'.startup {
             -- LSP diagnostics prettier
             'Maan2003/lsp_lines.nvim',
         }
+
+        -- LSP installers
+        if not vim.isNixOS then
+            use 'williamboman/mason.nvim'
+            use 'williamboman/mason-lspconfig.nvim'
+        end
 
         -- Debugger
         use {
@@ -183,6 +187,9 @@ return require'packer'.startup {
 
         -- Better git commit editing
         use 'rhysd/committia.vim'
+
+        -- Nix language syntax
+        use 'LnL7/vim-nix'
 
         -- Hyprland configuration syntax
         use 'theRealCarneiro/hyprland-vim-syntax'

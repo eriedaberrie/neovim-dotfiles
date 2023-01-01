@@ -6,17 +6,19 @@ local fn  = vim.fn
 local cmd = vim.cmd
 local env = vim.env
 
--- decrease startup time
-require'impatient'
-
 -- whether or not it's running Unix-like
 local isUnix = fn.has('Unix') == 1
 local isRealUnix = isUnix and fn.has('win32') ~= 1
+local isNixOS = isRealUnix and vim.loop.fs_stat('/nix') ~= nil
 vim.isUnix = isUnix
 vim.isRealUnix = isRealUnix
+vim.isNixOS = isNixOS
 
 -- whether or not it's running in TTY
 local hasgui = not (isRealUnix and env.DISPLAY == nil)
+
+-- decrease startup time
+require'impatient'
 
 -- my functions
 local funcs = require'functions'
@@ -91,6 +93,14 @@ api.nvim_create_autocmd('TextYankPost', {
 })
 
 ---------- plugins ----------
+-- plugin management (packer)
+require'plugins'
+api.nvim_create_autocmd('BufWritePost', {
+    pattern = [[plugins.lua]],
+    group = initgroup,
+    command = [[source <afile> | PackerCompile]],
+})
+
 -- load cmp config
 require'cmp-config'
 
@@ -143,6 +153,7 @@ require'nvim-treesitter.configs'.setup {
         'make', 'cmake', 'ninja',
         'commonlisp', 'fennel', 'clojure', 'scheme',
         'java', 'go', 'rust', 'haskell',
+        'nix',
     },
     highlight = {
         enable = true,
@@ -414,14 +425,6 @@ vim.filetype.add {
     },
 }
 
--- plugin management (packer)
-require'plugins'
-api.nvim_create_autocmd('BufWritePost', {
-    pattern = [[plugins.lua]],
-    group = initgroup,
-    command = [[source <afile> | PackerCompile]],
-})
-
 ---------- more plugins ----------
 -- nvim-dap configuration file
 require'dap-config'
@@ -555,12 +558,14 @@ require'lsp_lines'.setup{}
 -- use lsp_lines plugin or <Leader>ee/E for text
 vim.diagnostic.config { virtual_lines = false }
 
--- mason.nvim LSP installer
-require'mason'.setup{}
-require'mason-lspconfig'.setup {
-    automatic_installation = { exclude = { 'clangd' } },
-    ensure_installed = { 'jdtls', 'rust_analyzer' },
-}
+if not isNixOS then
+    -- mason.nvim LSP installer
+    require'mason'.setup{}
+    require'mason-lspconfig'.setup {
+        automatic_installation = { exclude = { 'clangd' } },
+        ensure_installed = { 'jdtls', 'rust_analyzer' },
+    }
+end
 
 -- LSP config base
 local lspconfig = require'lspconfig'
