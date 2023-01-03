@@ -256,6 +256,7 @@ require'nvim-autopairs'.setup {
     disable_filetype = { 'TelescopePrompt', 'lisp', 'fennel', 'clojure', 'scheme' },
     map_cr = true,
     map_c_w = true,
+    map_c_h = true,
 }
 
 -- toggleterm setup
