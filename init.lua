@@ -495,7 +495,7 @@ aerial.setup{}
 telescope.load_extension'aerial'
 
 -- lspsaga config
-require'lspsaga'.init_lsp_saga {
+require'lspsaga'.setup {
     code_action_lightbulb = {
         sign = false,
     },
@@ -507,39 +507,6 @@ require'lspsaga'.init_lsp_saga {
         separator = '  '
     },
 }
-
--- make lspsaga winbar use theme
-api.nvim_create_autocmd('ColorScheme', {
-    group = initgroup,
-    callback = function ()
-        local colors = {
-            fg     = '#bbc2cf',
-            red    = '#e95678',
-            orange = '#FF8700',
-            yellow = '#f7bb3b',
-            green  = '#afd700',
-            cyan   = '#36d0e0',
-            blue   = '#61afef',
-            violet = '#CBA6F7',
-            teal   = '#1abc9c',
-        }
-        local changes = {
-            [colors.fg]     = { link = 'ModeMsg' },
-            [colors.red]    = { fg = g.terminal_color_1 },
-            [colors.orange] = { fg = g.terminal_color_11 },
-            [colors.yellow] = { fg = g.terminal_color_3 },
-            [colors.green]  = { fg = g.terminal_color_2 },
-            [colors.cyan]   = { fg = g.terminal_color_6 },
-            [colors.blue]   = { fg = g.terminal_color_4 },
-            [colors.violet] = { fg = g.terminal_color_5 },
-            [colors.teal]   = { fg = g.terminal_color_14 },
-        }
-        for _, kind in pairs(require'lspsaga.lspkind') do
-            api.nvim_set_hl(0, 'LspSagaWinbar' .. kind[1], changes[kind[3]])
-        end
-        api.nvim_set_hl(0, 'LspSagaWinbarSep', { link = 'Comment' })
-    end
-})
 
 -- lsp_signature setup
 require'lsp_signature'.setup {

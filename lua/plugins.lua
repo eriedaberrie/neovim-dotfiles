@@ -188,9 +188,6 @@ return require'packer'.startup {
         -- Better git commit editing
         use 'rhysd/committia.vim'
 
-        -- Nix language syntax
-        use 'LnL7/vim-nix'
-
         -- Hyprland configuration syntax
         use 'theRealCarneiro/hyprland-vim-syntax'
 
