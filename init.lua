@@ -712,6 +712,6 @@ end
 
 -- set colorscheme before deciding on lightness because of github theme
 if hasgui then
-    require'colorscheme-file'.setup{ fallback = 'catppuccin-macchiato' }
+    require'colorscheme-file'.setup{ fallback = 'catppuccin-mocha' }
     funcs.toggledark(env.NVIM_DARKMODE or not env.NVIM_LIGHTMODE)
 end
