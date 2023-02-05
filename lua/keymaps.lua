@@ -159,6 +159,7 @@ return {
 
         -- Maps Ctrl-Backspace to do the thing
         map. ic ([[<C-BS>]], [[<C-w>]], { silent = false, noremap = false })
+        map. ic ([[<M-BS>]], [[<C-w>]])
 
         -- Toggle lazy redraw
         map. n ([[<Leader>lr]], [[<Cmd>set lazyredraw! lazyredraw?<CR>]])
