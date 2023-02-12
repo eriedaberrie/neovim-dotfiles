@@ -546,7 +546,7 @@ local servers = {
     -- ruby
     solargraph = {},
     -- lua
-    sumneko_lua = {
+    lua_ls = {
         Lua = {
             runtime = {
                 version = 'LuaJIT',
