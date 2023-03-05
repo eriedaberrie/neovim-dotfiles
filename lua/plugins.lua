@@ -102,8 +102,8 @@ return require'packer'.startup {
         }
 
         -- LSP installers
+        use 'williamboman/mason.nvim'
         if not vim.isNixOS then
-            use 'williamboman/mason.nvim'
             use 'williamboman/mason-lspconfig.nvim'
         end
 

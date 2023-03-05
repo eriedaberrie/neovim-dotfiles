@@ -526,9 +526,9 @@ require'lsp_lines'.setup{}
 -- use lsp_lines plugin or <Leader>ee/E for text
 vim.diagnostic.config { virtual_lines = false }
 
+require'mason'.setup{}
 if not isNixOS then
     -- mason.nvim LSP installer
-    require'mason'.setup{}
     require'mason-lspconfig'.setup {
         automatic_installation = { exclude = { 'clangd' } },
         ensure_installed = { 'jdtls', 'rust_analyzer' },
